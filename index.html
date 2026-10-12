@@ -1,433 +1,1702 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한국사 II 근현대사 학습실</title>
+<style>
+:root{--bg:#f4f6fb;--panel:#fff;--text:#202b3c;--muted:#68758a;--blue:#3157c8;--pale:#eaf0ff;--line:#dfe5ef;--green:#16845a;--red:#c03945}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.75 system-ui,"Noto Sans KR",sans-serif}
+header{background:#172554;color:#fff;padding:22px}
+.header, .layout{max-width:1250px;margin:auto}
+header h1{margin:0;font-size:24px}
+header p{margin:4px 0 0;color:#dbe5ff;font-size:13px}
+.layout{padding:18px 14px;display:grid;grid-template-columns:210px minmax(0,1fr);gap:17px}
+nav,.card{background:var(--panel);border:1px solid var(--line);border-radius:13px}
+nav{padding:9px;height:max-content;position:sticky;top:12px}
+nav button{display:block;width:100%;text-align:left;padding:9px;border:0;border-radius:8px;background:none;color:var(--text);margin:2px 0;cursor:pointer}
+nav button:hover,nav button.active{background:var(--pale);color:var(--blue)}
+main{min-width:0}.page{display:none}.page.active{display:block}
+h2{font-size:23px;margin:0 0 3px}h3{font-size:17px;margin:0 0 7px}
+.sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+.card{padding:17px;margin-bottom:13px;box-shadow:0 3px 14px #17255408}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:13px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat strong{display:block;font-size:25px;color:var(--blue)}.stat span{font-size:12px;color:var(--muted)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.btn{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 12px;color:var(--text)}
+.btn.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.btn.danger{color:var(--red)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions,.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.toolbar{margin:12px 0}
+input[type=text],input[type=number],select{padding:9px;border:1px solid var(--line);border-radius:9px;background:#fff;max-width:100%}
+.toolbar input{flex:1;min-width:145px}
+.badge{display:inline-block;border-radius:20px;padding:2px 9px;background:#edf1f7;color:#475467;font-size:12px;margin:2px}
+.badge.blue{background:var(--pale);color:var(--blue)}
+.badge.green{background:#e5f7ee;color:var(--green)}
+.badge.red{background:#fde9eb;color:var(--red)}
+.item{padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border:0}
+.muted,.small{color:var(--muted);font-size:13px}
+.small{font-size:12px}
+.person-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.person{border:1px solid var(--line);border-radius:10px;padding:12px}
+.year{font-size:19px;font-weight:800;color:var(--blue);margin-top:16px}
+.event{border-left:3px solid #b9c9ff;padding:2px 0 12px 13px;margin:7px 0}
+.question{font-size:18px;font-weight:750;margin:15px 0}
+.option{display:flex;gap:10px;border:1px solid var(--line);border-radius:10px;padding:10px;margin:7px 0;cursor:pointer}
+.option:hover{background:#f8faff;border-color:#9aadef}
+.option input{margin-top:6px}
+.option.correct{background:#e8f8ef;border-color:#58b88b}
+.option.wrong{background:#fff0f0;border-color:#e5a2a7}
+.feedback{background:#f0f4ff;border-radius:10px;padding:12px;margin-top:12px}
+.feedback.good{background:#e7f7ee}.feedback.bad{background:#fff0f0}
+.flashcard{min-height:180px;background:#f8faff;border:1px solid #d9e3ff;border-radius:13px;padding:22px;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column;cursor:pointer}
+.flashbig{font-size:21px;font-weight:750;margin:10px 0}
+.record{border:1px solid var(--line);border-radius:12px;padding:14px;margin:11px 0}
+.recordhead{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+details{border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+summary{cursor:pointer;color:var(--blue);font-weight:700}
+.reviewq{padding:13px 0;border-bottom:1px solid var(--line)}
+.notice{background:#fff8e6;border:1px solid #f1dfad;border-radius:10px;padding:12px;font-size:13px;margin-bottom:13px}
+.empty{text-align:center;color:var(--muted);padding:24px}
+.progress{height:7px;background:#e7ebf3;border-radius:20px;overflow:hidden;margin:10px 0}
+.progress div{height:100%;background:var(--blue)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
+@media(max-width:760px){
+ .layout{grid-template-columns:1fr;margin-top:4px}
+ nav{position:static;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+ nav button{text-align:center;font-size:12px;padding:7px 2px}
+ .grid,.person-grid{grid-template-columns:1fr}
+ .stats{gap:5px}.stat{padding:8px}.stat strong{font-size:21px}
+ header h1{font-size:21px}
+}
+</style>
+</head>
+<body>
+<header><div class="header">
+<h1>한국사 II · 근현대사 학습실</h1>
+<p>제1차 세계 대전부터 광복, 제주 4·3 사건, 남북한 정부 수립까지</p>
+</div></header>
+
+<div class="layout">
+<nav id="nav">
+<button class="active" data-page="home">🏠 대시보드</button>
+<button data-page="timeline">🗓️ 연표</button>
+<button data-page="concepts">📚 핵심 개념</button>
+<button data-page="advanced">🔎 심화 학습</button>
+<button data-page="people">👤 인물</button>
+<button data-page="orgs">🏛️ 단체</button>
+<button data-page="cards">🃏 플래시카드</button>
+<button data-page="quiz">✍️ 새 문제 풀기</button>
+<button data-page="review">🔁 문제 다시 풀기</button>
+<button data-page="records">📊 학습기록</button>
+<button data-page="settings">⚙️ 설정·백업</button>
+</nav>
+
+<main>
+<section class="page active" id="home">
+<h2>학습 대시보드</h2>
+<p class="sub">기본 개념을 익힌 뒤 심화 내용을 확인하고, 새 문제 풀이와 복습을 구분해 진행하자.</p>
+<div class="stats">
+<div class="stat"><strong id="statSets">0</strong><span>저장된 풀이 기록</span></div>
+<div class="stat"><strong id="statAvg">-</strong><span>평균 정답률</span></div>
+<div class="stat"><strong id="statWrong">0</strong><span>누적 오답 수</span></div>
+</div>
+<div class="card">
+<h3>주요 학습 흐름</h3>
+<p>제1차 세계 대전과 민족 자결주의 → 3·1 운동과 임시 정부 → 국내외 독립운동 → 일제의 전시 동원과 민족 말살 정책 → 광복과 미소 대립 → 제주 4·3 사건 → 남북한 정부 수립</p>
+<div class="actions">
+<button class="btn primary" onclick="go('quiz')">새 문제 풀기</button>
+<button class="btn" onclick="go('advanced')">심화 내용 보기</button>
+<button class="btn" onclick="go('review')">오답 복습</button>
+</div>
+</div>
+<div class="grid">
+<div class="card"><h3>사건 사이의 관계</h3>
+<ul>
+<li>3·1 운동 → 대한민국 임시 정부 수립</li>
+<li>봉오동·청산리 전투 → 간도 참변 → 독립군의 이동과 재편</li>
+<li>독립운동 단체의 통합 시도 → 민족 유일당 운동</li>
+<li>중일 전쟁 → 병참 기지화·민족 말살 정책 강화</li>
+<li>모스크바 3국 외상 회의 → 미소 공동 위원회</li>
+<li>UN 한국 임시 위원단 → 5·10 총선거</li>
+</ul></div>
+<div class="card"><h3>기록 보존 방식</h3>
+<p class="muted">각 문제 풀이를 마치면 당시 문제, 선지, 선택한 답, 정답, 해설을 하나의 기록으로 저장한다.</p>
+<p class="muted">새 문제 세트를 만들어도 과거 기록을 덮어쓰지 않는다. 복습은 별도 메뉴에서 진행하며, 복습 결과 역시 새 기록으로 남는다.</p>
+</div>
+</div>
+</section>
+
+<section class="page" id="timeline">
+<h2>연표</h2><p class="sub">연도와 사건의 전후 관계를 확인한다.</p>
+<div class="toolbar"><input id="ts" placeholder="연도·사건 검색"><select id="tg"><option value="">전체</option><option>1910년대</option><option>1920년대</option><option>1930년대</option><option>1940년대</option></select></div>
+<div class="card" id="timelineList"></div>
+</section>
+
+<section class="page" id="concepts">
+<h2>핵심 개념</h2><p class="sub">주요 정책과 운동의 목적을 정리한다.</p>
+<div class="toolbar"><input id="cs" placeholder="개념 검색"><select id="cg"><option value="">전체 분류</option><option>독립운동</option><option>일제 정책</option><option>역사학</option><option>해방·정부 수립</option></select></div>
+<div class="card" id="conceptList"></div>
+</section>
+
+<section class="page" id="advanced">
+<h2>심화 학습</h2><p class="sub">기본 개념에서 놓치기 쉬운 배경·차이·인과관계를 보충한다.</p>
+<div class="toolbar"><input id="as" placeholder="심화 내용 검색"><select id="ag"><option value="">전체 주제</option><option>독립운동의 전개</option><option>역사학과 사상</option><option>일제의 식민 통치</option><option>광복과 정부 수립</option><option>사건의 비교</option></select></div>
+<div id="advancedList" class="card"></div>
+</section>
+
+<section class="page" id="people">
+<h2>인물 사전</h2><p class="sub">이름과 대표 활동을 연결한다.</p>
+<div class="toolbar"><input id="ps" placeholder="인물·활동 검색"></div>
+<div class="card"><div class="person-grid" id="peopleList"></div></div>
+</section>
+
+<section class="page" id="orgs">
+<h2>단체 사전</h2><p class="sub">단체의 성격과 대표 인물을 구별한다.</p>
+<div class="toolbar"><input id="os" placeholder="단체·활동 검색"></div>
+<div class="card"><div class="person-grid" id="orgList"></div></div>
+</section>
+
+<section class="page" id="cards">
+<h2>플래시카드</h2><p class="sub">카드를 눌러 설명을 확인하고 학습 상태를 기록한다.</p>
+<div class="toolbar">
+<select id="fc"><option value="">전체 카드</option><option>사건·연도</option><option>인물</option><option>단체</option><option>정책·운동</option><option>심화</option></select>
+<label class="badge"><input id="fu" type="checkbox" style="width:auto"> 미학습만</label>
+</div>
+<div class="card">
+<div class="muted" id="fcount"></div><div class="progress"><div id="fprogress"></div></div>
+<div class="flashcard" id="flash" onclick="flip()"></div>
+<div class="actions">
+<button class="btn" onclick="prevCard()">이전</button><button class="btn" onclick="flip()">앞면/뒷면</button><button class="btn" onclick="nextCard()">다음</button><button class="btn" onclick="mixCards()">섞기</button><button class="btn primary" onclick="masterCard()">학습 완료</button>
+</div>
+</div>
+</section>
+
+<section class="page" id="quiz">
+<h2>새 문제 풀기</h2><p class="sub">새로운 문제 세트를 여러 번 생성할 수 있다. 세트마다 독립적인 기록으로 저장된다.</p>
+<div class="notice">문제 세트를 생성해도 기존 기록은 삭제되지 않는다. 같은 범위에서 다시 생성하면 문제은행에서 다른 문제를 우선 선택한다.</div>
+<div class="card" id="quizSetup">
+<h3>출제 설정</h3>
+<div class="toolbar">
+<select id="qscope">
+<option value="전체">전체 범위</option>
+<option value="1910년대">1910년대·3·1 운동</option>
+<option value="1920년대">1920년대 독립운동</option>
+<option value="1930년대">1930년대 일제 정책</option>
+<option value="해방">광복·정부 수립</option>
+<option value="인물·단체">인물·단체</option>
+<option value="심화">심화 문제</option>
+</select>
+<select id="qcount"><option value="25">25문제</option><option value="15">15문제</option><option value="10">10문제</option></select>
+</div>
+<div class="actions"><button class="btn primary" onclick="newSet()">새 문제 세트 만들기</button><button class="btn" onclick="newAISet()">AI로 새 문제 생성</button></div>
+<p id="qmessage" class="muted"></p>
+</div>
+<div class="card" id="quizArea" style="display:none"></div>
+<div class="card" id="quizResult" style="display:none"></div>
+</section>
+
+<section class="page" id="review">
+<h2>문제 다시 풀기</h2><p class="sub">새 문제 풀이 공간과 분리된 복습 전용 메뉴다. 저장된 문제를 가져와 다시 풀 수 있다.</p>
+<div class="notice">복습은 기존 기록을 수정하지 않는다. 다시 푼 결과는 별도의 새 기록으로 저장된다.</div>
+<div class="card">
+<h3>복습할 문제 선택</h3>
+<div class="toolbar">
+<select id="reviewMode">
+<option value="wrong">모든 기록의 오답만</option>
+<option value="all">모든 저장 문제</option>
+<option value="last">가장 최근 세트</option>
+<option value="pick">특정 기록 선택</option>
+</select>
+<select id="reviewRecord"></select>
+</div>
+<div class="actions"><button class="btn primary" onclick="beginReview()">선택한 문제 불러와 풀기</button></div>
+<p class="muted" id="reviewInfo"></p>
+</div>
+<div class="card" id="reviewArea" style="display:none"></div>
+<div class="card" id="reviewResult" style="display:none"></div>
+</section>
+
+<section class="page" id="records">
+<h2>학습기록</h2><p class="sub">각 세트의 점수와 저장된 문제·선지·정답·해설을 확인한다.</p>
+<div class="toolbar">
+<select id="rf"><option value="all">모든 기록</option><option value="wrong">오답이 있는 기록</option><option value="perfect">만점 기록</option></select>
+<button class="btn" onclick="exportData()">JSON 백업</button><button class="btn danger" onclick="clearData()">기록 전체 삭제</button>
+</div>
+<div id="recordList"></div>
+</section>
+
+<section class="page" id="settings">
+<h2>설정·데이터</h2><p class="sub">기록을 백업하거나 AI 문제 생성 서버를 설정한다.</p>
+<div class="card">
+<h3>데이터 백업·복원</h3><p class="muted">문제 풀이 기록, 카드 학습 상태, 문제 세트를 JSON 파일로 백업할 수 있다.</p>
+<div class="actions"><button class="btn primary" onclick="exportData()">백업 파일 저장</button><label class="btn">백업 파일 복원 <input type="file" id="importFile" accept=".json" hidden onchange="importData(event)"></label></div>
+</div>
+<div class="card">
+<h3>AI 문제 생성</h3><p class="muted">호환되는 Worker 서버가 있을 때만 AI 생성을 시도한다. 주소를 비워 두면 로컬 문제은행을 이용한다.</p>
+<input type="text" id="worker" placeholder="https://your-worker.example.workers.dev" style="width:100%">
+<div class="actions"><button class="btn primary" onclick="saveWorker()">주소 저장</button><button class="btn" onclick="testWorker()">연결 확인</button></div>
+<p id="workerStatus" class="muted"></p>
+<p class="small">API 키를 HTML이나 공개 GitHub 저장소에 직접 넣지 말고 서버 환경변수에 보관한다.</p>
+</div>
+</section>
+</main>
+</div>
+<footer>한국사 II 학습용 웹사이트 · 데이터는 현재 브라우저에 저장됩니다.</footer>
+
+<script>
+"use strict";
+const KEY="kh2_study_complete_v6";
+const DEFAULT={records:[],mastered:[],worker:""};
+function loadDB(){try{return {...DEFAULT,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){return {...DEFAULT}}}
+let db=loadDB();
+function saveDB(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){alert("브라우저 저장 공간이 부족합니다. 설정 메뉴에서 먼저 백업하세요.")}}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function uid(){return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9)}
+function go(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));if(id==="records")renderRecords();if(id==="review")renderReviewChoices();if(id==="home")stats();window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>go(b.dataset.page));
+
+const events=[
+[1914,"제1차 세계 대전 발발","전후 국제 질서와 민족 자결주의 논의에 영향을 주었다."],
+[1917,"러시아 혁명","사회주의 사상이 국제적인 독립운동과 노동운동에 영향을 주었다."],
+[1918,"윌슨의 민족 자결주의","민족의 정치적 운명을 스스로 결정한다는 원칙을 제시했지만, 식민지 전체에 보편적으로 적용되지는 않았다."],
+[1919,"2·8 독립 선언","도쿄 유학생들이 발표한 독립 선언으로 3·1 운동의 배경 중 하나다."],
+[1919,"3·1 운동","전국적으로 확산한 항일 만세 운동이다. 임시 정부 수립과 독립운동 활성화에 영향을 주었다."],
+[1919,"대한민국 임시 정부 수립","상하이에서 수립되었으며, 1919년 9월 한성 정부의 정통성과 연해주 지역 임시 정부의 움직임 등을 바탕으로 통합 임시 정부가 출범했다."],
+[1919,"의열단 조직","김원봉 등이 조직한 의열 투쟁 단체다."],
+[1920,"봉오동 전투","홍범도 등이 이끈 독립군이 일본군에 맞서 승리했다."],
+[1920,"청산리 전투","김좌진의 북로군정서군 등을 비롯한 독립군이 일본군에 맞서 전투를 벌였다."],
+[1920,"간도 참변","일본군이 독립군 탄압을 내세워 간도 지역 한인 사회에 가한 대규모 학살과 파괴다."],
+[1921,"자유시 참변","자유시 일대에서 독립군 부대가 무장 해제 갈등 속에 큰 피해를 입었다."],
+[1923,"민립대학 설립 운동","한국인이 주도하는 대학 설립을 통해 교육 역량을 키우려 했다."],
+[1926,"6·10 만세 운동","순종의 장례일을 계기로 일어난 항일 만세 운동이다."],
+[1926,"정우회 선언","비타협적 민족주의 세력과 사회주의 세력의 협력 움직임에 영향을 주었다."],
+[1927,"신간회 창립","민족주의 세력과 사회주의 세력이 협력한 대표적인 합법 단체다."],
+[1929,"광주 학생 항일 운동","학생들의 항일 운동이 전국으로 확산했다."],
+[1931,"만주 사변","일본이 만주 침략을 본격화한 사건이다."],
+[1931,"한인 애국단 활동","김구가 조직했으며 이봉창·윤봉길 의거 등이 이어졌다."],
+[1932,"이봉창 의거","도쿄에서 일왕을 겨냥한 의거를 시도했다."],
+[1932,"윤봉길 의거","상하이 훙커우 공원에서 폭탄 의거를 벌여 대한민국 임시 정부와 중국의 협력에 영향을 주었다."],
+[1932,"조선 혁명군·한국 독립군의 활동","남만주와 북만주에서 중국 세력과 연합해 항일 전투를 전개했다."],
+[1937,"중일 전쟁","일제의 전시 동원과 식민지 수탈이 강화되는 계기가 되었다."],
+[1938,"국가 총동원법의 조선 적용","전쟁 수행을 위해 인력과 물자를 통제·동원하는 체제가 강화되었다."],
+[1940,"한국광복군 창설","대한민국 임시 정부의 군대로 충칭에서 창설되었다."],
+[1941,"태평양 전쟁","일제의 전시 동원과 강제 동원이 더욱 확대되었다."],
+[1942,"조선어학회 사건","우리말 연구와 사전 편찬을 추진하던 인사들이 일제에 탄압받았다."],
+[1943,"카이로 선언","한국의 독립을 보장한다는 연합국의 입장이 명시되었다."],
+[1945,"얄타 회담","전후 국제 질서와 한반도 문제에 영향을 주었다."],
+[1945,"8·15 광복","일본의 항복으로 식민 지배가 끝났다."],
+[1945,"모스크바 3국 외상 회의","한반도 임시 민주 정부 수립과 신탁 통치 문제 등이 논의되었다."],
+[1946,"제1차 미소 공동 위원회","임시 정부 수립을 논의했으나 참여 단체 문제 등으로 결렬되었다."],
+[1946,"좌우 합작 운동","여운형과 김규식 등을 중심으로 좌우 세력의 협력을 모색했다."],
+[1947,"제주 4·3 사건의 배경","1947년 3·1절 기념행사에서 경찰 발포로 사상자가 발생했고, 이후 제주 사회의 긴장과 갈등이 심화했다."],
+[1947,"제2차 미소 공동 위원회 결렬","미국과 소련의 협상이 성과를 거두지 못했다."],
+[1947,"UN 총회 결의","UN 감시 아래 인구 비례에 따른 총선거를 추진하는 방안이 제시되었다."],
+[1948,"제주 4·3 사건","단독 선거 반대와 경찰·서북청년회 등의 탄압, 무장봉기 및 진압 과정이 얽혀 민간인 희생이 발생했다."],
+[1948,"5·10 총선거","UN 한국 임시 위원단의 활동이 가능한 지역에서 실시되었다."],
+[1948,"대한민국 정부 수립","8월 15일 대한민국 정부가 수립되었다."],
+[1948,"조선민주주의인민공화국 수립","9월 9일 북한에서 정부가 수립되었다."]
+];
+
+const concepts=[
+["민족 자결주의","독립운동","각 민족이 자신의 정치적 운명을 스스로 결정한다는 원칙이다. 제1차 세계 대전 이후 독립운동의 기대를 높였지만, 강대국의 이해관계 때문에 식민지에 일관되게 적용되지는 않았다."],
+["3·1 운동","독립운동","비폭력 만세 시위를 중심으로 전국과 해외로 확산한 독립운동이다. 다양한 계층이 참여했고 대한민국 임시 정부 수립에 영향을 주었다."],
+["대한민국 임시 정부","독립운동","1919년 상하이에서 수립되었다. 외교 활동, 독립운동 지원, 한국광복군 창설 등을 추진했다."],
+["봉오동·청산리 전투","독립운동","1920년 독립군이 일본군에 맞서 거둔 주요 전투 성과다. 이후 일본군의 보복과 독립군의 이동·재편으로 이어졌다."],
+["의열 투쟁","독립운동","의거 등 직접적인 무장 행동을 통해 일제의 주요 기관과 인물을 공격한 독립운동 방식이다."],
+["실력 양성 운동","독립운동","교육·산업·경제 역량을 키워 독립의 기반을 마련하려는 움직임이다. 민립대학 설립 운동과 물산 장려 운동 등이 대표적이다."],
+["민족 유일당 운동","독립운동","민족주의 계열과 사회주의 계열의 협력을 통해 독립운동 역량을 결집하려는 흐름이다. 신간회 결성과 연결된다."],
+["신간회","독립운동","1927년에 결성된 민족 협동 전선 단체다. 광주 학생 항일 운동을 지원하는 등 활동했으며 1931년 해소되었다."],
+["민족주의 사학","역사학","민족의 주체성과 독립 의식을 강조하며 한국사의 독자적 발전을 밝히려 했다. 박은식과 신채호 등이 대표적이다."],
+["사회경제 사학","역사학","한국사의 발전을 사회 구조와 경제 관계의 변화에 주목해 설명하려는 역사학이다. 백남운 등이 대표적이다."],
+["식민 사관","역사학","한국사의 자주성과 발전 가능성을 부정하거나 축소해 식민 지배를 정당화하려는 역사 인식이다."],
+["민족 말살 정책","일제 정책","중일 전쟁 이후 황국 신민화와 전쟁 동원을 강화하기 위해 신사 참배, 궁성 요배, 창씨개명, 조선어 사용 억압 등을 추진했다."],
+["병참 기지화 정책","일제 정책","일제가 한반도의 공업·자원·인력을 전쟁 수행에 이용하려 한 정책이다. 산업화의 외형만 보고 식민지 수탈과 전시 동원을 놓치면 안 된다."],
+["국가 총동원 체제","일제 정책","전쟁 수행을 위해 사람과 물자를 국가가 통제하고 동원하는 체제다. 노동력과 군사 인력의 강제 동원이 확대되었다."],
+["한국광복군","독립운동","1940년 충칭에서 창설된 대한민국 임시 정부의 군대다. 연합국과 협력했고 대일 항전과 국내 진공 작전을 준비했다."],
+["모스크바 3국 외상 회의","해방·정부 수립","1945년 미국·영국·소련의 외상이 한반도 문제 등을 논의했다. 임시 민주 정부 수립과 신탁 통치 문제를 둘러싸고 국내 정치 갈등이 커졌다."],
+["미소 공동 위원회","해방·정부 수립","한반도 임시 정부 수립을 논의했지만 협의 대상 단체 문제와 미소 대립 등으로 성과를 내지 못했다."],
+["좌우 합작 운동","해방·정부 수립","좌우 정치 세력의 협력을 통해 통일 정부를 수립하려는 움직임이다. 여운형과 김규식 등이 중심 역할을 했다."],
+["5·10 총선거","해방·정부 수립","1948년 UN 한국 임시 위원단의 활동이 가능한 지역에서 실시된 제헌 국회의원 선거다. 남북 분단의 고착화와 관련해 평가된다."],
+["제주 4·3 사건","해방·정부 수립","1947년의 경찰 발포 사건과 사회적 갈등, 단독 선거 반대, 1948년 무장봉기 및 강경 진압 등이 얽혀 장기간 민간인 희생이 발생한 사건이다."],
+["남북한 정부 수립","해방·정부 수립","1948년 8월 대한민국 정부, 9월 조선민주주의인민공화국이 각각 수립되었다. 분단이 제도적으로 굳어지는 중요한 과정이다."]
+];
+
+const advanced=[
+{g:"독립운동의 전개",t:"민족 자결주의의 한계",b:"윌슨의 민족 자결주의는 독립운동에 큰 기대를 주었지만, 실제 적용은 주로 유럽의 패전국 지배 민족 등에 한정되었다. 식민지 조선의 독립이 자동으로 보장된 것은 아니었다. 3·1 운동은 국제 정세를 활용하려는 시도인 동시에 한국인의 독자적인 대중 항일 운동이었다.",q:"민족 자결주의가 발표되었다는 사실만으로 조선의 독립이 보장되지 않은 이유는 무엇일까?"},
+{g:"독립운동의 전개",t:"3·1 운동과 임시 정부의 관계",b:"3·1 운동은 독립 의지를 국내외에 드러냈고, 독립운동의 조직적 구심점을 마련하려는 움직임에 영향을 주었다. 여러 임시 정부의 움직임이 나타났고 1919년 9월 상하이의 대한민국 임시 정부로 통합되었다. 임시 정부는 외교·선전 활동과 독립군 지원을 추진했다.",q:"대규모 대중 운동이 독립운동 조직의 필요성과 어떻게 연결되었을까?"},
+{g:"독립운동의 전개",t:"무장 독립 전쟁 이후의 변화",b:"봉오동·청산리 전투 뒤 일본군의 탄압으로 간도 참변이 발생했고, 독립군은 활동 기반을 잃거나 다른 지역으로 이동했다. 자유시 참변 등 내부 갈등과 국제 정세 변화도 독립군 재편에 영향을 주었다. 따라서 전투의 승리만으로 독립 전쟁의 흐름 전체를 설명할 수 없다.",q:"전투의 승리 이후에도 독립군이 어려움을 겪은 원인을 두 가지 설명해 보자."},
+{g:"독립운동의 전개",t:"독립운동 방식의 다양성",b:"독립운동에는 외교 활동, 무장 투쟁, 의열 투쟁, 실력 양성 운동, 대중 운동, 사회주의 운동 등이 있었다. 이 방식들은 목표와 활동 조건이 달랐으며, 시대와 지역에 따라 서로 영향을 주었다. 하나의 방식만이 모든 독립운동을 대표한다고 보기는 어렵다.",q:"외교 활동과 무장 투쟁은 각각 어떤 장점과 한계를 가졌을까?"},
+{g:"독립운동의 전개",t:"의열단과 한인 애국단의 구별",b:"의열단은 1919년 김원봉 등이 조직한 단체로 일제의 주요 기관과 요인에 대한 의열 투쟁을 추구했다. 한인 애국단은 김구가 조직했으며 이봉창·윤봉길 의거를 추진했다. 두 단체는 모두 의거를 통해 항일 의지를 드러냈지만 조직 시기와 활동 배경이 다르다.",q:"두 단체의 공통점과 차이점을 각각 한 가지씩 말해 보자."},
+{g:"독립운동의 전개",t:"신간회와 민족 협동 전선",b:"1920년대에는 민족주의 세력과 사회주의 세력의 협력을 모색하는 민족 유일당 운동이 전개되었다. 신간회는 1927년 결성된 대표적 합법 단체로, 민족 차별에 맞서고 대중 운동을 지원했다. 하지만 내부 노선 차이와 정세 변화 속에서 1931년 해소되었다.",q:"서로 다른 이념을 가진 세력이 협력한 이유와 협력의 어려움을 생각해 보자."},
+{g:"역사학과 사상",t:"민족주의 사학과 사회경제 사학",b:"민족주의 사학은 민족의 주체성과 독립 의식을 강조했다. 신채호는 민족을 역사의 주체로 강조했고 박은식은 국혼을 중시했다. 사회경제 사학은 사회 구조와 경제 관계의 변화를 통해 한국사를 설명하려 했으며 백남운이 대표적이다. 두 흐름은 관심의 초점이 다르지만 식민 사관을 비판했다.",q:"두 역사학의 설명 방식은 어떤 점에서 다른가?"},
+{g:"역사학과 사상",t:"식민 사관 비판",b:"식민 사관은 한국사가 자주적으로 발전할 능력이 없었다거나 외부 세력에 의존해 발전했다는 식으로 해석하는 경향이 있었다. 이를 비판할 때에는 단순히 반대 주장을 하는 데 그치지 않고 사료와 역사적 변화에 근거해 한국사의 주체성과 다양성을 살펴야 한다.",q:"역사 해석이 정치적 목적과 연결될 수 있다는 점을 보여 주는 예는 무엇일까?"},
+{g:"일제의 식민 통치",t:"문화 통치의 실제",b:"3·1 운동 이후 일제는 문화 통치를 내세워 일부 언론과 교육 활동을 허용하는 모습을 보였다. 그러나 치안 유지 법령과 검열, 경찰력, 친일 세력 육성 등을 통해 식민 지배를 지속했다. 따라서 문화 통치는 식민 통치가 사라졌다는 뜻이 아니다.",q:"문화 통치를 단순한 통치 완화로만 볼 수 없는 이유는 무엇일까?"},
+{g:"일제의 식민 통치",t:"병참 기지화와 민족 말살 정책",b:"1930년대 이후 전쟁이 확대되면서 한반도는 일본의 전쟁 수행에 필요한 물자와 노동력을 공급하는 기지로 이용되었다. 국가 총동원 체제 아래 강제 동원과 수탈이 심해졌고, 황국 신민화 정책과 조선어 억압도 강화되었다. 산업 시설이 늘어난 사실과 식민지 주민의 삶이 개선되었다는 주장은 구분해야 한다.",q:"일부 산업 시설의 증가만으로 식민지 지배의 성격을 판단하기 어려운 이유는 무엇일까?"},
+{g:"일제의 식민 통치",t:"강제 동원의 여러 형태",b:"전쟁이 확대되면서 노동력과 군사 인력의 동원이 강화되었다. 노동자 동원, 군인·군속 동원, 일본군 위안부 피해 등은 서로 다른 제도와 경험을 지녔으므로 하나로 뭉뚱그리지 말고 각 형태의 강제성과 피해를 구분해 이해해야 한다.",q:"강제 동원의 여러 형태를 공부할 때 각각의 차이를 구분해야 하는 이유는 무엇일까?"},
+{g:"광복과 정부 수립",t:"광복 직후의 권력 공백",b:"1945년 광복 직후에는 일제의 행정 체제가 무너진 가운데 건국 준비 조직과 여러 정치 세력이 활동했다. 그러나 미국과 소련의 군정, 정치 세력 사이의 이념·노선 차이, 국제적 냉전 구도가 겹치며 통일 정부 수립은 어려워졌다.",q:"광복이 이루어졌는데도 곧바로 통일 정부를 수립하지 못한 원인은 무엇일까?"},
+{g:"광복과 정부 수립",t:"모스크바 3국 외상 회의와 신탁 통치 논쟁",b:"회의에서는 한반도 임시 민주 정부 수립과 이를 돕기 위한 협의, 신탁 통치 등의 문제가 논의되었다. 국내에서는 회의 결정에 대한 해석과 정치적 입장이 엇갈렸고, 반탁·찬탁 논쟁이 정치 갈등을 심화시켰다. 회의 결과와 국내 정치 세력의 대응을 구분해 살펴야 한다.",q:"국제 회의의 결정이 국내 정치 갈등으로 이어진 과정을 설명해 보자."},
+{g:"광복과 정부 수립",t:"미소 공동 위원회의 결렬",b:"미국과 소련은 임시 정부 수립을 논의했으나 협의에 참여할 단체의 범위 등을 둘러싸고 대립했다. 국제적 냉전과 국내 정치 세력의 갈등이 겹치면서 협상은 성과를 내지 못했다. 이후 한반도 문제는 UN으로 넘어갔다.",q:"미소 공동 위원회가 성과를 거두지 못한 이유를 국내 요인과 국제 요인으로 나누어 보자."},
+{g:"광복과 정부 수립",t:"좌우 합작 운동의 의미와 한계",b:"여운형과 김규식 등을 중심으로 좌우 합작 운동이 추진되었다. 통일 정부 수립과 정치적 타협을 모색했지만 좌우 세력 내부의 반대, 미소 대립, 정치적 불신 등으로 성과가 제한되었다. 이는 통일 정부 수립을 위한 여러 노력이 존재했음을 보여 준다.",q:"좌우 합작 운동이 어려움을 겪은 이유는 무엇일까?"},
+{g:"광복과 정부 수립",t:"UN 결의와 5·10 총선거",b:"미소 협상이 결렬되자 한반도 문제가 UN으로 넘어갔다. UN 한국 임시 위원단은 남북한 전체를 대상으로 선거를 추진했으나 북한 지역에 들어가지 못했다. 이에 선거가 가능한 지역에서 1948년 5·10 총선거가 실시되었다. 선거의 의미와 함께 분단 고착화에 미친 영향도 살펴야 한다.",q:"5·10 총선거가 남한에서만 실시된 과정과 그 결과를 설명해 보자."},
+{g:"광복과 정부 수립",t:"제주 4·3 사건의 배경과 전개",b:"1947년 3·1절 기념행사에서 경찰 발포로 사상자가 발생한 뒤 제주 사회의 갈등이 심해졌다. 1948년 4월 3일 무장봉기가 일어났고, 단독 선거 반대와 경찰·서북청년회 등의 탄압, 무장 세력의 행동, 국가의 강경 진압이 복합적으로 작용했다. 장기간 많은 민간인이 희생되었으며 사건을 단순한 한 가지 원인으로 설명하기 어렵다.",q:"제주 4·3 사건을 이해할 때 배경·전개·진압을 나누어 살펴야 하는 이유는 무엇일까?"},
+{g:"사건의 비교",t:"남북한 정부 수립과 분단의 제도화",b:"1948년 8월 15일 대한민국 정부가 수립되었고, 9월 9일 조선민주주의인민공화국이 수립되었다. 정부 수립은 각각의 국가 권력이 제도화된 사건이며, 동시에 통일 정부 수립 노력이 좌절되고 분단이 굳어지는 과정과 연결된다.",q:"정부 수립의 의미와 분단의 고착화라는 측면을 함께 설명해 보자."},
+{g:"사건의 비교",t:"사건의 원인과 결과 구분하기",b:"역사 사건은 원인 하나만으로 발생하지 않는 경우가 많다. 국제 정세, 국내 정치, 사회·경제적 조건, 개인과 집단의 선택이 상호작용한다. 사건을 정리할 때는 장기적 배경, 직접적 계기, 전개, 결과를 나누어 쓰면 인과관계를 더 정확히 파악할 수 있다.",q:"역사 사건의 장기적 배경과 직접적 계기는 어떻게 구별할 수 있을까?"}
+];
+
+const people=[
+["윌슨","미국 대통령. 제1차 세계 대전 이후 민족 자결주의를 제시했다."],
+["손병희","천도교 지도자로 3·1 운동의 민족 대표 중 한 명이다."],
+["유관순","3·1 운동과 아우내 장터 만세 운동으로 알려진 독립운동가다."],
+["김구","대한민국 임시 정부에서 활동했고 한인 애국단을 조직했다."],
+["이승만","대한민국 임시 정부의 초대 대통령을 지냈으며 1948년 대한민국 정부의 초대 대통령이 되었다."],
+["박은식","민족주의 사학자. 『한국통사』 등을 통해 국권 상실의 역사와 민족 의식을 다루었다."],
+["신채호","민족주의 사학자. 민족을 역사의 주체로 강조했다."],
+["김원봉","의열단을 조직했으며 이후 조선의용대 활동과 관련된다."],
+["홍범도","봉오동 전투 등에서 활약한 독립군 지휘관이다."],
+["김좌진","북로군정서군을 이끌고 청산리 전투에서 활약했다."],
+["안창호","신민회와 흥사단 등에서 활동하며 교육과 실력 양성을 중시했다."],
+["안중근","1909년 하얼빈에서 이토 히로부미를 처단했다."],
+["이봉창","1932년 도쿄에서 의거를 시도했다."],
+["윤봉길","1932년 상하이 훙커우 공원에서 의거를 벌였다."],
+["여운형","건국 준비 활동과 좌우 합작 운동에 참여했다."],
+["김규식","좌우 합작 운동과 통일 정부 수립 노력에 참여했다."],
+["백남운","사회경제 사학을 대표하는 역사학자다."],
+["조만식","물산 장려 운동과 민족운동에 참여했으며 해방 후 북한에서 활동했다."]
+];
+const orgs=[
+["대한민국 임시 정부","1919년 상하이에서 수립된 독립운동의 중심 조직. 외교 활동과 독립군 지원 등을 추진했다."],
+["의열단","1919년 김원봉 등이 조직한 의열 투쟁 단체."],
+["한인 애국단","김구가 조직했으며 이봉창·윤봉길 의거를 추진했다."],
+["신간회","1927년 결성된 민족 협동 전선 단체. 1931년 해소되었다."],
+["근우회","1927년 결성된 여성운동 단체로 신간회와 비슷한 시기에 활동했다."],
+["조선어학회","우리말 연구와 사전 편찬을 추진하다 일제의 탄압을 받았다."],
+["한국광복군","1940년 충칭에서 창설된 대한민국 임시 정부의 군대."],
+["조선의용대","1938년 중국 관내에서 창설된 항일 무장 부대. 일부가 화북으로 이동해 조선의용군으로 발전했다."],
+["조선 혁명군","양세봉 등이 이끈 남만주 지역의 독립군 부대."],
+["한국 독립군","지청천 등이 이끈 북만주 지역의 독립군 부대."],
+["건국준비위원회","광복 직후 여운형 등이 조직한 건국 준비 조직."],
+["조선건국동맹","여운형 등이 광복을 준비하며 조직한 비밀 결사."],
+["미소 공동 위원회","미국과 소련이 한반도 임시 정부 수립을 논의하기 위해 개최한 회의."],
+["UN 한국 임시 위원단","한반도 선거를 관찰하고 관련 임무를 수행하기 위해 파견된 기구."]
+];
+
+const questions=[
+{y:"1910년대",t:"3·1 운동",q:"3·1 운동의 영향으로 옳은 것은?",o:["대한민국 임시 정부 수립","조선 총독부 설치","한일 병합 조약 체결","한국광복군 창설","5·10 총선거 실시"],a:0,e:"3·1 운동 이후 독립운동의 조직적 구심점을 마련하려는 움직임이 활발해졌고 1919년 대한민국 임시 정부가 수립되었다."},
+{y:"1910년대",t:"민족 자결주의",q:"윌슨의 민족 자결주의에 대한 설명으로 가장 적절한 것은?",o:["모든 식민지의 즉각 독립을 보장했다.","민족이 자신의 정치적 운명을 결정한다는 원칙을 제시했다.","일본의 식민 지배를 공식 승인했다.","대한민국 정부 수립 뒤 발표되었다.","신간회 창립을 직접 명령했다."],a:1,e:"민족 자결주의는 독립운동에 영향을 주었지만 식민지 전체에 보편적으로 적용된 것은 아니다."},
+{y:"1910년대",t:"임시 정부",q:"대한민국 임시 정부가 수립된 해는?",o:["1910년","1914년","1919년","1927년","1940년"],a:2,e:"대한민국 임시 정부는 1919년 상하이에서 수립되었다."},
+{y:"1910년대",t:"독립 선언",q:"도쿄의 한국인 유학생들이 발표한 독립 선언은?",o:["2·8 독립 선언","카이로 선언","포츠담 선언","한성 조약","모스크바 선언"],a:0,e:"1919년 2월 8일 도쿄의 유학생들이 독립 선언을 발표했다."},
+{y:"1920년대",t:"무장 독립 전쟁",q:"봉오동 전투에서 활약한 인물로 가장 적절한 것은?",o:["홍범도","여운형","김규식","백남운","김구"],a:0,e:"홍범도는 봉오동 전투에서 활약한 독립군 지휘관이다."},
+{y:"1920년대",t:"청산리 전투",q:"청산리 전투와 관련이 깊은 인물은?",o:["김좌진","이승만","손병희","박은식","여운형"],a:0,e:"김좌진이 이끈 북로군정서군 등을 비롯한 독립군이 청산리 일대에서 일본군에 맞서 싸웠다."},
+{y:"1920년대",t:"간도 참변",q:"간도 참변이 발생한 배경으로 가장 적절한 것은?",o:["일본군의 독립군 탄압과 보복","대한민국 정부 수립","신탁 통치 결정","좌우 합작 운동의 성공","조선어학회 사전 완성"],a:0,e:"일본군은 독립군 탄압을 내세워 간도 지역 한인 사회에 큰 피해를 입혔다."},
+{y:"1920년대",t:"의열단",q:"의열단을 조직한 인물은?",o:["김원봉","김좌진","이승만","백남운","김규식"],a:0,e:"의열단은 1919년 김원봉 등이 조직했다."},
+{y:"1920년대",t:"신간회",q:"신간회에 대한 설명으로 옳은 것은?",o:["민족주의와 사회주의 세력의 협력을 추구했다.","일제의 침략 전쟁을 지원했다.","1948년에 대한민국 정부의 군대로 창설되었다.","한반도 신탁 통치를 결정했다.","조선 총독부가 독립운동 지원을 위해 만들었다."],a:0,e:"신간회는 1927년 결성된 민족 협동 전선 단체다."},
+{y:"1920년대",t:"광주 학생 항일 운동",q:"1929년 광주에서 시작해 전국으로 확산한 운동은?",o:["광주 학생 항일 운동","6·10 만세 운동","3·1 운동","물산 장려 운동","좌우 합작 운동"],a:0,e:"광주 학생 항일 운동은 1929년 발생해 전국으로 확산했다."},
+{y:"1920년대",t:"역사학",q:"민족을 역사의 주체로 강조한 민족주의 사학자와 관련이 깊은 인물은?",o:["신채호","백남운","김규식","이봉창","여운형"],a:0,e:"신채호는 민족주의 사학을 대표하며 민족을 역사의 주체로 강조했다."},
+{y:"1920년대",t:"사회경제 사학",q:"사회 구조와 경제 관계의 변화를 통해 한국사를 설명하려 한 역사학자와 관련이 깊은 인물은?",o:["백남운","윤봉길","홍범도","손병희","이봉창"],a:0,e:"백남운은 사회경제 사학을 대표한다."},
+{y:"1920년대",t:"실력 양성 운동",q:"민립대학 설립 운동의 주된 목적은?",o:["한국인이 주도하는 고등 교육 기관 설립","일본군의 만주 침략 지원","신탁 통치 실시","대한민국 정부 수립","조선어 사용 금지"],a:0,e:"민립대학 설립 운동은 한국인이 주도하는 대학을 세워 교육 역량을 기르려는 운동이었다."},
+{y:"1920년대",t:"여성운동",q:"1927년 결성된 여성운동 단체는?",o:["근우회","한국광복군","한인 애국단","건국준비위원회","조선 혁명군"],a:0,e:"근우회는 1927년 결성된 여성운동 단체다."},
+{y:"1930년대",t:"한인 애국단",q:"이봉창·윤봉길 의거를 추진한 단체는?",o:["한인 애국단","신간회","근우회","조선어학회","건국준비위원회"],a:0,e:"한인 애국단은 김구가 조직했으며 이봉창·윤봉길 의거와 관련된다."},
+{y:"1930년대",t:"윤봉길 의거",q:"윤봉길의 의거가 일어난 장소는?",o:["상하이 훙커우 공원","봉오동","청산리","도쿄 제국의회","충칭 임시 정부 청사"],a:0,e:"윤봉길은 1932년 상하이 훙커우 공원에서 의거를 벌였다."},
+{y:"1930년대",t:"병참 기지화",q:"일제의 병참 기지화 정책을 가장 잘 설명한 것은?",o:["한반도의 자원과 산업을 전쟁 수행에 이용했다.","식민지 지배를 즉시 끝냈다.","한국인의 정치적 독립을 보장했다.","대한민국 임시 정부를 공식 승인했다.","모든 강제 동원을 중단했다."],a:0,e:"일제는 한반도의 자원·산업·노동력을 전쟁 수행에 이용하려 했다."},
+{y:"1930년대",t:"민족 말살 정책",q:"민족 말살 정책에 해당하는 사례는?",o:["창씨개명과 신사 참배 강요","민립대학 설립 운동","신간회 창립","대한민국 임시 정부 수립","5·10 총선거"],a:0,e:"창씨개명과 신사 참배 강요 등은 황국 신민화 정책의 일부였다."},
+{y:"1930년대",t:"조선어학회",q:"조선어학회가 추진한 활동은?",o:["우리말 연구와 사전 편찬","한국광복군 창설","미소 공동 위원회 개최","남북한 정부 수립","일본의 전쟁 동원"],a:0,e:"조선어학회는 우리말 연구와 사전 편찬을 추진했다."},
+{y:"1930년대",t:"독립군 부대",q:"지청천과 관련이 깊은 독립군 부대는?",o:["한국 독립군","신간회","근우회","한인 애국단","조선어학회"],a:0,e:"지청천은 북만주 지역에서 활동한 한국 독립군과 관련된다."},
+{y:"1930년대",t:"조선 혁명군",q:"남만주 지역에서 활동한 독립군 부대는?",o:["조선 혁명군","한국광복군","근우회","건국준비위원회","UN 한국 임시 위원단"],a:0,e:"조선 혁명군은 남만주 지역에서 활동했으며 양세봉 등이 이끌었다."},
+{y:"1930년대",t:"중일 전쟁",q:"1937년 중일 전쟁 이후 강화된 일제의 정책으로 가장 적절한 것은?",o:["전시 동원과 자원 수탈","식민지 독립 보장","강제 동원 전면 중단","신간회 재창립","통일 정부 수립"],a:0,e:"중일 전쟁 이후 전쟁 수행을 위한 인력·물자 동원과 식민지 수탈이 강화되었다."},
+{y:"심화",t:"역사학",q:"민족주의 사학과 사회경제 사학의 차이를 가장 잘 설명한 것은?",o:["민족주의 사학은 민족의 주체성을, 사회경제 사학은 사회·경제 구조의 변화를 강조했다.","두 사학 모두 일본의 식민 지배를 정당화했다.","사회경제 사학은 독립운동과 무관한 군사 조직이다.","민족주의 사학은 1948년에만 등장했다.","두 사학은 역사 연구가 아니라 선거 제도다."],a:0,e:"민족주의 사학은 민족의 주체성을 강조했고 사회경제 사학은 사회 구조와 경제 관계의 변화에 주목했다."},
+{y:"심화",t:"독립운동",q:"봉오동·청산리 전투 이후 독립군이 겪은 어려움으로 옳은 것은?",o:["일본군의 보복과 독립군 활동 기반의 약화","대한민국 정부의 수립","신탁 통치의 즉각 실시","한국광복군의 해산만으로 모든 독립운동이 종료됨","조선어학회의 창립"],a:0,e:"일본군의 탄압과 간도 참변 등으로 독립군은 큰 어려움을 겪었고 이동과 재편을 추진했다."},
+{y:"심화",t:"독립운동",q:"의열단과 한인 애국단의 공통점으로 옳은 것은?",o:["의거를 통해 항일 의지를 드러냈다.","두 단체 모두 1948년에 정부로 출범했다.","두 단체 모두 일제의 전쟁 동원을 지원했다.","두 단체는 모두 여성 교육 단체였다.","두 단체는 모두 UN 기구였다."],a:0,e:"두 단체는 활동 시기와 배경이 다르지만 의거를 통해 항일 투쟁을 전개했다."},
+{y:"심화",t:"일제 정책",q:"문화 통치를 이해하는 방식으로 가장 적절한 것은?",o:["일부 언론 활동을 허용했지만 검열과 경찰력을 통한 지배는 계속되었다.","3·1 운동 뒤 식민 지배가 즉시 끝났다.","한국인의 정치적 독립을 완전히 보장했다.","일본의 모든 경찰 제도가 폐지되었다.","대한민국 임시 정부가 조선 총독부를 운영했다."],a:0,e:"문화 통치는 통치 방식의 변화였으며 식민 지배 자체가 끝났다는 뜻은 아니다."},
+{y:"심화",t:"일제 정책",q:"전시 동원 체제를 평가할 때 가장 적절한 관점은?",o:["산업 시설의 증가뿐 아니라 자원 수탈과 노동력 동원도 함께 살펴야 한다.","산업 시설이 늘었으므로 식민 지배는 한국인에게만 이익이었다.","전시 동원은 독립 이후에만 나타났다.","모든 정책은 한국인의 자발적 동의로 시행되었다.","전쟁은 식민지 경제에 아무런 영향을 주지 않았다."],a:0,e:"식민지 산업의 변화는 전쟁 수행 목적, 자원 수탈, 강제 동원과 함께 분석해야 한다."},
+{y:"해방",t:"한국광복군",q:"한국광복군에 대한 설명으로 옳은 것은?",o:["대한민국 임시 정부의 군대로 1940년 창설되었다.","1927년 신간회 산하에 만들어졌다.","일제의 식민 통치를 위해 창설되었다.","1948년 북한 정부의 군대로 출발했다.","조선어 사전 편찬을 목적으로 조직되었다."],a:0,e:"한국광복군은 1940년 충칭에서 창설된 대한민국 임시 정부의 군대다."},
+{y:"해방",t:"광복",q:"1945년 8월 15일과 관련된 사건은?",o:["광복","3·1 운동","신간회 창립","대한민국 정부 수립","제주 4·3 사건"],a:0,e:"1945년 8월 15일 일본의 항복으로 한국은 광복을 맞았다."},
+{y:"해방",t:"모스크바 3국 외상 회의",q:"모스크바 3국 외상 회의에서 논의된 내용과 관련이 깊은 것은?",o:["한반도 임시 민주 정부 수립과 신탁 통치 문제","봉오동 전투의 지휘관","민립대학 설립 운동의 예산","신간회 해소의 직접 결정","조선어학회 사전의 완성"],a:0,e:"1945년 회의에서는 한반도 임시 민주 정부 수립과 신탁 통치 문제 등이 논의되었다."},
+{y:"해방",t:"미소 공동 위원회",q:"미소 공동 위원회가 성과를 거두지 못한 원인으로 옳은 것은?",o:["협의 대상 단체 문제와 미국·소련의 대립","봉오동 전투의 결과","조선어학회의 사전 편찬","민립대학 설립 운동의 성공","대한민국 정부 수립 이후에만 회의가 열렸기 때문"],a:0,e:"협의 대상 문제와 미소 대립 등으로 임시 정부 수립 논의가 진전되지 못했다."},
+{y:"해방",t:"좌우 합작",q:"좌우 합작 운동에 참여한 인물로 옳은 것은?",o:["여운형과 김규식","홍범도와 김좌진","이봉창과 윤봉길","손병희와 유관순","백남운과 신채호"],a:0,e:"여운형과 김규식은 좌우 합작 운동과 통일 정부 수립 노력에 참여했다."},
+{y:"해방",t:"제주 4·3 사건",q:"제주 4·3 사건을 설명한 것으로 가장 적절한 것은?",o:["정치·사회적 갈등, 단독 선거 반대, 무장봉기와 강경 진압 등이 얽혀 민간인 희생이 발생했다.","1919년 상하이에서 임시 정부를 세운 사건이다.","일본군이 청산리에서 패한 전투다.","신간회가 창립된 사건이다.","대한민국 정부가 수립된 날의 기념행사다."],a:0,e:"제주 4·3 사건은 여러 배경과 전개가 얽힌 사건이며 장기간 많은 민간인 희생을 낳았다."},
+{y:"해방",t:"5·10 총선거",q:"1948년 5·10 총선거의 특징으로 옳은 것은?",o:["UN 한국 임시 위원단의 활동이 가능한 지역에서 실시되었다.","한반도 전 지역에서 남북 공동으로 실시되었다.","일본의 식민 통치를 유지하기 위해 실시되었다.","3·1 운동 직후에 실시되었다.","신간회 창립과 동시에 실시되었다."],a:0,e:"북한 지역에 UN 한국 임시 위원단이 들어가지 못하면서 선거는 활동이 가능한 지역에서 실시되었다."},
+{y:"해방",t:"정부 수립",q:"1948년 대한민국 정부 수립일은?",o:["8월 15일","3월 1일","4월 3일","5월 10일","9월 9일"],a:0,e:"대한민국 정부는 1948년 8월 15일 수립되었다."},
+{y:"해방",t:"북한 정부 수립",q:"조선민주주의인민공화국이 수립된 날은?",o:["1948년 9월 9일","1945년 8월 15일","1919년 3월 1일","1948년 5월 10일","1927년 2월 15일"],a:0,e:"조선민주주의인민공화국은 1948년 9월 9일 수립되었다."},
+{y:"심화",t:"제주 4·3 사건",q:"제주 4·3 사건의 배경을 분석할 때 적절한 태도는?",o:["장기적 배경, 직접적 계기, 무장봉기, 진압과 민간인 피해를 구분해 살핀다.","한 가지 원인만으로 사건 전체를 설명한다.","사건의 발생 연도를 1919년으로 본다.","모든 민간인 피해를 전투 참가자의 피해와 동일하게 본다.","정부 수립 이후의 사건이므로 해방 직후 상황은 고려하지 않는다."],a:0,e:"제주 4·3 사건은 복합적인 정치·사회적 배경과 전개를 지니므로 시기별 과정과 민간인 피해를 구분해 살펴야 한다."},
+{y:"심화",t:"남북한 정부 수립",q:"남북한 정부 수립의 역사적 의미를 가장 적절하게 설명한 것은?",o:["각각의 국가 권력이 제도화되었으며 분단이 굳어지는 과정과 연결된다.","통일 정부가 한반도 전체를 대표해 수립되었다.","식민 지배가 1910년에 시작되었다는 뜻이다.","대한민국 임시 정부가 1919년에 해산했다는 뜻이다.","제주 4·3 사건이 완전히 해결되었다는 뜻이다."],a:0,e:"1948년 남북한에 각각 정부가 수립되면서 분단이 제도적으로 굳어졌다."},
+{y:"1920년대",t:"자유시 참변",q:"자유시 참변과 관련된 설명으로 옳은 것은?",o:["독립군 부대가 무장 해제 갈등 속에 큰 피해를 입었다.","신간회가 창립된 사건이다.","대한민국 정부가 수립된 사건이다.","조선어학회가 사전을 완성한 사건이다.","윤봉길이 의거를 벌인 사건이다."],a:0,e:"자유시 참변은 독립군 부대 사이의 갈등과 무장 해제 과정에서 발생했다."},
+{y:"1930년대",t:"조선의용대",q:"조선의용대에 대한 설명으로 옳은 것은?",o:["중국 관내에서 조직된 항일 무장 부대다.","1948년 남한의 제헌 국회다.","여성 교육을 위한 합법 단체다.","미소 공동 위원회의 다른 이름이다.","일제의 민족 말살 정책을 담당한 경찰 조직이다."],a:0,e:"조선의용대는 1938년 중국 관내에서 창설된 항일 무장 부대다."},
+{y:"심화",t:"민족 협동 전선",q:"신간회가 해소된 해는?",o:["1931년","1919년","1920년","1940년","1948년"],a:0,e:"신간회는 1927년 결성되었고 1931년 해소되었다."},
+{y:"심화",t:"역사적 인과관계",q:"역사 사건의 원인과 결과를 분석하는 방법으로 가장 적절한 것은?",o:["장기적 배경과 직접적 계기, 전개와 결과를 구분한다.","사건의 결과만으로 원인을 확정한다.","모든 사건은 한 가지 원인으로 발생한다고 가정한다.","서로 다른 시기의 사건을 모두 같은 사건으로 본다.","사료나 역사적 맥락을 고려하지 않는다."],a:0,e:"역사 사건은 여러 요인이 상호작용하는 경우가 많으므로 배경·계기·전개·결과를 구분해야 한다."}
+];
+
+// 심화 학습 내용도 문제은행에 반영한다.
+advanced.forEach((v,i)=>{
+questions.push({
+y:"심화",t:v.t,
+q:"[심화] "+v.q,
+o:shuffle([
+"국제 정세와 국내 상황, 사건의 전개를 함께 살펴야 한다.",
+"사건을 한 가지 원인만으로 설명하면 충분하다.",
+"이 사건은 1948년 이후에만 나타났으므로 이전 상황은 무관하다.",
+"역사적 맥락보다 현재의 판단만으로 결론을 내린다.",
+"관련 인물과 단체는 모두 같은 목적과 방식으로 활동했다."
+]),
+a:0,
+e:v.b+" 핵심은 여러 요인과 역사적 맥락을 함께 살펴보는 것이다."
+});
+});
+
+// 심화 문항은 선택지의 정답을 첫 번째로 고정해 다시 정리한다.
+questions.forEach(q=>{
+if(q.q.startsWith("[심화]")){
+q.o=[
+"국제 정세와 국내 상황, 사건의 전개를 함께 살펴야 한다.",
+"사건을 한 가지 원인만으로 설명하면 충분하다.",
+"이 사건은 1948년 이후에만 나타났으므로 이전 상황은 무관하다.",
+"역사적 맥락보다 현재의 판단만으로 결론을 내린다.",
+"관련 인물과 단체는 모두 같은 목적과 방식으로 활동했다."
+];q.a=0;
+}
+});
+
+const cards=[
+...events.map(e=>({cat:"사건·연도",front:e[0]+"년 · "+e[1],back:e[2]})),
+...people.map(p=>({cat:"인물",front:p[0],back:p[1]})),
+...orgs.map(o=>({cat:"단체",front:o[0],back:o[1]})),
+...concepts.map(c=>({cat:"정책·운동",front:c[0],back:c[2]})),
+...advanced.map(a=>({cat:"심화",front:a.t,back:a.b}))
+];
+
+function renderTimeline(){
+let s=(document.getElementById("ts").value||"").toLowerCase(),g=document.getElementById("tg").value;
+let list=events.filter(e=>{
+let decade=e[0]<1920?"1910년대":e[0]<1930?"1920년대":e[0]<1940?"1930년대":"1940년대";
+return (!g||g===decade)&&(!s||(e.join(" ").toLowerCase().includes(s)));
+});
+let html="",last="";
+list.forEach(e=>{
+let decade=e[0]<1920?"1910년대":e[0]<1930?"1920년대":e[0]<1940?"1930년대":"1940년대";
+if(decade!==last){html+=`<div class="year">${decade}</div>`;last=decade}
+html+=`<div class="event"><strong>${e[0]} · ${esc(e[1])}</strong><div>${esc(e[2])}</div></div>`;
+});
+document.getElementById("timelineList").innerHTML=html||'<div class="empty">검색 결과가 없습니다.</div>';
+}
+function renderConcepts(){
+let s=document.getElementById("cs").value.toLowerCase(),g=document.getElementById("cg").value;
+let list=concepts.filter(c=>(!g||c[1]===g)&&(!s||c.join(" ").toLowerCase().includes(s)));
+document.getElementById("conceptList").innerHTML=list.map(c=>`<div class="item"><span class="badge blue">${esc(c[1])}</span><h3>${esc(c[0])}</h3><div>${esc(c[2])}</div></div>`).join("")||'<div class="empty">검색 결과가 없습니다.</div>';
+}
+function renderAdvanced(){
+let s=document.getElementById("as").value.toLowerCase(),g=document.getElementById("ag").value;
+let list=advanced.filter(a=>(!g||a.g===g)&&(!s||(a.t+" "+a.b+" "+a.q+" "+a.g).toLowerCase().includes(s)));
+document.getElementById("advancedList").innerHTML=list.map(a=>`<div class="item"><span class="badge blue">${esc(a.g)}</span><h3>${esc(a.t)}</h3><p>${esc(a.b)}</p><details><summary>생각해 볼 질문</summary><p>${esc(a.q)}</p></details></div>`).join("")||'<div class="empty">검색 결과가 없습니다.</div>';
+}
+function renderPeople(){
+let s=document.getElementById("ps").value.toLowerCase(),list=people.filter(p=>p.join(" ").toLowerCase().includes(s));
+document.getElementById("peopleList").innerHTML=list.map(p=>`<div class="person"><h3>${esc(p[0])}</h3><div>${esc(p[1])}</div></div>`).join("")||'<div class="empty">검색 결과가 없습니다.</div>';
+}
+function renderOrgs(){
+let s=document.getElementById("os").value.toLowerCase(),list=orgs.filter(o=>o.join(" ").toLowerCase().includes(s));
+document.getElementById("orgList").innerHTML=list.map(o=>`<div class="person"><h3>${esc(o[0])}</h3><div>${esc(o[1])}</div></div>`).join("")||'<div class="empty">검색 결과가 없습니다.</div>';
+}
+["ts","tg"].forEach(id=>document.getElementById(id).addEventListener("input",renderTimeline));
+["cs","cg"].forEach(id=>document.getElementById(id).addEventListener("input",renderConcepts));
+["as","ag"].forEach(id=>document.getElementById(id).addEventListener("input",renderAdvanced));
+document.getElementById("ps").addEventListener("input",renderPeople);
+document.getElementById("os").addEventListener("input",renderOrgs);
+
+// 플래시카드
+let cardList=[],cardIndex=0,cardBack=false;
+function getCards(){
+let cat=document.getElementById("fc").value,un=document.getElementById("fu").checked;
+return cards.filter(c=>(!cat||c.cat===cat)&&(!un||!db.mastered.includes(c.front)));
+}
+function renderCard(){
+cardList=getCards();
+if(!cardList.length){document.getElementById("flash").innerHTML='<div class="empty">해당하는 카드가 없습니다.</div>';document.getElementById("fcount").textContent="0장";document.getElementById("fprogress").style.width="0%";return}
+cardIndex=Math.max(0,Math.min(cardIndex,cardList.length-1));
+let c=cardList[cardIndex];
+document.getElementById("flash").innerHTML=`<span class="badge blue">${esc(c.cat)}</span><div class="flashbig">${esc(cardBack?c.back:c.front)}</div><div class="muted">${cardBack?"설명":"눌러서 설명 확인"}</div>`;
+document.getElementById("fcount").textContent=`${cardIndex+1} / ${cardList.length} · 완료 ${db.mastered.length}장`;
+document.getElementById("fprogress").style.width=((cardIndex+1)/cardList.length*100)+"%";
+}
+function flip(){cardBack=!cardBack;renderCard()}
+function nextCard(){cardIndex=(cardIndex+1)%Math.max(1,cardList.length);cardBack=false;renderCard()}
+function prevCard(){cardIndex=(cardIndex-1+Math.max(1,cardList.length))%Math.max(1,cardList.length);cardBack=false;renderCard()}
+function mixCards(){cardList=shuffle(getCards());cardIndex=0;cardBack=false;renderCard()}
+function masterCard(){if(!cardList.length)return;let id=cardList[cardIndex].front;if(!db.mastered.includes(id))db.mastered.push(id);saveDB();renderCard()}
+document.getElementById("fc").addEventListener("change",()=>{cardIndex=0;cardBack=false;renderCard()});
+document.getElementById("fu").addEventListener("change",()=>{cardIndex=0;cardBack=false;renderCard()});
+
+// 문제은행 범위 필터
+function inScope(q,scope){
+if(scope==="전체")return true;
+if(scope==="1910년대")return q.y==="1910년대"||q.t.includes("3·1")||q.t.includes("임시 정부")||q.t.includes("민족 자결");
+if(scope==="1920년대")return q.y==="1920년대";
+if(scope==="1930년대")return q.y==="1930년대";
+if(scope==="해방")return q.y==="해방"||q.t.includes("제주 4·3")||q.t.includes("정부 수립");
+if(scope==="인물·단체")return /인물|단체|홍범도|김좌진|김원봉|김구|신간회|한인 애국단|한국광복군/.test(q.t+" "+q.q);
+if(scope==="심화")return q.y==="심화"||q.q.startsWith("[심화]");
+return true;
+}
+function normalizeQuestion(q){
+let opts=Array.isArray(q.o)?q.o.slice():Array.isArray(q.options)?q.options.slice():[];
+let ans=Number.isInteger(q.a)?q.a:Number.isInteger(q.answer)?q.answer:0;
+if(opts.length<2||!Number.isInteger(ans)||ans<0||ans>=opts.length)return null;
+let correct=opts[ans];opts=opts.slice(0,5);
+if(!opts.includes(correct))opts[4]=correct;
+let choices=shuffle(opts);
+return {id:uid(),y:q.y||q.scope||"전체",t:q.t||q.topic||"종합",q:String(q.q||q.question||"문제"),o:choices,a:choices.indexOf(correct),e:String(q.e||q.explanation||"정답과 관련된 핵심 개념을 교과서와 대조해 확인하자."),ref:q.ref||""};
+}
+let current=null;
+function getLocalSet(scope,count){
+let pool=questions.filter(q=>inScope(q,scope));
+if(!pool.length)pool=questions;
+let seen=new Set(db.records.flatMap(r=>(r.questions||[]).map(q=>q.baseId||q.id)));
+let fresh=shuffle(pool.filter(q=>!seen.has(q.id)));
+let old=shuffle(pool.filter(q=>seen.has(q.id)));
+let result=[...fresh,...old].slice(0,count);
+return result.map(q=>{
+let n=normalizeQuestion(q);
+if(!n)return null;
+n.baseId=q.id;
+return n;
+}).filter(Boolean);
+}
+function newSet(){
+let scope=document.getElementById("qscope").value,count=Number(document.getElementById("qcount").value);
+let qs=getLocalSet(scope,count);
+if(!qs.length){alert("이 범위에서 출제할 문제가 없습니다.");return}
+current={id:uid(),type:"normal",scope,questions:qs,index:0,answers:Array(qs.length).fill(null),submitted:Array(qs.length).fill(false)};
+document.getElementById("qmessage").textContent=`새 세트 생성 완료 · ${qs.length}문제 · 저장된 과거 기록은 유지됩니다.`;
+document.getElementById("quizResult").style.display="none";
+document.getElementById("quizArea").style.display="block";
+renderQuiz();
+}
+async function newAISet(){
+let url=db.worker;
+if(!url){document.getElementById("qmessage").textContent="AI 서버 주소가 없어 로컬 문제은행에서 새 세트를 생성합니다.";newSet();return}
+let scope=document.getElementById("qscope").value,count=Number(document.getElementById("qcount").value);
+document.getElementById("qmessage").textContent="AI 문제 생성 요청 중...";
+try{
+let res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({task:"generate_questions",scope,count,language:"ko",format:"json"})});
+if(!res.ok)throw Error("서버 응답 오류");
+let data=await res.json(),raw=Array.isArray(data)?data:(data.questions||data.items||[]);
+let qs=raw.map(normalizeQuestion).filter(Boolean);
+if(!qs.length)throw Error("문제 형식이 올바르지 않음");
+current={id:uid(),type:"ai",scope,questions:qs.slice(0,count),index:0,answers:Array(Math.min(count,qs.length)).fill(null),submitted:Array(Math.min(count,qs.length)).fill(false)};
+document.getElementById("qmessage").textContent=`AI 문제 ${current.questions.length}개 생성 완료.`;
+document.getElementById("quizResult").style.display="none";
+document.getElementById("quizArea").style.display="block";renderQuiz();
+}catch(e){
+document.getElementById("qmessage").textContent="AI 생성에 실패해 로컬 문제은행으로 새 세트를 만듭니다.";
+newSet();
+}
+}
+function renderQuiz(){
+if(!current)return;
+let q=current.questions[current.index],i=current.index,answered=current.submitted[i];
+let html=`<div class="recordhead"><span class="badge blue">${current.type==="review"?"복습 세트":"새 문제 세트"}</span><span class="muted">${i+1} / ${current.questions.length}</span></div><div class="progress"><div style="width:${(i+1)/current.questions.length*100}%"></div></div><div class="muted">${esc(q.y)} · ${esc(q.t)}</div><div class="question">${esc(q.q)}</div>`;
+html+=q.o.map((o,j)=>`<label class="option ${answered&&j===q.a?"correct":answered&&current.answers[i]===j?"wrong":""}"><input type="radio" name="answer" value="${j}" ${current.answers[i]===j?"checked":""} ${answered?"disabled":""}><span>${j+1}. ${esc(o)}</span></label>`).join("");
+if(answered)html+=`<div class="feedback ${current.answers[i]===q.a?"good":"bad"}"><strong>${current.answers[i]===q.a?"정답입니다.":"오답입니다."}</strong><p>정답: ${esc(q.o[q.a])}</p><p>${esc(q.e)}</p></div>`;
+html+=`<div class="actions">`;
+if(!answered)html+=`<button class="btn primary" onclick="submitAnswer()">답 확인</button>`;
+if(i>0)html+=`<button class="btn" onclick="moveQuiz(-1)">이전 문제</button>`;
+if(i<current.questions.length-1)html+=`<button class="btn" onclick="moveQuiz(1)">다음 문제</button>`;
+if(i===current.questions.length-1)html+=`<button class="btn primary" onclick="finishQuiz()">채점하고 기록 저장</button>`;
+html+=`</div><p class="small">답을 확인한 뒤 다음 문제로 이동할 수 있다. 마지막 문제에서 채점하면 문제와 해설이 기록에 저장된다.</p>`;
+document.getElementById("quizArea").innerHTML=html;
+}
+function submitAnswer(){
+let sel=document.querySelector('#quizArea input[name="answer"]:checked');
+if(!sel){alert("선지를 선택해 주세요.");return}
+current.answers[current.index]=Number(sel.value);current.submitted[current.index]=true;renderQuiz();
+}
+function moveQuiz(d){if(!current)return;current.index=Math.max(0,Math.min(current.questions.length-1,current.index+d));renderQuiz()}
+function finishQuiz(){
+if(!current)return;
+let unanswered=current.submitted.filter(v=>!v).length;
+if(unanswered){if(!confirm("아직 답을 확인하지 않은 문제가 있습니다. 미응답을 오답 처리하고 저장할까요?"))return}
+let correct=0;
+let qs=current.questions.map((q,i)=>{
+if(current.answers[i]===q.a)correct++;
+return {...q,userAnswer:current.answers[i],correct:q.a,correctText:q.o[q.a],selectedText:current.answers[i]===null?"미응답":q.o[current.answers[i]]};
+});
+let record={
+id:uid(),created:new Date().toISOString(),scope:current.scope,
+type:current.type==="review"?"복습":"새 문제",sourceId:current.sourceRecordId||null,
+title:current.title||`${current.scope} 문제 세트`,
+total:qs.length,correct,wrong:qs.length-correct,
+questions:qs
+};
+db.records.unshift(record);saveDB();
+document.getElementById("quizArea").style.display="none";
+document.getElementById("quizResult").style.display="block";
+document.getElementById("quizResult").innerHTML=`<h3>채점 결과</h3><div class="stats"><div class="stat"><strong>${correct}/${qs.length}</strong><span>정답</span></div><div class="stat"><strong>${Math.round(correct/qs.length*100)}%</strong><span>정답률</span></div><div class="stat"><strong>${qs.length-correct}</strong><span>오답·미응답</span></div></div><p>이번 결과를 새 학습기록으로 저장했습니다. 기존 기록은 변경되지 않았습니다.</p><div class="actions"><button class="btn primary" onclick="go('review')">틀린 문제 다시 풀기</button><button class="btn" onclick="go('records')">학습기록 확인</button><button class="btn" onclick="go('quiz')">새 문제 세트 만들기</button></div>`;
+current=null;stats();renderReviewChoices();
+}
+
+// 저장된 문제를 복습 공간으로 불러온다.
+function renderReviewChoices(){
+let sel=document.getElementById("reviewRecord");
+sel.innerHTML=db.records.map(r=>`<option value="${esc(r.id)}">${esc(new Date(r.created).toLocaleString("ko-KR"))} · ${esc(r.title||r.scope)} · ${r.correct}/${r.total}</option>`).join("")||'<option value="">저장된 기록 없음</option>';
+document.getElementById("reviewInfo").textContent=`현재 ${db.records.length}개의 풀이 기록이 저장되어 있습니다.`;
+}
+function beginReview(){
+let mode=document.getElementById("reviewMode").value,selected=document.getElementById("reviewRecord").value;
+let records=db.records;
+let source=mode==="pick"?records.filter(r=>r.id===selected):mode==="last"?records.slice(0,1):records;
+let list=[];
+source.forEach(r=>(r.questions||[]).forEach(q=>{
+let wrong=q.userAnswer!==q.correct;
+if(mode==="wrong"&&wrong)list.push({...q,sourceRecordId:r.id});
+else if(mode==="all"||mode==="last"||mode==="pick")list.push({...q,sourceRecordId:r.id});
+}));
+if(mode==="wrong"&&!list.length){alert("저장된 오답이 없습니다.");return}
+if(!list.length){alert("불러올 저장 문제가 없습니다.");return}
+list=shuffle(list).map(q=>({
+...q,id:uid(),baseId:q.baseId||q.id,
+o:q.o||q.options,
+a:Number.isInteger(q.correct)?q.correct:q.a,
+e:q.e||q.explanation||"",
+y:q.y||q.scope||"전체",
+t:q.t||q.topic||"복습 문제"
+}));
+current={id:uid(),type:"review",scope:"복습",title:"저장 문제 복습",questions:list,index:0,answers:Array(list.length).fill(null),submitted:Array(list.length).fill(false),sourceRecordId:list[0].sourceRecordId};
+document.getElementById("reviewResult").style.display="none";
+document.getElementById("reviewArea").style.display="block";
+renderReviewQuiz();
+}
+function renderReviewQuiz(){
+if(!current||current.type!=="review")return;
+let q=current.questions[current.index],i=current.index,answered=current.submitted[i];
+let html=`<div class="recordhead"><span class="badge green">복습 전용 공간</span><span class="muted">${i+1} / ${current.questions.length}</span></div><div class="progress"><div style="width:${(i+1)/current.questions.length*100}%"></div></div><div class="muted">${esc(q.y)} · ${esc(q.t)}</div><div class="question">${esc(q.q)}</div>`;
+html+=q.o.map((o,j)=>`<label class="option ${answered&&j===q.a?"correct":answered&&current.answers[i]===j?"wrong":""}"><input type="radio" name="reviewAnswer" value="${j}" ${current.answers[i]===j?"checked":""} ${answered?"disabled":""}><span>${j+1}. ${esc(o)}</span></label>`).join("");
+if(answered)html+=`<div class="feedback ${current.answers[i]===q.a?"good":"bad"}"><strong>${current.answers[i]===q.a?"정답입니다.":"오답입니다."}</strong><p>정답: ${esc(q.o[q.a])}</p><p>${esc(q.e)}</p></div>`;
+html+=`<div class="actions">`;
+if(!answered)html+=`<button class="btn primary" onclick="submitReviewAnswer()">답 확인</button>`;
+if(i>0)html+=`<button class="btn" onclick="moveReview(-1)">이전 문제</button>`;
+if(i<current.questions.length-1)html+=`<button class="btn" onclick="moveReview(1)">다음 문제</button>`;
+if(i===current.questions.length-1)html+=`<button class="btn primary" onclick="finishReview()">복습 결과 저장</button>`;
+html+="</div>";
+document.getElementById("reviewArea").innerHTML=html;
+}
+function submitReviewAnswer(){
+let sel=document.querySelector('#reviewArea input[name="reviewAnswer"]:checked');
+if(!sel){alert("선지를 선택해 주세요.");return}
+current.answers[current.index]=Number(sel.value);current.submitted[current.index]=true;renderReviewQuiz();
+}
+function moveReview(d){current.index=Math.max(0,Math.min(current.questions.length-1,current.index+d));renderReviewQuiz()}
+function finishReview(){
+let correct=0;
+let qs=current.questions.map((q,i)=>{
+if(current.answers[i]===q.a)correct++;
+return {...q,userAnswer:current.answers[i],correct:q.a,correctText:q.o[q.a],selectedText:current.answers[i]===null?"미응답":q.o[current.answers[i]]};
+});
+let r={id:uid(),created:new Date().toISOString(),scope:"복습",type:"복습",title:"저장 문제 복습",sourceId:current.sourceRecordId||null,total:qs.length,correct,wrong:qs.length-correct,questions:qs};
+db.records.unshift(r);saveDB();
+document.getElementById("reviewArea").style.display="none";
+document.getElementById("reviewResult").style.display="block";
+document.getElementById("reviewResult").innerHTML=`<h3>복습 결과</h3><div class="stats"><div class="stat"><strong>${correct}/${qs.length}</strong><span>정답</span></div><div class="stat"><strong>${Math.round(correct/qs.length*100)}%</strong><span>정답률</span></div><div class="stat"><strong>${qs.length-correct}</strong><span>오답·미응답</span></div></div><p>복습 결과를 별도 기록으로 저장했습니다. 원래 문제 세트와 기록은 그대로 유지됩니다.</p><div class="actions"><button class="btn primary" onclick="go('review')">다른 기록 복습하기</button><button class="btn" onclick="go('records')">학습기록 확인</button></div>`;
+current=null;stats();renderReviewChoices();
+}
+
+// 학습기록: 문제 전체를 펼쳐서 선지, 선택 답, 정답, 해설 확인
+function renderRecords(){
+let filter=document.getElementById("rf").value;
+let list=db.records.filter(r=>filter==="wrong"?r.wrong>0:filter==="perfect"?r.wrong===0:true);
+if(!list.length){document.getElementById("recordList").innerHTML='<div class="card empty">저장된 기록이 없습니다.</div>';return}
+document.getElementById("recordList").innerHTML=list.map(r=>{
+let pct=r.total?Math.round(r.correct/r.total*100):0;
+return `<div class="record"><div class="recordhead"><div><strong>${esc(r.title||r.scope||"문제 세트")}</strong><div class="small">${esc(new Date(r.created).toLocaleString("ko-KR"))}</div></div><div><span class="badge ${r.wrong===0?"green":"red"}">${r.correct}/${r.total} · ${pct}%</span><span class="badge">${esc(r.type||"풀이")}</span></div></div>
+<div class="progress"><div style="width:${pct}%"></div></div>
+<div class="muted">정답 ${r.correct}개 · 오답 또는 미응답 ${r.wrong}개 · 저장된 문제 ${r.questions?.length||0}개</div>
+<div class="actions"><button class="btn primary" onclick="loadRecordForReview('${esc(r.id)}','wrong')">오답 다시 풀기</button><button class="btn" onclick="loadRecordForReview('${esc(r.id)}','all')">전체 문제 다시 풀기</button><button class="btn danger" onclick="deleteRecord('${esc(r.id)}')">이 기록 삭제</button></div>
+<details><summary>문제와 해설 보기 (${r.questions?.length||0}문제)</summary>
+${(r.questions||[]).map((q,i)=>`<div class="reviewq"><strong>${i+1}. ${esc(q.q)}</strong><div class="small">${esc(q.y||"")} · ${esc(q.t||"")}</div>
+${(q.o||[]).map((o,j)=>`<div class="option ${j===q.correct?"correct":q.userAnswer===j&&q.userAnswer!==q.correct?"wrong":""}"><span>${j+1}. ${esc(o)} ${j===q.correct?"← 정답":q.userAnswer===j?"← 선택한 답":""}</span></div>`).join("")}
+<p><strong>내 답:</strong> ${esc(q.selectedText||"미응답")}</p><p><strong>정답:</strong> ${esc(q.correctText||(q.o||[])[q.correct])}</p><p><strong>해설:</strong> ${esc(q.e||"해설 없음")}</p></div>`).join("")}
+</details></div>`;
+}).join("");
+}
+function loadRecordForReview(id,mode){
+let r=db.records.find(x=>x.id===id);if(!r)return;
+let qs=(r.questions||[]).filter(q=>mode==="all"||q.userAnswer!==q.correct);
+if(!qs.length){alert("다시 풀 문제가 없습니다.");return}
+document.getElementById("reviewMode").value="pick";
+renderReviewChoices();document.getElementById("reviewRecord").value=id;
+go("review");
+current={id:uid(),type:"review",scope:"복습",title:"기록에서 불러온 복습",sourceRecordId:id,questions:shuffle(qs).map(q=>({...q,id:uid(),baseId:q.baseId||q.id,a:q.correct,o:q.o})),index:0,answers:Array(qs.length).fill(null),submitted:Array(qs.length).fill(false)};
+document.getElementById("reviewResult").style.display="none";
+document.getElementById("reviewArea").style.display="block";
+renderReviewQuiz();
+}
+function deleteRecord(id){
+if(!confirm("이 학습기록 하나만 삭제할까요? 삭제하면 복구할 수 없습니다."))return;
+db.records=db.records.filter(r=>r.id!==id);saveDB();renderRecords();stats();renderReviewChoices();
+}
+function clearData(){
+if(!confirm("저장된 모든 문제 풀이 기록을 삭제할까요? 이 작업은 되돌릴 수 없습니다. 먼저 백업하는 것을 권장합니다."))return;
+db.records=[];saveDB();renderRecords();renderReviewChoices();stats();
+}
+function stats(){
+document.getElementById("statSets").textContent=db.records.length;
+let total=db.records.reduce((s,r)=>s+(r.total||0),0),correct=db.records.reduce((s,r)=>s+(r.correct||0),0);
+document.getElementById("statAvg").textContent=total?Math.round(correct/total*100)+"%":"-";
+document.getElementById("statWrong").textContent=db.records.reduce((s,r)=>s+(r.wrong||0),0);
+}
+document.getElementById("rf").addEventListener("change",renderRecords);
+document.getElementById("reviewMode").addEventListener("change",()=>{
+document.getElementById("reviewRecord").disabled=document.getElementById("reviewMode").value!=="pick";
+});
+function exportData(){
+let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});
+let url=URL.createObjectURL(blob),a=document.createElement("a");
+a.href=url;a.download="한국사II_학습기록_백업_"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(url);
+}
+function importData(ev){
+let file=ev.target.files[0];if(!file)return;
+let reader=new FileReader();
+reader.onload=()=>{
+try{
+let data=JSON.parse(reader.result);
+if(!Array.isArray(data.records)||!Array.isArray(data.mastered))throw Error("형식 오류");
+if(!confirm("복원하면 현재 기록을 백업 파일의 데이터로 교체합니다. 진행할까요? 먼저 현재 데이터도 백업하세요."))return;
+db={...DEFAULT,...data};saveDB();renderRecords();renderReviewChoices();renderCard();stats();
+document.getElementById("worker").value=db.worker||"";
+alert("복원이 완료되었습니다.");
+}catch(e){alert("올바른 학습실 백업 파일이 아닙니다.")}
+};
+reader.readAsText(file);ev.target.value="";
+}
+function saveWorker(){
+db.worker=document.getElementById("worker").value.trim();saveDB();
+document.getElementById("workerStatus").textContent=db.worker?"서버 주소를 저장했습니다.":"서버 주소를 비웠습니다. 로컬 문제은행을 사용합니다.";
+}
+async function testWorker(){
+let url=document.getElementById("worker").value.trim();
+if(!url){document.getElementById("workerStatus").textContent="주소를 입력해 주세요.";return}
+document.getElementById("workerStatus").textContent="연결 확인 중...";
+try{let r=await fetch(url,{method:"GET"});document.getElementById("workerStatus").textContent=r.ok?"서버에 연결되었습니다.":"서버 응답 코드: "+r.status+" · 서버 설정을 확인하세요."}
+catch(e){document.getElementById("workerStatus").textContent="연결할 수 없습니다. URL, CORS, 서버 설정을 확인하세요."}
+}
+document.getElementById("worker").value=db.worker||"";
+document.getElementById("reviewRecord").disabled=true;
+renderTimeline();renderConcepts();renderAdvanced();renderPeople();renderOrgs();renderCard();renderRecords();renderReviewChoices();stats();
+</script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>한국사 심화 탐구 학습실</title>
+<title>한국사 II | 독립운동과 현대사의 흐름</title>
 <style>
 :root {
-  --bg:#f4f6fa;
-  --panel:#ffffff;
-  --text:#202b3c;
-  --muted:#69778b;
-  --line:#e0e6ef;
-  --blue:#2457c5;
-  --blue-light:#e9f0ff;
-  --red:#c54b4b;
-  --red-light:#fff0ee;
-  --green:#188568;
-  --purple:#7852b8;
-  --shadow:0 5px 20px rgba(26,45,78,.06);
+  --bg:#f5f6fa; --panel:#fff; --text:#20283a; --muted:#687386;
+  --line:#e1e5ed; --primary:#344f9c; --primary-soft:#e9edfc;
+  --green:#247a5b; --red:#b33c4a; --yellow:#fff3cf;
+  --shadow:0 4px 20px #17213a0b;
 }
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Arial,"Noto Sans KR",sans-serif;line-height:1.65
-}
-button,input,select{font:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;line-height:1.65}
+button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-header{
-  background:#172b4d;color:#fff;padding:25px 20px;
-}
-.header-inner{max-width:1250px;margin:auto}
-header h1{margin:0;font-size:clamp(23px,3vw,34px)}
-header p{margin:7px 0 0;color:#d5e0f4}
-nav{
-  background:#fff;border-bottom:1px solid var(--line);
-  position:sticky;top:0;z-index:5;overflow-x:auto;
-}
-.nav-inner{
-  max-width:1250px;margin:auto;display:flex;gap:5px;padding:8px 12px;
-  min-width:max-content
-}
-.nav-btn{
-  border:0;background:transparent;color:#536176;padding:10px 14px;
-  border-radius:9px;font-weight:700
-}
-.nav-btn.active{background:var(--blue-light);color:var(--blue)}
-main{max-width:1250px;margin:25px auto;padding:0 16px 60px}
-.page{display:none}
-.page.active{display:block}
-h2{font-size:25px;margin:0 0 7px}
-h3{margin:0 0 8px}
-.intro{color:var(--muted);margin:0 0 20px}
-.panel{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:15px;padding:20px;margin-bottom:18px;box-shadow:var(--shadow)
-}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.stat{
-  background:#fff;border:1px solid var(--line);padding:18px;
-  border-radius:13px
-}
-.stat strong{font-size:26px;display:block}
-.stat span{color:var(--muted);font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.card{
-  border:1px solid var(--line);border-radius:13px;padding:17px;
-  background:#fff;display:flex;flex-direction:column;gap:8px
-}
-.card h3{font-size:18px}
-.card p{margin:0}
-.meta{color:var(--muted);font-size:13px}
-.tag{
-  display:inline-block;padding:3px 8px;border-radius:7px;
-  font-size:12px;font-weight:700;width:fit-content
-}
-.tag.korea{background:var(--blue-light);color:var(--blue)}
-.tag.world{background:var(--red-light);color:var(--red)}
-.tag.policy{background:#e6f6ee;color:#147451}
-.tag.people{background:#f0e9ff;color:#6940a8}
-.tag.org{background:#fff2d8;color:#805a08}
-.tag.event{background:#e8f5f2;color:#126c61}
-.btn{
-  border:0;border-radius:9px;background:var(--blue);color:#fff;
-  padding:10px 15px;font-weight:700
-}
-.btn.secondary{background:#e9edf5;color:#34445d}
-.btn.danger{background:#fff0ee;color:#a53333}
-.btn.small{font-size:13px;padding:6px 10px}
+header{background:#202e54;color:white;padding:23px max(20px,calc((100% - 1180px)/2))}
+header h1{font-size:clamp(22px,4vw,31px);margin:0}
+header p{margin:4px 0 0;color:#dce4ff}
+nav{display:flex;gap:7px;overflow-x:auto;padding:12px max(12px,calc((100% - 1180px)/2));background:white;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+nav button{white-space:nowrap;border:0;border-radius:9px;padding:9px 13px;background:transparent;color:var(--muted)}
+nav button.active{background:var(--primary-soft);color:var(--primary);font-weight:750}
+main{max-width:1180px;margin:auto;padding:22px 16px 60px}
+section.page{display:none}
+section.page.active{display:block}
+h2{font-size:25px;margin:8px 0}
+h3{margin:8px 0}
+p{margin:7px 0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:var(--shadow);margin:12px 0}
+.stat{font-size:29px;font-weight:800}
+.pill{display:inline-block;font-size:12px;border-radius:99px;padding:3px 9px;background:var(--primary-soft);color:var(--primary);margin:2px}
+.btn{border:0;border-radius:9px;background:var(--primary);color:white;padding:10px 15px;font-weight:650}
+.btn.secondary{background:#edf0f5;color:#28344d}
+.btn.danger{background:#fff0f0;color:var(--red)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-input[type="search"],select{
-  border:1px solid #ccd5e2;border-radius:9px;padding:10px;
-  background:#fff;color:var(--text);max-width:100%
-}
-input[type="search"]{width:min(360px,100%)}
-.filterbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.timeline{display:flex;flex-direction:column;gap:14px}
-.timeline-item{
-  display:grid;grid-template-columns:100px 1fr;gap:14px;
-  padding:15px;border:1px solid var(--line);background:#fff;border-radius:12px
-}
-.timeline-year{font-size:19px;font-weight:800;color:var(--blue)}
-.timeline-item.world-item{border-left:5px solid var(--red)}
-.timeline-item.korea-item{border-left:5px solid var(--blue)}
-.timeline-item h3{margin:3px 0 5px}
-.timeline-item p{margin:4px 0}
-.legend{display:flex;gap:15px;flex-wrap:wrap;margin:10px 0 18px}
-.legend span{display:flex;align-items:center;gap:7px;font-size:13px}
-.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
-.dot.korea{background:var(--blue)}
-.dot.world{background:var(--red)}
-.dot.policy{background:var(--green)}
-details{
-  border:1px solid var(--line);border-radius:12px;padding:13px 16px;
-  background:#fff;margin-bottom:10px
-}
-summary{cursor:pointer;font-weight:800}
-details p{margin-bottom:0}
-.quiz-option{
-  display:block;width:100%;text-align:left;background:#fff;color:var(--text);
-  border:1px solid #d5dce7;padding:12px;border-radius:9px;margin:8px 0
-}
-.quiz-option.selected{border:2px solid var(--blue);background:var(--blue-light)}
-.quiz-option.correct{border:2px solid #188568;background:#e8f8f0}
-.quiz-option.wrong{border:2px solid #c54b4b;background:#fff0ee}
-.question-count{color:var(--muted);font-size:14px}
-.feedback{padding:12px;border-radius:9px;background:#f0f4fb;margin-top:12px}
-.answer-box{border-left:4px solid var(--green);padding:10px 13px;background:#f0faf5}
-.record{
-  padding:15px 0;border-bottom:1px solid var(--line)
-}
-.record:last-child{border-bottom:0}
-.empty{padding:30px;text-align:center;color:var(--muted)}
-footer{
-  max-width:1250px;margin:0 auto;padding:0 16px 30px;
-  color:var(--muted);font-size:13px
-}
-a{color:var(--blue)}
-@media(max-width:850px){
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:550px){
-  .grid{grid-template-columns:1fr}
-  .timeline-item{grid-template-columns:1fr;gap:4px}
-  .panel{padding:15px}
-}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+select,input[type=text],input[type=number],textarea{border:1px solid var(--line);border-radius:9px;padding:10px;background:white;color:var(--text);max-width:100%}
+label{display:block;font-weight:650;margin:10px 0 5px}
+.timeline-item{border-left:3px solid #b5c2ef;padding:2px 0 15px 17px;margin-left:6px}
+.timeline-item strong{color:var(--primary)}
+.deep-card{border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0;background:white}
+.deep-card h3{margin-top:0}
+.deep-card dl{display:grid;grid-template-columns:95px 1fr;gap:6px 12px;margin:12px 0}
+.deep-card dt{font-weight:750;color:var(--primary)}
+.deep-card dd{margin:0}
+.filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:15px 0}
+.filterbar select{min-width:150px}
+.question{font-size:19px;font-weight:750;margin:14px 0}
+.choice{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;margin:8px 0;cursor:pointer;background:white}
+.choice:hover{border-color:#a9b8ec}
+.choice input{margin-top:6px}
+.choice.correct{background:#e8f7ef;border-color:#7bc4a1}
+.choice.wrong{background:#fff0f0;border-color:#e1a1a8}
+.explanation{background:#f0f3fb;padding:13px;border-radius:10px;margin-top:12px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+details{background:white;border:1px solid var(--line);border-radius:10px;padding:12px;margin:9px 0}
+summary{cursor:pointer;font-weight:700}
+.record-question{padding:12px 0;border-bottom:1px solid var(--line)}
+.record-question:last-child{border:0}
+.good{color:var(--green);font-weight:750}
+.bad{color:var(--red);font-weight:750}
+.progress{height:9px;background:#e6e9f1;border-radius:99px;overflow:hidden}
+.progress div{height:100%;background:var(--primary);width:0}
+.empty{padding:26px;text-align:center;color:var(--muted);background:white;border:1px dashed var(--line);border-radius:12px}
+footer{text-align:center;color:var(--muted);padding:25px;font-size:13px}
+@media(max-width:600px){main{padding:15px 11px 40px}.card{padding:14px}.deep-card dl{grid-template-columns:1fr;gap:2px}.deep-card dd{margin-bottom:8px}nav{padding:9px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="header-inner">
-    <h1>한국사 심화 탐구 학습실</h1>
-    <p>제1차 세계 대전부터 대한민국·조선민주주의인민공화국 수립까지</p>
-    <p>핵심 흐름을 익히고, 지역별 독립운동과 같은 시기 세계 정세까지 연결해 보자.</p>
-  </div>
+  <h1>한국사 II 학습실</h1>
+  <p>제1차 세계 대전부터 남북한 정부 수립까지 · 기본 개념 · 심화 탐구 · 문제 풀이</p>
 </header>
-
-<nav>
-  <div class="nav-inner">
-    <button class="nav-btn active" data-page="home">학습 홈</button>
-    <button class="nav-btn" data-page="timeline">한국사·세계사 연표</button>
-    <button class="nav-btn" data-page="deep">심화 자료</button>
-    <button class="nav-btn" data-page="cards">학습 카드</button>
-    <button class="nav-btn" data-page="quiz">문제 풀기</button>
-    <button class="nav-btn" data-page="review">오답·복습</button>
-    <button class="nav-btn" data-page="records">학습 기록</button>
-    <button class="nav-btn" data-page="sources">참고 자료</button>
-  </div>
+<nav id="nav">
+  <button class="active" data-page="home">학습 현황</button>
+  <button data-page="timeline">역사 흐름</button>
+  <button data-page="deep">심화 학습</button>
+  <button data-page="quiz">문제 풀이</button>
+  <button data-page="review">오답·복습 전용</button>
+  <button data-page="records">학습 기록</button>
+  <button data-page="cards">암기 카드</button>
+  <button data-page="settings">설정·백업</button>
 </nav>
-
 <main>
-  <section id="home" class="page active">
-    <h2>학습 홈</h2>
-    <p class="intro">사건의 이름만 외우지 말고, 언제·어디서·왜 일어났는지 연결해 보자.</p>
-    <div class="stats">
-      <div class="stat"><strong id="statTopics">0</strong><span>학습 항목</span></div>
-      <div class="stat"><strong id="statKorea">0</strong><span>한국사 항목</span></div>
-      <div class="stat"><strong id="statWorld">0</strong><span>세계사 항목</span></div>
-      <div class="stat"><strong id="statRecords">0</strong><span>저장된 풀이 기록</span></div>
-    </div>
-    <div class="panel" style="margin-top:18px">
-      <h3>이번 학습의 핵심</h3>
-      <div class="grid">
-        <div class="card">
-          <span class="tag korea">1910년대</span>
-          <h3>독립운동의 기반 형성</h3>
-          <p>국내 비밀결사와 국외 독립운동 기지가 각 지역에서 어떻게 만들어졌는지 살펴본다.</p>
-          <button class="btn" onclick="go('deep')">지역별 심화 학습</button>
-        </div>
-        <div class="card">
-          <span class="tag korea">1920년대</span>
-          <h3>무장 투쟁과 통합 시도</h3>
-          <p>3부의 성립과 민족 유일당 운동이 어떤 문제를 해결하려 했는지 알아본다.</p>
-          <button class="btn" onclick="filterDeep('1920년대')">1920년대 자료 보기</button>
-        </div>
-        <div class="card">
-          <span class="tag world">세계 정세</span>
-          <h3>한국사와 세계사 연결</h3>
-          <p>세계 대전, 러시아 혁명, 대공황, 제2차 세계 대전이 한국사와 같은 시간대에 어떻게 진행되었는지 비교한다.</p>
-          <button class="btn" onclick="go('timeline')">연표 비교하기</button>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <h3>학습 순서 추천</h3>
-      <ol>
-        <li>연표에서 시대의 큰 흐름을 확인한다.</li>
-        <li>심화 자료에서 지역·단체·정책을 구체적으로 학습한다.</li>
-        <li>학습 카드로 인물과 단체의 특징을 회상한다.</li>
-        <li>문제를 풀고, 오답·복습 화면에서 해설을 확인한다.</li>
-      </ol>
-      <p class="meta">학습 기록은 현재 사용하는 브라우저의 저장 공간에 보관된다. 브라우저 데이터 삭제나 다른 기기 사용 시 기록이 사라질 수 있으므로 JSON 백업 기능을 이용할 수 있다.</p>
-    </div>
-  </section>
+<section id="home" class="page active">
+  <h2>학습 현황</h2>
+  <p class="muted">기본 흐름을 익힌 뒤 심화 자료로 세부 사건과 단체를 연결해 보세요.</p>
+  <div class="grid">
+    <div class="card"><div class="muted">저장된 풀이 기록</div><div class="stat" id="statRecords">0</div></div>
+    <div class="card"><div class="muted">누적 풀이 문제</div><div class="stat" id="statQuestions">0</div></div>
+    <div class="card"><div class="muted">누적 정답</div><div class="stat" id="statCorrect">0</div></div>
+    <div class="card"><div class="muted">생성한 문제 묶음</div><div class="stat" id="statSets">0</div></div>
+  </div>
+  <div class="card">
+    <h3>추천 학습 순서</h3>
+    <div class="timeline-item"><strong>1. 역사 흐름</strong><p>사건의 선후 관계와 큰 시대 구분을 정리합니다.</p></div>
+    <div class="timeline-item"><strong>2. 심화 학습</strong><p>지역별 독립운동, 국내 비밀결사, 통치 정책, 해방 직전의 단체를 확인합니다.</p></div>
+    <div class="timeline-item"><strong>3. 문제 풀이</strong><p>기본 문제 또는 새로운 문제 묶음으로 이해도를 점검합니다.</p></div>
+    <div class="timeline-item"><strong>4. 오답·복습 전용</strong><p>저장된 기록에서 틀린 문제를 불러와 일반 문제 풀이와 분리된 공간에서 다시 풉니다.</p></div>
+  </div>
+  <div class="card">
+    <h3>최근 학습 기록</h3>
+    <div id="recentRecords"></div>
+  </div>
+</section>
 
-  <section id="timeline" class="page">
-    <h2>한국사·세계사 연표</h2>
-    <p class="intro">파란색은 한국사, 빨간색은 세계사, 초록색은 식민 통치 정책을 뜻한다.</p>
-    <div class="legend">
-      <span><i class="dot korea"></i>한국사·독립운동</span>
-      <span><i class="dot world"></i>세계 정세</span>
-      <span><i class="dot policy"></i>식민 통치·정책</span>
-    </div>
+<section id="timeline" class="page">
+  <h2>역사 흐름</h2>
+  <p class="muted">세부 사실을 외우기 전에 시대적 배경과 사건의 연결 관계를 파악하세요.</p>
+  <div class="card">
+    <div class="timeline-item"><strong>1914~1918 · 제1차 세계 대전</strong><p>전쟁 이후 민족 자결주의가 알려졌지만, 식민지 민족에게 일관되게 적용된 것은 아니었습니다.</p></div>
+    <div class="timeline-item"><strong>1910년대 · 무단 통치와 독립운동 기지 건설</strong><p>헌병 경찰 중심의 통치, 조선 태형령(1912), 토지 조사 사업. 국외에서는 서간도·북간도·연해주·미주 등지에서 독립운동 기반을 마련했습니다.</p></div>
+    <div class="timeline-item"><strong>1919 · 3·1 운동과 대한민국 임시정부</strong><p>3·1 운동이 전국적으로 확산했고, 상하이에서 대한민국 임시정부가 수립되었습니다.</p></div>
+    <div class="timeline-item"><strong>1920년대 초 · 무장 독립전쟁과 탄압</strong><p>봉오동 전투와 청산리 대첩 이후 일본군의 간도 지역 탄압이 이어졌습니다. 독립군은 밀산 이동과 자유시 참변 등을 겪으며 재편되었습니다.</p></div>
+    <div class="timeline-item"><strong>1920년대 · 문화 통치와 실력 양성·사회 운동</strong><p>산미 증식 계획, 회사령 철폐, 민립 대학 설립 운동, 물산 장려 운동, 6·10 만세 운동, 광주 학생 항일 운동 등이 전개되었습니다.</p></div>
+    <div class="timeline-item"><strong>1920년대 후반~1930년대 · 통합과 무장 투쟁</strong><p>참의부·정의부·신민부, 민족 유일당 운동, 국민부와 혁신의회 등 조직 재편이 이루어졌습니다. 한중 연합 작전과 한인애국단 활동도 이어졌습니다.</p></div>
+    <div class="timeline-item"><strong>1930년대 후반~1940년대 · 전시 동원과 독립운동</strong><p>민족 말살 정책과 강제 동원이 강화되었습니다. 한국광복군 창설, 조선의용대 활동, 조선건국동맹 결성 등이 해방을 준비하는 움직임으로 이어졌습니다.</p></div>
+    <div class="timeline-item"><strong>1945 · 광복과 분단의 전개</strong><p>광복 이후 미·소 군정이 들어섰고, 모스크바 3국 외상 회의, 미소 공동 위원회, 좌우 합작 운동 등을 둘러싸고 정치적 갈등이 이어졌습니다.</p></div>
+    <div class="timeline-item"><strong>1948 · 남북한 정부 수립</strong><p>남한에서는 5·10 총선거와 대한민국 정부 수립이 이루어졌고, 북한에서는 조선민주주의인민공화국이 수립되었습니다. 제주 4·3 사건은 해방 이후 정부 수립 과정의 갈등과 국가 폭력을 이해하는 중요한 사건입니다.</p></div>
+  </div>
+</section>
+
+<section id="deep" class="page">
+  <h2>심화 학습</h2>
+  <p>기본 흐름에서 비중이 작았던 단체와 사건을 시대·지역별로 보충합니다. 항목을 눌러 핵심 설명을 확인하세요.</p>
+  <div class="filterbar">
+    <select id="deepEra">
+      <option value="all">전체 시대</option>
+      <option value="1910">1910년대</option>
+      <option value="1919">1919년 전후</option>
+      <option value="1920">1920년대</option>
+      <option value="1930">1930년대</option>
+      <option value="1940">1940년대·해방 전후</option>
+    </select>
+    <select id="deepRegion">
+      <option value="all">전체 지역·주제</option>
+      <option value="국내">국내</option>
+      <option value="서간도">서간도</option>
+      <option value="북간도">북간도</option>
+      <option value="연해주">연해주</option>
+      <option value="미주">미주·하와이</option>
+      <option value="중국 관내">중국 관내</option>
+      <option value="만주">만주 전역</option>
+      <option value="정책">식민 통치 정책</option>
+      <option value="해방 전후">해방 전후</option>
+    </select>
+    <input id="deepSearch" type="text" placeholder="사건·인물·단체 검색">
+  </div>
+  <div id="deepList"></div>
+</section>
+
+<section id="quiz" class="page">
+  <h2>문제 풀이</h2>
+  <p class="muted">일반 문제를 푸는 공간입니다. 복습 문제는 별도의 '오답·복습 전용' 메뉴에서 풉니다.</p>
+  <div class="card">
+    <h3>문제 묶음 선택</h3>
     <div class="filterbar">
-      <select id="timelinePeriod" onchange="renderTimeline()">
-        <option value="전체">전체 시대</option>
-        <option>1910년대</option><option>1920년대</option>
-        <option>1930년대</option><option>1940년대</option>
+      <select id="quizMode">
+        <option value="basic">기본 문제</option>
+        <option value="deep">심화 문제</option>
+        <option value="mixed">기본 + 심화 혼합</option>
       </select>
-      <select id="timelineType" onchange="renderTimeline()">
-        <option value="전체">한국사·세계사 모두</option>
-        <option value="한국사">한국사만</option>
-        <option value="세계사">세계사만</option>
-        <option value="정책">식민 통치 정책만</option>
+      <select id="quizCount">
+        <option value="10">10문제</option>
+        <option value="15">15문제</option>
+        <option value="25">25문제</option>
       </select>
-      <input id="timelineSearch" type="search" placeholder="연도·사건·인물 검색" oninput="renderTimeline()">
     </div>
-    <div id="timelineList" class="timeline"></div>
-  </section>
+    <div class="btnrow">
+      <button class="btn" id="startLocal">문제 풀이 시작</button>
+      <button class="btn secondary" id="generateSet">새로운 문제 묶음 생성</button>
+    </div>
+    <p class="small muted">새 문제 묶음은 기존 기록에 추가됩니다. 생성된 묶음은 문제 풀이를 끝내거나 페이지를 이동해도 기록에서 다시 확인할 수 있습니다.</p>
+    <div id="generatedSets"></div>
+  </div>
+  <div id="quizArea"></div>
+</section>
 
-  <section id="deep" class="page">
-    <h2>심화 자료</h2>
-    <p class="intro">핵심 사건뿐 아니라 상대적으로 덜 다루어지는 단체·인물·정책도 시대와 지역별로 정리했다.</p>
-    <div class="legend">
-      <span><i class="dot korea"></i>독립운동·한국사</span>
-      <span><i class="dot world"></i>세계 정세</span>
-      <span><i class="dot policy"></i>식민 통치 정책</span>
-    </div>
+<section id="review" class="page">
+  <h2>오답·복습 전용 공간</h2>
+  <p class="muted">이 공간은 일반 문제 풀이와 분리되어 있습니다. 저장된 문제를 다시 풀어도 원래의 풀이 기록은 변경되지 않습니다.</p>
+  <div class="card">
+    <h3>복습할 기록 선택</h3>
     <div class="filterbar">
-      <select id="deepPeriod" onchange="renderDeep()">
-        <option value="전체">전체 시대</option>
-        <option>1910년대</option><option>1920년대</option>
-        <option>1930년대</option><option>1940년대</option>
+      <select id="reviewRecord"></select>
+      <select id="reviewMode">
+        <option value="wrong">틀린 문제만</option>
+        <option value="all">해당 기록의 모든 문제</option>
       </select>
-      <select id="deepRegion" onchange="renderDeep()">
-        <option value="전체">전체 지역</option>
-        <option>국내</option><option>서간도</option><option>북간도</option>
-        <option>연해주</option><option>중국 관내</option><option>미주·하와이</option>
-        <option>만주</option><option>세계</option>
-      </select>
-      <select id="deepType" onchange="renderDeep()">
-        <option value="전체">전체 분류</option>
-        <option>단체</option><option>인물</option><option>사건</option>
-        <option>정책</option><option>세계 정세</option>
-      </select>
-      <input id="deepSearch" type="search" placeholder="내용 검색" oninput="renderDeep()">
     </div>
-    <div id="deepList" class="grid"></div>
-  </section>
+    <div class="btnrow">
+      <button class="btn" id="startReview">선택한 기록 복습</button>
+      <button class="btn secondary" id="reviewAllWrong">전체 기록의 오답 모아 풀기</button>
+    </div>
+  </div>
+  <div id="reviewArea"></div>
+</section>
 
-  <section id="cards" class="page">
-    <h2>학습 카드</h2>
-    <p class="intro">카드의 설명을 읽고, 단체의 이름이나 특징을 가리고 스스로 떠올려 보자.</p>
-    <div class="filterbar">
-      <select id="cardPeriod" onchange="renderCards()">
-        <option value="전체">전체 시대</option>
-        <option>1910년대</option><option>1920년대</option>
-        <option>1930년대</option><option>1940년대</option>
-      </select>
-      <select id="cardRegion" onchange="renderCards()">
-        <option value="전체">전체 지역</option>
-        <option>국내</option><option>서간도</option><option>북간도</option>
-        <option>연해주</option><option>중국 관내</option><option>미주·하와이</option>
-        <option>만주</option><option>세계</option>
-      </select>
-      <input id="cardSearch" type="search" placeholder="단체·인물·사건 검색" oninput="renderCards()">
-    </div>
-    <div id="cardList" class="grid"></div>
-  </section>
+<section id="records" class="page">
+  <h2>학습 기록</h2>
+  <p class="muted">문제·선택지·내 답·정답·해설이 저장됩니다. 복습은 기록을 수정하지 않고 별도 풀이로 처리합니다.</p>
+  <div class="filterbar">
+    <select id="recordFilter">
+      <option value="all">전체 기록</option>
+      <option value="basic">기본 문제</option>
+      <option value="deep">심화 문제</option>
+      <option value="generated">생성 문제</option>
+      <option value="review">복습 기록</option>
+    </select>
+  </div>
+  <div id="recordList"></div>
+</section>
 
-  <section id="quiz" class="page">
-    <h2>문제 풀기</h2>
-    <p class="intro">심화 자료와 세계 정세를 바탕으로 문제를 새로 구성한다. 새 세트를 만들어도 이전 기록은 삭제되지 않는다.</p>
-    <div class="panel">
-      <div class="row">
-        <label>문제 범위
-          <select id="quizScope">
-            <option value="전체">전체 범위</option>
-            <option value="1910년대">1910년대</option>
-            <option value="1920년대">1920년대</option>
-            <option value="1930년대">1930년대</option>
-            <option value="1940년대">1940년대</option>
-            <option value="세계 정세">세계 정세</option>
-            <option value="정책">식민 통치 정책</option>
-          </select>
-        </label>
-        <label>문제 수
-          <select id="quizSize">
-            <option value="5">5문제</option>
-            <option value="10" selected>10문제</option>
-            <option value="15">15문제</option>
-          </select>
-        </label>
-        <button class="btn" onclick="createQuiz()">새 문제 세트 만들기</button>
-      </div>
-      <p class="meta">문제 세트는 생성할 때마다 별도 저장된다. 출제 가능한 항목 수보다 문제 수가 많으면 가능한 만큼 출제한다.</p>
-    </div>
-    <div id="quizArea" class="panel">
-      <div class="empty">위의 버튼을 눌러 문제 세트를 만들어 보자.</div>
-    </div>
-  </section>
+<section id="cards" class="page">
+  <h2>암기 카드</h2>
+  <div class="filterbar">
+    <select id="cardCategory">
+      <option value="all">전체</option>
+      <option value="인물">인물</option>
+      <option value="단체">단체</option>
+      <option value="사건">사건</option>
+      <option value="정책">정책</option>
+    </select>
+    <input id="cardSearch" type="text" placeholder="검색">
+  </div>
+  <div id="cardList"></div>
+</section>
 
-  <section id="review" class="page">
-    <h2>오답·복습</h2>
-    <p class="intro">문제 풀이 화면과 분리된 복습 공간이다. 과거에 푼 세트를 다시 풀어도 기존 기록은 유지된다.</p>
-    <div id="reviewList" class="panel"></div>
-    <div id="reviewArea" class="panel" style="display:none"></div>
-  </section>
-
-  <section id="records" class="page">
-    <h2>학습 기록</h2>
-    <p class="intro">새 문제 세트와 풀이 결과를 누적해서 저장한다. 이 화면에서는 기록을 자동으로 삭제하지 않는다.</p>
-    <div class="panel">
-      <div class="row">
-        <button class="btn" onclick="exportData()">기록 백업(JSON)</button>
-        <label class="btn secondary" for="importFile">백업 불러오기</label>
-        <input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importData(event)">
-      </div>
-      <p class="meta">백업을 불러올 때는 기존 기록을 덮어쓰지 않고 새 항목으로 추가한다.</p>
+<section id="settings" class="page">
+  <h2>설정·백업</h2>
+  <div class="card">
+    <h3>학습 데이터 백업</h3>
+    <p>기록과 생성 문제 묶음을 JSON 파일로 내려받을 수 있습니다. 다른 브라우저나 기기로 옮길 때도 활용하세요.</p>
+    <div class="btnrow">
+      <button class="btn" id="exportData">전체 데이터 백업</button>
+      <button class="btn secondary" id="importButton">백업 불러오기</button>
+      <input id="importFile" type="file" accept=".json,application/json" hidden>
     </div>
-    <div id="recordList" class="panel"></div>
-  </section>
-
-  <section id="sources" class="page">
-    <h2>참고 자료와 용어 주의</h2>
-    <p class="intro">세부 연도나 단체의 계승 관계는 자료마다 서술 방식에 차이가 있을 수 있다. 수행평가에서는 교과서와 수업 자료를 우선 확인하자.</p>
-    <div class="panel">
-      <h3>한국사 자료</h3>
-      <ul>
-        <li><a href="https://db.history.go.kr/" target="_blank" rel="noopener">국사편찬위원회 한국사 데이터베이스</a> — 한국사 사료와 연구 자료</li>
-        <li><a href="https://contents.history.go.kr/" target="_blank" rel="noopener">우리역사넷</a> — 시대별 한국사 해설</li>
-        <li><a href="https://theme.archives.go.kr/next/nationalArchives/subPage/nationalArchives11.do" target="_blank" rel="noopener">국가기록원: 3·1운동 관련 독립선언서류</a> — 국내외 독립운동 관련 자료</li>
-        <li><a href="https://encykorea.aks.ac.kr/" target="_blank" rel="noopener">한국민족문화대백과사전</a> — 단체·인물·사건 항목</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>이 사이트의 용어 사용</h3>
-      <ul>
-        <li><b>3부:</b> 만주 지역의 참의부·정의부·신민부를 가리킨다. 각 부는 군사 활동과 한인 사회의 자치 행정을 함께 추진했다.</li>
-        <li><b>조선태형령:</b> 1912년에 제정된 식민 통치기의 태형 관련 법령이다. 1920년에 폐지되었다.</li>
-        <li><b>조선건국동맹:</b> 1944년 여운형 등이 조직한 국내 비밀결사로, 광복 이후 건국 준비 활동과 연결된다.</li>
-        <li><b>제주 4·3:</b> 1947년부터 1954년까지 이어진 사건이다. 1948년 정부 수립과 시간적으로 겹치므로, 단일 연도 사건으로 축약하지 않는다.</li>
-        <li><b>세계 정세:</b> 한국사와 같은 시기에 진행된 사건을 비교하기 위한 자료다. 세계 사건이 한국 독립운동에 미친 영향은 구체적 경로를 구분해서 살펴야 한다.</li>
-      </ul>
-    </div>
-  </section>
+    <p class="small muted">불러오기는 기존 기록을 기본적으로 보존하고, 새 데이터만 추가합니다.</p>
+  </div>
+  <div class="card">
+    <h3>문제 생성 방식</h3>
+    <p>이 사이트의 기본 생성 기능은 내장된 문제 자료를 조합하여 새로운 문제 묶음을 만듭니다. 외부 AI API 없이도 여러 번 생성할 수 있습니다.</p>
+    <p>질문과 선택지가 완전히 새로운 역사 사실을 자동 검증하는 외부 AI 생성 기능은 기본 포함하지 않았습니다. 정확성을 확인하지 않은 문제를 사실처럼 저장하지 않기 위해서입니다.</p>
+  </div>
+  <div class="card">
+    <h3>데이터 초기화</h3>
+    <p>기록을 지우면 복구하기 어렵습니다. 먼저 백업하는 것을 권장합니다.</p>
+    <button class="btn danger" id="clearData">저장된 기록·생성 묶음 모두 삭제</button>
+  </div>
+  <div class="card">
+    <h3>참고 자료</h3>
+    <ul>
+      <li><a href="https://encykorea.aks.ac.kr/" target="_blank" rel="noopener">한국민족문화대백과사전</a></li>
+      <li><a href="https://db.history.go.kr/" target="_blank" rel="noopener">국사편찬위원회 한국사데이터베이스</a></li>
+      <li><a href="https://contents.history.go.kr/" target="_blank" rel="noopener">우리역사넷</a></li>
+    </ul>
+    <p class="small muted">수행평가나 시험 답안을 작성할 때는 학교 교과서의 서술과 용어를 우선 확인하세요.</p>
+  </div>
+</section>
 </main>
-
-<footer>
-  이 학습 자료는 고등학교 한국사 학습을 위한 요약 자료다. 모든 세부 사항을 완전하게 다루지는 않으며, 정확한 서술은 교과서와 공신력 있는 사료를 함께 확인해야 한다.
-</footer>
+<footer>한국사 II 학습실 · 학습 데이터는 이 브라우저의 로컬 저장소에 보관됩니다.</footer>
 
 <script>
 "use strict";
 
-/* =========================================================
-   1. 자료 데이터
-   type: 단체 / 인물 / 사건 / 정책 / 세계 정세
-   category: 한국사 / 세계사 / 정책
-   ========================================================= */
-const items = [
-/* 1910년대 국내 */
-{year:1910,period:"1910년대",region:"국내",type:"사건",category:"한국사",title:"한일 병합",people:"대한제국·일본",summary:"1910년 일본이 대한제국을 강제로 병합하고 식민 지배를 시작했다.",detail:"국권 상실 이후 국내에서는 비밀결사 활동과 의병 투쟁이 이어졌고, 국외에서는 독립운동 기지 건설과 독립군 양성이 추진되었다.",keywords:["식민 지배","국권 상실"]},
-{year:1911,period:"1910년대",region:"국내",type:"사건",category:"한국사",title:"105인 사건",people:"신민회 관련 인사들",summary:"총독 암살 모의 사건을 구실로 일제가 다수의 민족운동 인사를 탄압한 사건이다.",detail:"신민회 계열 인사들이 큰 타격을 입었으며, 일제의 무단 통치와 민족운동 탄압을 보여 준다.",keywords:["신민회","탄압"]},
-{year:1913,period:"1910년대",region:"국내",type:"단체",category:"한국사",title:"독립의군부",people:"임병찬",summary:"고종의 밀지를 바탕으로 국권 회복을 추진한 비밀결사다.",detail:"의병 계열의 성격이 강했고, 대한제국 황실의 회복을 지향하는 복벽주의적 성격을 보였다. 국권 반환 요구를 추진했으나 일제에 발각되어 탄압받았다.",keywords:["임병찬","복벽주의","비밀결사"]},
-{year:1913,period:"1910년대",region:"국내",type:"단체",category:"한국사",title:"광복단",people:"여러 항일 인사",summary:"1910년대 국내에서 활동한 항일 비밀결사 가운데 하나다.",detail:"광복단과 대한광복회는 이름이 비슷하지만 자료에서 구분되는 경우가 있으므로, 둘을 무조건 같은 단체로 처리하지 않는다.",keywords:["비밀결사","광복회와 구분"]},
-{year:1915,period:"1910년대",region:"국내",type:"단체",category:"한국사",title:"대한광복회",people:"박상진·김좌진 등",summary:"독립전쟁을 준비하고 군자금을 모으려 한 비밀결사다.",detail:"공화정 지향, 군자금 모집, 독립군 양성 및 만주 지역과의 연계 등을 추진했다. 친일 부호 처단도 활동 방식 가운데 하나였다.",keywords:["박상진","공화정","군자금","독립전쟁"]},
-{year:1915,period:"1910년대",region:"국내",type:"단체",category:"한국사",title:"조선국권회복단",people:"대구 지역 계열 인사들",summary:"국권 회복을 목표로 조직된 비밀결사다.",detail:"계몽 활동과 국권 회복 운동을 추진했으며, 일부 조직 체계에서 독립군적 요소도 나타났다. 대한광복회와 활동 방식의 차이를 비교하면 좋다.",keywords:["국권 회복","비밀결사"]},
-{year:1918,period:"1910년대",region:"국내",type:"단체",category:"한국사",title:"조선국민회",people:"장일환 등",summary:"1910년대 후반 국내에서 조직된 비밀결사다.",detail:"일제의 집회·결사 통제 속에서 민족운동을 추진했다. 1910년대 국내 항일운동이 대규모 공개 시위뿐 아니라 비밀결사 형태로도 전개되었음을 보여 준다.",keywords:["비밀결사","국내 항일운동"]},
-{year:1912,period:"1910년대",region:"국내",type:"정책",category:"정책",title:"조선태형령",people:"조선총독부",summary:"식민지 조선인에게 태형을 가할 수 있도록 한 식민 통치기의 법령이다.",detail:"1912년에 제정되었고 1920년에 폐지되었다. 식민지 조선에서 차별적 사법·형벌 체계가 작동했음을 보여 주는 사례다.",keywords:["1912년","1920년 폐지","차별적 통치"]},
-{year:1910,period:"1910년대",region:"국내",type:"정책",category:"정책",title:"헌병 경찰 중심의 무단 통치",people:"조선총독부",summary:"헌병 경찰을 앞세워 식민 지배에 대한 저항을 억압한 통치 방식이다.",detail:"언론·집회·결사의 자유를 강하게 제한했고, 국내 비밀결사와 국외 독립운동이 전개되는 배경이 되었다.",keywords:["무단 통치","헌병 경찰"]},
-{year:1910,period:"1910년대",region:"국내",type:"정책",category:"정책",title:"회사령",people:"조선총독부",summary:"회사 설립을 허가제로 통제한 식민지 경제 정책이다.",detail:"1910년대 조선인의 기업 활동을 제약하는 통제 장치로 작용했다. 1920년에는 회사령이 폐지되었지만 식민지 경제 구조의 제약이 사라진 것은 아니었다.",keywords:["경제 통제","1920년 폐지"]},
-{year:1910,period:"1910년대",region:"국내",type:"정책",category:"정책",title:"토지 조사 사업",people:"조선총독부",summary:"토지 소유권과 지세 부과 등을 정비한다는 명목으로 진행된 사업이다.",detail:"토지 소유권 신고와 증명 과정에서 토지를 잃은 농민이 발생했고, 식민지 재정과 토지 지배 구조의 재편에 연결되었다.",keywords:["토지 소유권","지세","농민"]},
+/* ------------------------------
+   1. 데이터 저장: 기존 데이터 유지
+------------------------------ */
+const STORAGE_KEY = "koreanHistoryStudy_v3";
+const OLD_KEYS = ["koreanHistoryStudy_v2","historyQuizRecords","historyQuizData"];
+const emptyDB = () => ({records:[], generatedSets:[], masteredCards:[]});
+let db = emptyDB();
 
-/* 1910년대 국외 */
-{year:1911,period:"1910년대",region:"서간도",type:"단체",category:"한국사",title:"경학사",people:"이회영·이시영 등",summary:"서간도 삼원보 일대에서 한인 사회를 기반으로 조직된 단체다.",detail:"망명 인사와 이주민이 정착 기반을 만들고 교육과 독립운동 기지 건설을 추진했다. 서간도 독립운동의 초기 기반을 이해할 때 중요하다.",keywords:["삼원보","서간도","독립운동 기지"]},
-{year:1911,period:"1910년대",region:"서간도",type:"단체",category:"한국사",title:"신흥무관학교",people:"이회영·이시영 등",summary:"서간도에서 독립군 간부를 양성한 무관학교다.",detail:"신흥강습소에서 출발해 발전했으며, 독립군 양성과 군사 교육에 중요한 역할을 했다. 교육 기관이 무장 독립운동의 인적 기반으로 이어진 사례다.",keywords:["군사 교육","독립군 양성"]},
-{year:1919,period:"1910년대",region:"서간도",type:"단체",category:"한국사",title:"서로군정서",people:"지청천 등",summary:"서간도 지역에서 활동한 독립군 조직이다.",detail:"3·1운동 이후 독립군 활동이 확대되는 가운데 무장 투쟁과 독립운동 조직의 운영을 추진했다.",keywords:["서간도","무장 독립운동"]},
-{year:1906,period:"1910년대",region:"북간도",type:"단체",category:"한국사",title:"서전서숙",people:"이상설 등",summary:"북간도 지역에서 민족 교육을 추진한 학교다.",detail:"1910년대 이전에 설립되었지만, 북간도 독립운동의 교육 기반을 설명하기 위해 함께 알아둘 만하다. 학교 교육은 민족의식 형성과 인재 양성에 기여했다.",keywords:["민족 교육","북간도"]},
-{year:1908,period:"1910년대",region:"북간도",type:"단체",category:"한국사",title:"명동학교",people:"김약연 등",summary:"북간도에서 민족 교육을 전개한 학교다.",detail:"한인 사회의 교육과 민족의식 형성에 기여했다. 무장 투쟁 단체뿐 아니라 학교와 지역 공동체도 독립운동 기반의 일부였다.",keywords:["민족 교육","한인 사회"]},
-{year:1911,period:"1910년대",region:"북간도",type:"단체",category:"한국사",title:"중광단",people:"대종교 계열 인사들",summary:"북간도에서 조직된 항일 단체로, 대종교 계열 인사들이 중심이 되었다.",detail:"항일 무장 활동을 추진했으며, 이후 북로군정서로 이어지는 계열을 이해할 때 중요하다. 단체의 개편 과정은 자료별 표현을 확인해야 한다.",keywords:["대종교","북로군정서"]},
-{year:1913,period:"1910년대",region:"북간도",type:"단체",category:"한국사",title:"간민회",people:"북간도 한인 사회 인사들",summary:"북간도 한인 사회의 권익과 자치 문제를 다룬 단체다.",detail:"해외 독립운동은 군사 조직만으로 이루어진 것이 아니었다. 이주민 사회의 조직과 교육·생활 기반을 함께 살펴보면 지역 독립운동을 더 잘 이해할 수 있다.",keywords:["한인 사회","자치","북간도"]},
-{year:1911,period:"1910년대",region:"연해주",type:"단체",category:"한국사",title:"권업회",people:"최재형 등",summary:"연해주에서 한인 사회의 권익 증진과 민족운동을 추진한 단체다.",detail:"교육·산업 진흥과 민족의식 고취에 힘썼다. 연해주의 한인 사회는 독립운동 자금과 인적 기반을 제공하는 역할을 했다.",keywords:["연해주","교육","권익"]},
-{year:1914,period:"1910년대",region:"연해주",type:"단체",category:"한국사",title:"대한광복군정부",people:"이상설 등",summary:"연해주 일대에서 독립전쟁을 준비하기 위해 추진된 정부 형태의 조직이다.",detail:"국외 독립운동 세력이 독립전쟁과 정부 수립 구상을 함께 모색했음을 보여 준다. 실제 활동 범위와 조직 성격은 자료에 따라 세부 설명을 확인해야 한다.",keywords:["독립전쟁","이상설","정부 수립 구상"]},
-{year:1917,period:"1910년대",region:"연해주",type:"단체",category:"한국사",title:"전로한족회",people:"연해주 한인 사회 인사들",summary:"러시아 지역 한인 사회에서 조직된 단체다.",detail:"연해주 한인 사회의 정치·사회 조직이 변화하는 흐름을 보여 준다. 이후 독립운동 조직과의 관계를 시대 순서로 정리해 두면 좋다.",keywords:["연해주","한인 사회"]},
-{year:1918,period:"1910년대",region:"연해주",type:"단체",category:"한국사",title:"한인사회당",people:"이동휘 등",summary:"러시아 지역에서 결성된 사회주의 계열의 한인 정치 조직이다.",detail:"독립운동의 이념과 방법이 하나만 있었던 것은 아니다. 민족주의 계열과 사회주의 계열 등 다양한 흐름이 존재했다는 점을 보여 준다.",keywords:["사회주의","이동휘"]},
-{year:1912,period:"1910년대",region:"중국 관내",type:"단체",category:"한국사",title:"동제사",people:"신규식 등",summary:"상하이를 중심으로 조직된 독립운동 단체다.",detail:"중국 관내에서 활동한 망명 인사들의 교류와 독립운동 기반 형성에 기여했다. 상하이는 이후 임시정부 활동의 주요 무대가 되었다.",keywords:["상하이","신규식"]},
-{year:1915,period:"1910년대",region:"중국 관내",type:"단체",category:"한국사",title:"신한혁명당",people:"박은식 등",summary:"국외에서 독립운동을 추진한 단체다.",detail:"국제 정세와 외교적 기회를 활용하려는 움직임을 보여 준다. 1910년대 독립운동은 교육·무장 투쟁뿐 아니라 외교와 정부 수립 구상도 포함했다.",keywords:["외교","독립운동"]},
-{year:1918,period:"1910년대",region:"중국 관내",type:"단체",category:"한국사",title:"신한청년당",people:"여운형·김규식 등",summary:"상하이에서 조직되어 국제사회에 한국 독립의 필요성을 알리는 활동을 추진했다.",detail:"파리 강화 회의에 김규식을 대표로 파견하는 활동과 연결된다. 제1차 세계 대전 이후 국제 질서 재편에 독립운동가들이 주목했음을 보여 준다.",keywords:["김규식","파리 강화 회의","외교"]},
-{year:1910,period:"1910년대",region:"미주·하와이",type:"단체",category:"한국사",title:"대한인국민회",people:"안창호 등",summary:"미주 한인 사회를 대표한 조직으로 독립운동과 동포 사회의 조직화에 기여했다.",detail:"여러 한인 단체의 통합을 바탕으로 성장했고, 미주 지역에서 독립운동 자금 지원과 민족의식 고취 활동을 전개했다.",keywords:["미주","동포 사회","독립운동 자금"]},
-{year:1909,period:"1910년대",region:"미주·하와이",type:"단체",category:"한국사",title:"한인소년병학교",people:"박용만",summary:"미국 네브래스카에서 설립된 군사 교육 기관이다.",detail:"국외에서 교육과 군사 훈련을 통해 독립운동 인재를 기르려 한 사례다. 미주 지역의 독립운동은 외교·모금·교육·군사 훈련 등 다양한 방식으로 전개되었다.",keywords:["박용만","군사 교육"]},
-{year:1913,period:"1910년대",region:"미주·하와이",type:"단체",category:"한국사",title:"흥사단",people:"안창호",summary:"인격 수양과 실력 양성을 목표로 조직된 단체다.",detail:"교육과 인재 양성을 통해 독립운동의 장기적 기반을 마련하려 했다. 무장 투쟁과는 다른 방법의 민족운동도 함께 이해해야 한다.",keywords:["안창호","실력 양성"]},
-{year:1914,period:"1910년대",region:"미주·하와이",type:"단체",category:"한국사",title:"대조선국민군단",people:"박용만",summary:"하와이에서 군사 훈련을 추진한 조직이다.",detail:"국외 독립운동이 실제 독립전쟁을 대비한 군사 교육과 연결되었음을 보여 준다.",keywords:["하와이","박용만","군사 훈련"]},
-{year:1919,period:"1910년대",region:"국내",type:"사건",category:"한국사",title:"3·1 운동",people:"민족 대표와 학생·시민 등",summary:"독립 선언과 만세 시위가 전국적으로 확산된 대규모 독립운동이다.",detail:"국내외 독립운동의 역량을 드러냈고, 대한민국 임시정부 수립과 이후 다양한 독립운동 방식에 영향을 주었다.",keywords:["독립 선언","만세 시위","임시정부"]},
-{year:1919,period:"1910년대",region:"중국 관내",type:"단체",category:"한국사",title:"대한민국 임시정부",people:"이승만·김구·이동휘 등",summary:"3·1 운동 이후 상하이에서 수립된 임시정부다.",detail:"독립운동 세력을 대표하고 외교 활동과 독립운동 조직을 운영하려 했다. 연통제와 교통국 등 국내외 연락망을 통해 활동을 확대하려 했다.",keywords:["상하이","연통제","교통국"]},
-{year:1919,period:"1910년대",region:"중국 관내",type:"단체",category:"한국사",title:"의열단",people:"김원봉 등",summary:"일제의 주요 기관과 식민 통치에 맞선 의열 투쟁을 전개한 단체다.",detail:"1919년 만주 지린에서 결성되었다. 이후 활동 방식과 조직은 변화했으며, 1930년대 조선의용대와의 관계를 시간 순으로 구분해야 한다.",keywords:["김원봉","의열 투쟁"]},
+function loadDB(){
+  try{
+    const current = localStorage.getItem(STORAGE_KEY);
+    if(current){
+      const parsed = JSON.parse(current);
+      db = {...emptyDB(),...parsed};
+      db.records = Array.isArray(db.records)?db.records:[];
+      db.generatedSets = Array.isArray(db.generatedSets)?db.generatedSets:[];
+      db.masteredCards = Array.isArray(db.masteredCards)?db.masteredCards:[];
+      return;
+    }
+    // 이전 버전의 저장 데이터가 있으면 가능한 범위에서 가져옵니다.
+    for(const key of OLD_KEYS){
+      const raw = localStorage.getItem(key);
+      if(!raw) continue;
+      const old = JSON.parse(raw);
+      if(Array.isArray(old)){
+        db.records = old;
+      }else if(old && typeof old==="object"){
+        db.records = old.records || old.history || [];
+        db.generatedSets = old.generatedSets || old.sets || [];
+        db.masteredCards = old.masteredCards || [];
+      }
+      saveDB();
+      return;
+    }
+  }catch(e){
+    console.error("저장 데이터를 읽지 못했습니다.",e);
+    alert("저장 데이터를 읽는 중 문제가 발생했습니다. 백업 파일이 있다면 설정 메뉴에서 불러와 주세요.");
+  }
+}
+function saveDB(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(db));}
+  catch(e){alert("브라우저 저장 공간이 부족합니다. 설정 메뉴에서 백업한 뒤 오래된 기록을 정리해 주세요.");}
+}
+function uid(){
+  return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,10);
+}
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function esc(s){
+  return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function dateText(v){
+  try{return new Date(v).toLocaleString("ko-KR",{dateStyle:"short",timeStyle:"short"});}
+  catch(e){return String(v||"날짜 미상");}
+}
 
-/* 1920년대 */
-{year:1920,period:"1920년대",region:"만주",type:"사건",category:"한국사",title:"봉오동 전투",people:"홍범도 등",summary:"독립군 부대가 일본군을 상대로 승리를 거둔 전투다.",detail:"독립군의 무장 투쟁 역량을 보여 준다. 이후 일본군의 보복과 독립군 활동 지역에 대한 탄압이 이어졌다.",keywords:["홍범도","무장 투쟁"]},
-{year:1920,period:"1920년대",region:"만주",type:"사건",category:"한국사",title:"청산리 전투",people:"김좌진·북로군정서 등",summary:"북로군정서와 대한독립군 등 독립군 부대가 일본군에 맞서 싸운 전투다.",detail:"독립군의 주요 무장 투쟁으로 기억된다. 봉오동 전투와 함께 독립군의 활동과 일본군의 보복 탄압을 연결해 학습할 수 있다.",keywords:["김좌진","북로군정서"]},
-{year:1920,period:"1920년대",region:"만주",type:"사건",category:"한국사",title:"간도 참변(경신참변)",people:"간도 지역 한인 사회",summary:"일본군이 독립군을 토벌한다는 명분으로 간도 지역 한인 사회를 탄압한 사건이다.",detail:"독립군뿐 아니라 민간인과 한인 사회도 큰 피해를 입었다. 무장 투쟁의 성과와 식민 권력의 보복 탄압을 함께 살펴봐야 한다.",keywords:["간도","일본군 탄압"]},
-{year:1921,period:"1920년대",region:"만주",type:"사건",category:"한국사",title:"자유시 참변",people:"독립군 부대들",summary:"러시아 지역에서 독립군 부대가 큰 피해를 입은 사건이다.",detail:"독립군 세력 내부의 갈등과 러시아 혁명 이후의 정세가 복합적으로 작용했다. 독립운동 세력의 통합이 쉽지 않았다는 점을 보여 준다.",keywords:["독립군 통합","러시아 혁명 이후"]},
-{year:1922,period:"1920년대",region:"만주",type:"단체",category:"한국사",title:"대한통의부",people:"만주 독립운동 세력",summary:"여러 독립운동 세력이 결집해 조직한 단체다.",detail:"독립군 활동과 한인 사회의 자치 문제를 함께 다루었다. 내부 갈등과 분화가 나타나면서 참의부·정의부·신민부 등 3부의 형성으로 이어지는 흐름을 살펴볼 수 있다.",keywords:["독립운동 통합","3부 형성"]},
-{year:1923,period:"1920년대",region:"만주",type:"단체",category:"한국사",title:"참의부",people:"만주 독립운동 세력",summary:"3부 가운데 하나로, 압록강 인근을 중심으로 활동했다.",detail:"군사 활동과 한인 사회의 자치 행정을 추진했다. 정의부·신민부와 함께 1920년대 만주 지역 독립운동 조직의 구조를 이해하는 핵심 항목이다.",keywords:["3부","압록강 일대"]},
-{year:1924,period:"1920년대",region:"만주",type:"단체",category:"한국사",title:"정의부",people:"만주 독립운동 세력",summary:"3부 가운데 하나로, 남만주 지역을 중심으로 활동했다.",detail:"독립군 활동과 한인 사회의 자치 조직 운영을 추진했다. 3부는 단순한 군대만이 아니라 지역 사회의 행정·교육 문제도 다루었다.",keywords:["3부","남만주","자치"]},
-{year:1925,period:"1920년대",region:"만주",type:"단체",category:"한국사",title:"신민부",people:"김좌진 등",summary:"3부 가운데 하나로, 북만주 지역에서 활동했다.",detail:"독립군 양성과 한인 사회 조직 운영을 추진했다. 참의부·정의부·신민부의 활동 지역과 결성 시기를 비교하면 3부의 구조를 이해하기 쉽다.",keywords:["3부","북만주"]},
-{year:1928,period:"1920년대",region:"만주",type:"사건",category:"한국사",title:"민족 유일당 운동",people:"국내외 민족운동 세력",summary:"분산된 민족운동 세력을 하나로 모으려 한 통합 운동이다.",detail:"민족운동의 분열을 극복하려 했지만, 운동 노선과 조직 방향에 대한 차이로 촉성회와 협의회 계열 등으로 나뉘었다. 이후 국민부·혁신의회 등 조직 재편과 연결된다.",keywords:["통합 운동","촉성회","협의회"]},
-{year:1929,period:"1920년대",region:"만주",type:"단체",category:"한국사",title:"국민부",people:"남만주 독립운동 세력",summary:"남만주 지역의 독립운동 조직을 재편한 단체다.",detail:"민족 유일당 운동이 분화한 이후 조직 재편 과정에서 등장했다. 3부 이후 만주 독립운동의 변화를 살펴볼 때 중요하다.",keywords:["남만주","조직 재편"]},
-{year:1926,period:"1920년대",region:"국내",type:"사건",category:"한국사",title:"6·10 만세 운동",people:"학생·사회운동 세력",summary:"순종의 장례일을 계기로 전개된 항일 만세 운동이다.",detail:"학생과 사회운동 세력이 참여했고, 이후 민족 협동 전선과 신간회 결성의 배경을 이해하는 데 도움이 된다.",keywords:["학생 운동","민족 협동 전선"]},
-{year:1927,period:"1920년대",region:"국내",type:"단체",category:"한국사",title:"신간회",people:"이상재·홍명희 등",summary:"민족주의 계열과 사회주의 계열 일부가 협력한 민족 협동 전선 단체다.",detail:"민족운동의 분열을 극복하고 항일 활동을 전개하려 했다. 전국적으로 지회가 조직되었으나 내부 노선 차이와 일제의 탄압 등으로 1931년 해소되었다
+/* ------------------------------
+   2. 심화 자료
+------------------------------ */
+const deepData = [
+{era:"1910",region:"서간도",date:"1911",title:"신흥무관학교",type:"독립운동 기지·교육",people:"이회영·이시영 등 신민회 계열 인사",summary:"서간도에 독립군 간부를 양성하기 위해 세운 학교로, 초기에는 신흥강습소로 출발했다.",meaning:"국외 독립운동 기지 건설과 무장 독립전쟁 준비를 연결하는 핵심 사례다.",keyword:"서간도 신흥무관학교 독립군 교육"},
+{era:"1910",region:"서간도",date:"1910년대",title:"경학사와 자치 기반 마련",type:"한인 사회 조직",people:"서간도 이주 한인 사회와 망명 인사",summary:"서간도 한인 사회는 자치 조직과 교육·경제 기반을 마련하며 독립운동을 뒷받침했다.",meaning:"무장 투쟁은 군사 조직만으로 이루어지지 않았고, 이주민의 생활 기반과 교육이 필요했다.",keyword:"서간도 경학사 자치 이주민"},
+{era:"1910",region:"북간도",date:"1911",title:"중광단",type:"독립운동 단체",people:"대종교 계열 인사",summary:"북간도에서 조직된 독립운동 단체로, 대종교 계열 인사들이 활동 기반을 마련했다.",meaning:"종교·교육·민족의식이 국외 독립운동 조직과 연결된 사례다.",keyword:"북간도 중광단 대종교"},
+{era:"1910",region:"북간도",date:"1910년대",title:"북간도의 교육·독립군 기반",type:"독립운동 기지",people:"서일·김좌진 등 이후 북간도 무장 투쟁과 연결되는 인물들",summary:"북간도에서는 한인 사회의 학교와 민족 교육, 독립운동 조직이 성장했다. 이후 무장 독립군 활동의 중요한 기반이 되었다.",meaning:"지역 사회의 교육과 조직 기반이 이후 독립군의 활동을 가능하게 했다.",keyword:"북간도 학교 민족교육 독립군"},
+{era:"1910",region:"연해주",date:"1911",title:"권업회",type:"한인 사회 조직",people:"최재형 등 연해주 한인 사회 인사",summary:"연해주 한인 사회의 권익과 자치, 민족운동을 위해 조직되었다. 신문 발간과 교육·사회 활동 등도 추진했다.",meaning:"연해주의 독립운동은 무장 투쟁뿐 아니라 한인 사회의 조직화와 언론 활동도 포함했다.",keyword:"연해주 권업회 한인사회"},
+{era:"1910",region:"연해주",date:"1910년대",title:"대한광복군정부 추진",type:"독립운동 조직 구상",people:"이상설 등 국외 독립운동 인사",summary:"1914년 무렵 연해주에서 독립전쟁을 준비하기 위한 정부 형태의 조직이 추진되었다.",meaning:"국외 독립운동 세력이 독립전쟁을 체계적으로 준비하려 했음을 보여 준다.",keyword:"연해주 대한광복군정부 독립전쟁"},
+{era:"1910",region:"미주",date:"1910년대",title:"대한인국민회",type:"교민 조직·외교·모금",people:"안창호 등 미주 한인 사회 인사",summary:"미주 한인 사회를 기반으로 조직되어 독립운동 자금 모금, 민족 교육, 외교 활동 등을 전개했다.",meaning:"해외 교민 사회가 독립운동의 재정·외교적 기반이 되었다.",keyword:"미주 대한인국민회 외교 자금"},
+{era:"1910",region:"미주",date:"1910년대",title:"흥사단",type:"인재 양성·실력 양성",people:"안창호",summary:"1913년 미국에서 조직된 단체로, 인격 수양과 실력 양성을 통해 민족의 역량을 키우려 했다.",meaning:"무장 투쟁과 별개로 교육·인재 양성에 중점을 둔 독립운동의 흐름을 보여 준다.",keyword:"미주 흥사단 안창호 실력양성"},
+{era:"1910",region:"중국 관내",date:"1912",title:"동제사",type:"독립운동 단체",people:"신규식 등",summary:"중국 상하이를 중심으로 활동한 독립운동 단체로, 망명 인사들의 결집과 독립운동 기반 마련에 기여했다.",meaning:"상하이는 이후 대한민국 임시정부 활동으로 이어지는 국외 독립운동의 거점 중 하나였다.",keyword:"상하이 동제사 신규식"},
+{era:"1910",region:"국내",date:"1913",title:"독립의군부",type:"비밀결사",people:"임병찬 등",summary:"국내에서 복벽주의적 성격을 띠고 국권 회복을 도모한 비밀결사다.",meaning:"1910년대 국내 독립운동에는 공화주의 계열뿐 아니라 왕정 복고를 지향한 흐름도 있었다.",keyword:"국내 독립의군부 임병찬 복벽주의"},
+{era:"1910",region:"국내",date:"1915",title:"대한광복회",type:"비밀결사",people:"박상진·김좌진 등",summary:"공화주의적 지향을 바탕으로 독립을 위한 무장 투쟁과 군자금 모집 등을 추진했다.",meaning:"국내 비밀결사가 국외 독립운동 및 무장 투쟁과 연결되었음을 보여 준다.",keyword:"국내 대한광복회 박상진 군자금"},
+{era:"1910",region:"국내",date:"1915",title:"조선국권회복단",type:"비밀결사",people:"영남 지역 인사들",summary:"국권 회복을 목표로 조직된 비밀결사로, 지역 사회의 인사들이 항일 운동에 참여했다.",meaning:"1910년대 독립운동은 전국적 대중 시위 이전에도 여러 지역의 비밀결사 형태로 이어졌다.",keyword:"조선국권회복단 국내 비밀결사"},
+{era:"1910",region:"정책",date:"1912",title:"조선 태형령",type:"식민 통치 정책",people:"조선총독부",summary:"일제가 식민지 조선에서 태형을 적용할 수 있도록 한 법령이다. 1910년대 무단 통치의 억압적 성격을 보여 준다.",meaning:"무단 통치가 경찰력뿐 아니라 법과 처벌 제도를 통해 식민 지배를 강제했음을 이해할 수 있다.",keyword:"조선 태형령 1912 무단통치"},
+{era:"1910",region:"정책",date:"1910년대",title:"헌병 경찰과 무단 통치",type:"식민 통치 정책",people:"조선총독부·헌병 경찰",summary:"헌병 경찰이 치안 유지와 행정 통제에 폭넓게 관여했고, 언론·집회·결사의 자유도 강하게 제한되었다.",meaning:"3·1 운동 이전 국내에서 공개적인 독립운동이 어려워 비밀결사와 국외 기지 건설이 중요해졌다.",keyword:"헌병 경찰 무단 통치"},
+{era:"1910",region:"정책",date:"1910년대",title:"토지 조사 사업",type:"식민 통치·경제 정책",people:"조선총독부",summary:"토지 소유권을 신고·조사하고 토지 제도를 재편한 사업이다. 신고 절차와 제도 변화로 토지 소유권을 인정받지 못한 사례가 발생했다.",meaning:"식민 통치의 경제적 기반과 농민 사회의 변화를 살펴볼 수 있다.",keyword:"토지 조사 사업 토지 소유권"},
+{era:"1919",region:"국내",date:"1919",title:"2·8 독립 선언",type:"독립운동 사건",people:"도쿄 유학생 대표들",summary:"일본 도쿄의 한국인 유학생들이 독립 선언을 발표했다.",meaning:"국외 유학생의 독립 의지가 3·1 운동 전후의 독립운동 확산과 연결되었다.",keyword:"2·8 독립 선언 도쿄 유학생"},
+{era:"1919",region:"국내",date:"1919",title:"대한민국 임시정부 수립",type:"임시 정부",people:"이승만·이동휘·안창호 등 여러 독립운동 인사",summary:"3·1 운동 이후 상하이에서 대한민국 임시정부가 수립되었다. 국내외 독립운동을 연결하고 외교·군사·선전 활동을 추진했다.",meaning:"왕정 복고가 아닌 공화정 원리에 기초한 정부를 표방했다.",keyword:"대한민국 임시정부 상하이 공화정"},
+{era:"1919",region:"국내",date:"1919",title:"대한민국 임시정부의 연통제와 교통국",type:"비밀 연락·행정망",people:"임시정부와 국내외 연락망 관계자",summary:"임시정부는 국내와 연결하기 위해 행정 조직인 연통제와 연락 조직인 교통국 등을 운영하려 했다.",meaning:"임시정부가 해외에만 머물지 않고 국내 독립운동과 연결하려 했음을 보여 준다.",keyword:"연통제 교통국 임시정부"},
+{era:"1920",region:"만주",date:"1920",title:"봉오동 전투",type:"무장 독립전쟁",people:"홍범도 등 독립군 부대",summary:"독립군이 일본군과 싸워 거둔 주요 승리 중 하나다.",meaning:"독립군의 무장 역량을 보여 주었으며, 이후 일본군의 독립운동 탄압 강화와도 연결된다.",keyword:"봉오동 전투 홍범도"},
+{era:"1920",region:"북간도",date:"1920",title:"청산리 대첩",type:"무장 독립전쟁",people:"김좌진·북로군정서·홍범도 부대 등",summary:"청산리 일대에서 독립군이 일본군에 맞서 전투를 벌였다.",meaning:"독립군이 여러 부대의 활동을 통해 무장 투쟁을 전개했음을 보여 준다.",keyword:"청산리 대첩 김좌진 북로군정서"},
+{era:"1920",region:"만주",date:"1920",title:"간도 참변(경신참변)",type:"일제의 탄압",people:"일본군과 만주 한인 사회",summary:"독립군을 지원한다는 이유 등으로 일본군이 간도 지역 한인 사회를 대규모로 탄압했다.",meaning:"독립군의 무장 투쟁뿐 아니라 민간인과 이주 사회가 입은 피해도 함께 살펴야 한다.",keyword:"간도 참변 경신참변"},
+{era:"1920",region:"연해주",date:"1921",title:"자유시 참변",type:"독립군의 시련",people:"러시아 지역 한인 무장 부대들",summary:"러시아 자유시 일대에서 독립군 부대 사이의 충돌과 무장 해제가 발생해 큰 피해를 남겼다.",meaning:"국외 독립운동은 일본의 탄압뿐 아니라 국제 정세와 독립운동 세력 내부의 갈등에도 영향을 받았다.",keyword:"자유시 참변 독립군 재편"},
+{era:"1920",region:"만주",date:"1922",title:"대한통의부",type:"독립운동 통합 조직",people:"남만주 독립운동 세력",summary:"여러 독립운동 단체를 통합하려는 흐름 속에서 조직되었으나, 내부 갈등으로 일부 세력이 분리되었다.",meaning:"이후 참의부·정의부 등 조직 재편을 이해하는 연결 고리다.",keyword:"대한통의부 1922"},
+{era:"1920",region:"만주",date:"1923~1925",title:"참의부·정의부·신민부: 3부",type:"자치·군사 조직",people:"만주 독립운동 세력",summary:"참의부는 1923년, 정의부는 1924년, 신민부는 1925년에 성립했다. 한인 사회의 자치와 독립군 활동을 함께 추진했다.",meaning:"3부는 단순한 군대가 아니라 만주 한인 사회의 행정·교육·군사 활동을 담당한 조직이었다.",keyword:"3부 참의부 정의부 신민부"},
+{era:"1920",region:"만주",date:"1920년대",title:"참의부",type:"3부·독립군 조직",people:"압록강 연안의 독립운동 세력",summary:"남만주 압록강 연안에서 활동한 자치·군사 조직이다.",meaning:"3부 중 참의부는 압록강 연안 지역과 연결해 기억한다.",keyword:"참의부 압록강 연안"},
+{era:"1920",region:"만주",date:"1920년대",title:"정의부",type:"3부·독립군 조직",people:"김동삼 등",summary:"남만주 지역의 한인 사회를 기반으로 자치와 독립운동을 전개했다.",meaning:"민족 유일당 운동과 3부 통합 논의에서 중요한 역할을 했다.",keyword:"정의부 남만주 김동삼"},
+{era:"1920",region:"만주",date:"1920년대",title:"신민부",type:"3부·독립군 조직",people:"김좌진 등",summary:"북만주를 중심으로 조직된 자치·군사 조직이다. 내부적으로 민정파와 군정파의 갈등이 나타났다.",meaning:"독립운동 단체의 통합 과정이 내부 노선 차이 때문에 복잡했음을 보여 준다.",keyword:"신민부 북만주 민정파 군정파"},
+{era:"1920",region:"만주",date:"1920년대 후반",title:"민족 유일당 운동",type:"독립운동 통합 운동",people:"안창호·김동삼 등 여러 독립운동 인사",summary:"분산된 독립운동 단체를 하나의 조직으로 통합해 독립운동의 역량을 모으려는 운동이다.",meaning:"통합의 필요성에는 공감했지만 기존 단체의 해체 여부와 조직 방법을 둘러싼 견해 차이로 완전한 통합에 이르지 못했다.",keyword:"민족 유일당 운동 통합"},
+{era:"1920",region:"만주",date:"1929",title:"국민부와 혁신의회",type:"독립운동 조직 재편",people:"만주 독립운동 세력",summary:"3부 통합 논의가 실패한 뒤 서로 다른 계열이 각각 국민부와 혁신의회 등을 조직했다.",meaning:"통합 운동의 성과와 한계를 동시에 보여 준다. 국민부는 이후 조선혁명당·조선혁명군 활동과 연결된다.",keyword:"국민부 혁신의회 조선혁명군"},
+{era:"1920",region:"국내",date:"1920년대",title:"의열단",type:"의열 투쟁 단체",people:"김원봉 등",summary:"1919년 만주 길림에서 조직되었다. 식민 통치 기관과 주요 인물을 대상으로 한 의열 투쟁을 전개했다.",meaning:"대중 시위나 외교와 다른 방식으로 식민 통치에 타격을 주려 한 무장 투쟁의 흐름이다.",keyword:"의열단 김원봉 길림"},
+{era:"1920",region:"국내",date:"1923",title:"조선 혁명 선언",type:"독립운동 사상",people:"신채호",summary:"의열단의 요청으로 작성된 선언문으로, 식민 지배를 타파하기 위한 직접적인 혁명 투쟁을 강조했다.",meaning:"독립운동 내부에서 투쟁 방법과 사상을 둘러싼 논의가 발전했음을 보여 준다.",keyword:"조선 혁명 선언 신채호 의열단"},
+{era:"1920",region:"국내",date:"1926",title:"6·10 만세 운동",type:"학생·대중 항일 운동",people:"학생과 민족운동 세력",summary:"순종의 인산일을 계기로 일어난 항일 만세 운동이다.",meaning:"학생과 여러 독립운동 세력의 연대가 추진되었으며, 이후 신간회 결성 등과 함께 이해할 수 있다.",keyword:"6·10 만세 운동 학생"},
+{era:"1920",region:"국내",date:"1927",title:"신간회",type:"민족 협동 전선",people:"이상재·안재홍 등",summary:"민족주의 계열과 사회주의 계열이 협력해 결성한 합법적 민족 운동 단체다.",meaning:"독립운동 세력이 차이를 넘어 협력하려 한 사례지만, 내부 노선 차이와 일제의 탄압 속에서 해소되었다.",keyword:"신간회 민족 협동 전선"},
+{era:"1920",region:"국내",date:"1929",title:"광주 학생 항일 운동",type:"학생 항일 운동",people:"광주 학생과 전국 학생들",summary:"광주에서 시작해 전국으로 확산한 학생 항일 운동이다.",meaning:"학생들의 민족 차별 반대 움직임이 전국적인 항일 운동으로 확산되었다.",keyword:"광주 학생 항일 운동 1929"},
+{era:"1920",region:"정책",date:"1920년대",title:"문화 통치의 실제",type:"식민 통치 정책",people:"조선총독부",summary:"3·1 운동 이후 일제는 이른바 문화 통치를 내세웠지만, 경찰력 확대와 언론·사회 운동 통제 등 식민 지배의 본질은 유지되었다.",meaning:"통치 명칭과 실제 식민 통치의 성격을 구별해야 한다.",keyword:"문화 통치 경찰"},
+{era:"1920",region:"정책",date:"1920년대",title:"산미 증식 계획",type:"경제 수탈 정책",people:"조선총독부·일본 정부",summary:"일본으로의 쌀 공급을 늘리기 위해 추진되었으며, 수리 시설 개선과 품종 개량 등을 내세웠다. 비용 부담과 쌀 반출은 조선 농민의 생활에 영향을 주었다.",meaning:"정책의 표면적 목적과 식민지 경제 구조 속 실제 영향을 함께 살펴야 한다.",keyword:"산미 증식 계획 쌀 반출"},
+{era:"1930",region:"만주",date:"1930년대",title:"한국독립군과 한중 연합 작전",type:"무장 독립전쟁",people:"지청천 등",summary:"한국독립군은 중국의 항일 세력과 연합해 쌍성보 전투, 대전자령 전투 등에서 일본군과 싸웠다.",meaning:"중국 내 항일 세력과의 연대가 독립전쟁의 중요한 전략이었다.",keyword:"한국독립군 지청천 한중 연합"},
+{era:"1930",region:"만주",date:"1930년대",title:"조선혁명군과 한중 연합 작전",type:"무장 독립전쟁",people:"양세봉 등",summary:"조선혁명군은 중국 의용군과 연합해 영릉가 전투 등에서 일본군에 맞섰다.",meaning:"한국독립군과 조선혁명군을 구분하고, 각각의 활동 지역·연합 세력·주요 전투를 연결해 기억한다.",keyword:"조선혁명군 양세봉 영릉가"},
+{era:"1930",region:"중국 관내",date:"1930년대",title:"한인애국단",type:"의열 투쟁 단체",people:"김구 등",summary:"대한민국 임시정부 계열에서 조직되었으며, 이봉창의 도쿄 의거와 윤봉길의 상하이 의거가 대표적이다.",meaning:"의거는 중국 사회의 한국 독립운동에 대한 관심을 높이는 계기가 되었다.",keyword:"한인애국단 이봉창 윤봉길"},
+{era:"1930",region:"중국 관내",date:"1930년대",title:"한국국민당",type:"임시정부 계열 정당",people:"김구 등",summary:"1935년 민족혁명당 결성 이후의 정당 재편 과정에서 대한민국 임시정부를 지지하는 세력이 조직했다.",meaning:"중국 관내에서 임시정부 계열과 여러 독립운동 정당이 재편되는 흐름을 이해하는 데 도움이 된다.",keyword:"한국국민당 김구 임시정부"},
+{era:"1930",region:"중국 관내",date:"1930년대",title:"민족혁명당",type:"독립운동 정당",people:"김원봉 등 여러 독립운동 세력",summary:"1935년 중국 관내의 여러 독립운동 세력이 통합을 시도해 결성한 정당이다.",meaning:"독립운동의 통합은 반복적으로 추진되었지만, 노선 차이로 조직이 다시 분화하기도 했다.",keyword:"민족혁명당 김원봉 통합"},
+{era:"1930",region:"중국 관내",date:"1938",title:"조선의용대",type:"무장 독립운동 부대",people:"김원봉 등",summary:"중국 관내에서 조직된 한국인 무장 부대로, 중국의 항일 전쟁과 연계해 활동했다.",meaning:"일부 병력이 이후 화북으로 이동해 조선의용군으로 이어지는 흐름을 함께 기억한다.",keyword:"조선의용대 김원봉 중국"},
+{era:"1930",region:"정책",date:"1930년대 후반",title:"민족 말살 정책",type:"식민 통치 정책",people:"조선총독부·일본 정부",summary:"중일 전쟁 이후 전시 동원 체제에서 황국 신민화, 신사 참배 강요, 창씨개명, 우리말 사용 억압 등이 강화되었다.",meaning:"전쟁 수행을 위한 인적·물적 동원과 조선인의 민족 정체성 억압이 함께 진행되었다.",keyword:"민족 말살 정책 황국 신민화 창씨개명"},
+{era:"1930",region:"정책",date:"1930년대 후반~1940년대",title:"국가총동원법과 강제 동원",type:"전시 동원 정책",people:"일본 정부·조선총독부",summary:"전쟁에 필요한 인력과 자원을 동원하는 체제가 강화되었다. 노동력 동원과 병력 동원 등은 시기와 제도에 따라 형태가 달랐다.",meaning:"강제 동원을 설명할 때는 동원 시기와 제도, 대상의 차이를 구분해야 한다.",keyword:"국가총동원법 강제 동원"},
+{era:"1940",region:"중국 관내",date:"1940",title:"한국광복군",type:"임시정부의 군대",people:"지청천·김구 등",summary:"대한민국 임시정부가 중국에서 창설한 군대로, 연합국과 협력하고 국내 진공 작전을 준비했다.",meaning:"임시정부가 외교 활동을 넘어 군사 조직을 갖추고 독립 전쟁을 준비했음을 보여 준다.",keyword:"한국광복군 1940 임시정부"},
+{era:"1940",region:"중국 관내",date:"1942",title:"조선의용군",type:"무장 독립운동 부대",people:"조선의용대 화북 지역 병력 등",summary:"화북 지역으로 이동한 조선의용대 계열 병력을 바탕으로 형성되었다. 중국 공산당 계열 항일 근거지와 연계해 활동했다.",meaning:"한국광복군과 조선의용군은 조직적 배경과 활동 지역을 구별해야 한다.",keyword:"조선의용군 화북"},
+{era:"1940",region:"국내",date:"1944",title:"조선건국동맹",type:"국내 비밀결사",people:"여운형 등",summary:"광복을 앞두고 국내에서 조직된 비밀결사로, 일제 패망에 대비하고 건국을 준비하려 했다.",meaning:"국외 무장 투쟁과 별도로 국내에서도 해방 이후를 준비하는 조직이 존재했다.",keyword:"조선건국동맹 여운형 1944"},
+{era:"1940",region:"국내",date:"1945",title:"조선건국준비위원회",type:"해방 직후 정치 조직",people:"여운형 등",summary:"광복 직후 치안과 행정 공백에 대응하고 새 국가 건설을 준비하기 위해 조직되었다.",meaning:"건국동맹과 건국준비위원회를 구분하고, 전자는 광복 이전의 비밀결사, 후자는 광복 직후 조직임을 기억한다.",keyword:"건국준비위원회 여운형 광복"},
+{era:"1940",region:"해방 전후",date:"1945",title:"모스크바 3국 외상 회의",type:"해방 후 국제 관계",people:"미국·영국·소련 외상",summary:"한국 문제를 포함한 전후 처리 방안이 논의되었고, 한국의 임시 민주 정부 수립과 신탁 통치 등이 결정 사항에 포함되었다.",meaning:"해방 직후의 국내 정치 갈등은 국내 세력의 대립뿐 아니라 미·소 대립과도 연결되어 있었다.",keyword:"모스크바 3국 외상 회의 신탁 통치"},
+{era:"1940",region:"해방 전후",date:"1946~1947",title:"미소 공동 위원회",type:"해방 후 국제 관계",people:"미국·소련",summary:"한국 임시 정부 수립 문제 등을 논의했으나, 협의 대상과 정치적 견해 차이로 합의에 이르지 못했다.",meaning:"분단이 단번에 결정된 것이 아니라 여러 협의와 갈등, 국제 정세 속에서 심화되었음을 이해한다.",keyword:"미소 공동 위원회 분단"},
+{era:"1940",region:"해방 전후",date:"1946",title:"좌우 합작 운동",type:"통일 정부 수립 노력",people:"여운형·김규식 등",summary:"좌우 정치 세력의 협력을 통해 통일 정부를 수립하려는 움직임이었다.",meaning:"해방 이후 정치 세력 사이의 갈등 속에서도 통일 정부 수립을 위한 중도적 노력이 있었다.",keyword:"좌우 합작 운동 여운형 김규식"},
+{era:"1940",region:"해방 전후",date:"1947~1948",title:"유엔과 남북한 정부 수립 과정",type:"정부 수립",people:"유엔·남북한 정치 세력",summary:"한국 문제는 유엔으로 이관되었고, 남한에서 5·10 총선거가 실시된 뒤 대한민국 정부가 수립되었다. 북한에서도 별도의 정부 수립이 진행되었다.",meaning:"남북한 정부 수립은 해방 직후의 분단 심화와 냉전 질서 속에서 이해해야 한다.",keyword:"유엔 5·10 총선거 대한민국 정부 조선민주주의인민공화국"},
+{era:"1940",region:"해방 전후",date:"1948",title:"제주 4·3 사건",type:"해방 이후의 갈등과 국가 폭력",people:"제주 주민·경찰·군·무장대 등",summary:"1947년 3·1절 기념행사에서 발생한 발포 사건 이후 갈등이 심화되었고, 1948년 4월 3일 무장봉기와 이후 장기간의 진압 과정에서 많은 주민이 희생되었다.",meaning:"정부 수립 과정의 정치적 갈등, 냉전, 국가 폭력과 민간인 피해를 함께 살펴야 한다. 사건의 전개는 1948년 이후에도 이어졌다.",keyword:"제주 4·3 사건 민간인 피해"}
+];
+
+/* ------------------------------
+   3. 기본 문제와 심화 문제
+------------------------------ */
+const basicQuestions = [
+{q:"제1차 세계 대전이 끝난 해는?",o:["1914년","1918년","1919년","1920년","1929년"],a:1,e:"제1차 세계 대전은 1914년에 시작해 1918년에 끝났다.",tag:"1910년대"},
+{q:"1919년 3·1 운동 이후 수립된 정부는?",o:["대한제국 정부","조선건국동맹","대한민국 임시정부","조선민주주의인민공화국","국민부"],a:2,e:"3·1 운동 이후 상하이에서 대한민국 임시정부가 수립되었다.",tag:"1919"},
+{q:"1912년 일제가 조선에서 시행한 태형 제도와 관련된 법령은?",o:["조선 태형령","국가총동원법","회사령","치안유지법","미곡통제령"],a:0,e:"조선 태형령은 1910년대 무단 통치의 억압적 성격을 보여 준다.",tag:"식민 통치"},
+{q:"봉오동 전투와 청산리 대첩에 대한 설명으로 옳은 것은?",o:["광복 이후 발생했다","독립군의 무장 투쟁에 해당한다","남북한 정부 수립 이후 일어났다","일제가 독립을 승인한 사건이다","국내 총선거를 계기로 일어났다"],a:1,e:"두 전투는 1920년 독립군이 일본군에 맞서 싸운 주요 무장 독립전쟁이다.",tag:"1920"},
+{q:"1920년대 만주에서 성립한 3부에 해당하지 않는 것은?",o:["참의부","정의부","신민부","국민부","위 세 단체 중 국민부만 시기상 3부에 포함되지 않는다"],a:4,e:"참의부·정의부·신민부가 이른바 3부다. 국민부는 1929년 이후 조직 재편 과정에서 성립했다.",tag:"만주"},
+{q:"민족 유일당 운동의 주된 목표는?",o:["독립운동 단체의 통합","식민지 통치 강화","일본의 전쟁 지원","신분제 복원","미군정 폐지"],a:0,e:"분산된 독립운동 단체를 통합해 민족 독립운동의 역량을 모으려 했다.",tag:"1920년대"},
+{q:"1927년 결성된 민족 협동 전선 단체는?",o:["신간회","권업회","대한인국민회","한국광복군","조선건국동맹"],a:0,e:"신간회는 민족주의 계열과 사회주의 계열이 협력해 결성한 단체다.",tag:"1920년대"},
+{q:"1930년대 한국독립군과 관련된 인물은?",o:["지청천","여운형","임병찬","이봉창","이승만만"],a:0,e:"지청천은 한국독립군의 활동과 관련된 대표적 인물이다.",tag:"1930년대"},
+{q:"조선혁명군의 활동과 관련된 인물은?",o:["양세봉","안중근","박상진","신채호","김규식"],a:0,e:"양세봉은 조선혁명군과 관련된 대표적인 인물이다.",tag:"1930년대"},
+{q:"대한민국 임시정부가 1940년에 창설한 군대는?",o:["한국광복군","조선의용대","대한광복군정부","신민부","참의부"],a:0,e:"한국광복군은 1940년 창설되었다.",tag:"1940년대"},
+{q:"조선건국동맹과 관련된 인물은?",o:["여운형","김좌진","홍범도","박상진","김원봉만"],a:0,e:"여운형 등은 1944년 국내에서 조선건국동맹을 조직했다.",tag:"1940년대"},
+{q:"1945년 광복 직후 한국 문제를 논의한 국제 회의는?",o:["베르사유 회의","모스크바 3국 외상 회의","포츠담 회의만","파리 강화 회의","워싱턴 회의만"],a:1,e:"모스크바 3국 외상 회의에서는 한국의 임시 민주 정부 수립과 신탁 통치 등이 논의되었다.",tag:"해방 전후"},
+{q:"남한에서 제헌 국회를 구성하기 위해 실시된 선거는?",o:["3·1 운동","6·10 만세 운동","5·10 총선거","지방 자치 선거","인산일"],a:2,e:"1948년 5월 10일 남한에서 총선거가 실시되었다.",tag:"1948"},
+{q:"북한에서 1948년에 수립된 국가는?",o:["대한민국 임시정부","조선민주주의인민공화국","대한제국","조선건국동맹","대한광복군정부"],a:1,e:"1948년 북한에서는 조선민주주의인민공화국이 수립되었다.",tag:"1948"},
+{q:"제주 4·3 사건을 이해할 때 중요한 관점은?",o:["오직 한 가지 원인만으로 설명한다","정부 수립 이후 사건이 모두 끝났다고 본다","정치적 갈등과 민간인 피해를 함께 살핀다","독립운동 시기와 무관하므로 배제한다","전쟁이 끝난 뒤의 사건으로만 본다"],a:2,e:"제주 4·3 사건은 해방 이후의 정치적 갈등, 국가 폭력, 민간인 피해 등을 함께 살펴야 한다.",tag:"제주 4·3"}
+];
+const deepQuestions = [
+{q:"서간도 독립운동 기지와 관련된 학교는?",o:["신흥무관학교","보성전문학교만","경성제국대학","조선건국준비위원회","한국광복군"],a:0,e:"신흥무관학교는 서간도에서 독립군 간부 양성에 중요한 역할을 했다.",tag:"서간도"},
+{q:"연해주 한인 사회의 권익과 민족운동을 위해 조직된 단체는?",o:["권업회","신간회","국민부","조선건국동맹","신간회만"],a:0,e:"권업회는 1911년 연해주에서 조직되었다.",tag:"연해주"},
+{q:"미주 한인 사회의 독립운동 기반과 관련된 단체는?",o:["대한인국민회","참의부","신민부","조선혁명군","조선건국준비위원회"],a:0,e:"대한인국민회는 미주 한인 사회를 기반으로 독립운동과 민족 교육, 자금 모금 등을 전개했다.",tag:"미주"},
+{q:"1910년대 국내 비밀결사 중 박상진과 관련된 단체는?",o:["대한광복회","국민부","한국광복군","신간회","조선의용군"],a:0,e:"대한광복회는 박상진 등이 활동한 비밀결사다.",tag:"국내 비밀결사"},
+{q:"조선 태형령이 보여 주는 일제 통치의 특징은?",o:["식민지 주민의 자치권 확대","무단 통치의 억압적 성격","조선의 독립 승인","남북한 정부 수립","전시 동원 폐지"],a:1,e:"태형령은 식민지 주민에 대한 강압적 처벌과 무단 통치의 성격을 보여 준다.",tag:"태형령"},
+{q:"자유시 참변 이후 독립군의 재편과 관련된 설명으로 적절한 것은?",o:["국외 독립운동은 모두 사라졌다","독립운동은 일본의 탄압과 내부 갈등, 국제 정세의 영향을 받았다","대한민국 정부가 창설되었다","3·1 운동이 시작되었다","조선건국동맹이 창설되었다"],a:1,e:"자유시 참변은 독립운동 세력의 재편을 이해하는 중요한 사건이다.",tag:"자유시 참변"},
+{q:"참의부·정의부·신민부의 공통점은?",o:["1945년 이후 남한에서 결성되었다","만주에서 자치와 독립운동을 전개했다","모두 미주에서 조직되었다","일제의 식민 통치를 지원했다","모두 임시정부의 군대였다"],a:1,e:"3부는 만주 한인 사회의 자치와 독립운동을 함께 추진했다.",tag:"3부"},
+{q:"민족 유일당 운동이 완전한 통합에 이르지 못한 주요 이유는?",o:["독립을 원하는 사람이 없었기 때문","기존 단체의 해체 여부와 조직 방법 등에 대한 견해 차이","제1차 세계 대전이 시작되었기 때문","광복이 이미 이루어졌기 때문","미주 교민이 존재하지 않았기 때문"],a:1,e:"조직 방법과 주도권, 노선의 차이가 통합의 장애가 되었다.",tag:"민족 유일당"},
+{q:"조선 혁명 선언을 작성한 인물은?",o:["신채호","여운형","김좌진","양세봉","지청천"],a:0,e:"신채호가 작성한 조선 혁명 선언은 의열단의 투쟁 노선과 관련된다.",tag:"의열단"},
+{q:"한인애국단의 의거와 관련된 인물 조합으로 옳은 것은?",o:["이봉창·윤봉길","김좌진·홍범도","여운형·김규식","박상진·임병찬","양세봉·지청천"],a:0,e:"이봉창의 도쿄 의거와 윤봉길의 상하이 의거가 대표적이다.",tag:"한인애국단"},
+{q:"한국독립군과 조선혁명군을 비교할 때 적절한 설명은?",o:["둘 다 국내 비밀결사였다","각각 지청천·양세봉과 관련되며 한중 연합 작전을 전개했다","둘 다 1910년대 미주에서 결성되었다","둘 다 대한민국 임시정부의 공식 명칭이다","둘 다 1948년 이후 창설되었다"],a:1,e:"한국독립군은 지청천, 조선혁명군은 양세봉과 연결해 기억하면 구분에 도움이 된다.",tag:"한중 연합"},
+{q:"조선건국동맹과 조선건국준비위원회의 관계로 옳은 것은?",o:["두 단체 모두 1910년대에 조직되었다","건국동맹은 광복 전, 건국준비위원회는 광복 직후 조직되었다","건국준비위원회가 3·1 운동보다 먼저 결성되었다","두 단체는 일제의 식민 통치를 위한 조직이었다","두 단체 모두 만주 3부에 속했다"],a:1,e:"조선건국동맹은 1944년, 조선건국준비위원회는 1945년 광복 직후에 조직되었다.",tag:"건국 준비"},
+{q:"산미 증식 계획에 대한 설명으로 적절한 것은?",o:["조선의 독립을 보장하기 위한 정책","일본으로의 쌀 공급을 늘리려 했으며 조선 농민의 부담에도 영향을 주었다","미주 한인의 교육 정책","남북한 정부 수립 계획","조선 태형령을 폐지한 운동"],a:1,e:"정책의 표면적 목적과 식민지 경제 구조 속 실제 영향을 함께 이해해야 한다.",tag:"산미 증식 계획"},
+{q:"민족 말살 정책과 관련된 것은?",o:["황국 신민화와 창씨개명 강요","대한민국 임시정부 수립","민족 유일당 운동","신흥무관학교 설립","2·8 독립 선언"],a:0,e:"전시 동원 체제에서 황국 신민화, 신사 참배 강요, 창씨개명 등이 강화되었다.",tag:"민족 말살 정책"},
+{q:"제주 4·3 사건에 대한 설명으로 옳은 것은?",o:["1919년 만세 운동의 다른 이름이다","1948년 전후의 갈등과 진압 과정에서 민간인 피해가 발생했다","만주 3부 통합을 위한 회의였다","일제가 1912년에 공포한 법령이다","대한광복군정부의 창설 사건이다"],a:1,e:"제주 4·3 사건은 해방 이후의 정치적 갈등과 국가 폭력, 민간인 피해를 함께 살펴야 한다.",tag:"제주 4·3"}
+];
+
+/* 심화 자료를 활용한 다양한 문제 생성용 사실 카드 */
+const generatedFacts = [
+{topic:"서간도",q:"서간도 독립운동의 특징으로 가장 적절한 것은?",answer:"독립군 양성을 위한 교육 기관과 독립운동 기지를 마련했다",wrong:["일제의 식민 통치를 적극 지원했다","남북한 정부 수립 이후에만 활동했다","미국의 주 정부를 조직했다","국내에서만 공개 정치 활동을 했다"],why:"신흥무관학교 등은 독립군 간부 양성과 무장 독립전쟁 준비에 중요한 역할을 했다."},
+{topic:"북간도",q:"북간도의 독립운동을 이해할 때 함께 살펴볼 내용은?",answer:"한인 사회의 교육·종교·독립운동 조직",wrong:["1948년 남한의 총선거만","일제의 독립 승인","대한민국 정부의 군대 편성","산미 증식 계획의 종료"],why:"북간도에서는 민족 교육과 종교 기반, 독립운동 조직이 함께 성장했다."},
+{topic:"연해주",q:"권업회가 조직된 지역은?",answer:"연해주",wrong:["제주도","도쿄","서울","하와이만"],why:"권업회는 연해주 한인 사회를 기반으로 활동했다."},
+{topic:"미주",q:"미주 한인 사회의 독립운동에서 중요한 활동은?",answer:"독립운동 자금 모금과 민족 교육·외교 활동",wrong:["조선 태형령 시행","간도 참변 지휘","국민부 조직","제주 4·3 진압"],why:"해외 교민 사회는 재정적·외교적 기반을 제공했다."},
+{topic:"국내 비밀결사",q:"1910년대 국내 비밀결사가 중요했던 배경은?",answer:"무단 통치로 공개적인 정치 활동이 억압되었기 때문",wrong:["이미 독립 정부가 수립되었기 때문","일제가 모든 집회를 지원했기 때문","한국광복군이 국내를 통치했기 때문","남북한 정부가 이미 수립되었기 때문"],why:"헌병 경찰과 언론·집회 통제 속에서 비밀결사가 항일 운동을 이어 갔다."},
+{topic:"3부",q:"만주 3부를 구성한 단체의 조합은?",answer:"참의부·정의부·신민부",wrong:["권업회·신간회·한인애국단","국민부·한국광복군·건국동맹","조선건국동맹·건국준비위원회·임시정부","대한인국민회·흥사단·동제사"],why:"3부는 참의부·정의부·신민부이며, 이후 통합 논의와 조직 재편이 진행되었다."},
+{topic:"민족 유일당",q:"민족 유일당 운동이 추구한 핵심 목표는?",answer:"분산된 독립운동 세력의 통합",wrong:["식민 통치의 영구화","독립운동 단체의 완전한 해산만","전쟁 협력 확대","태형 제도 도입"],why:"분산된 세력의 역량을 모아 독립운동을 강화하려는 목적이었다."},
+{topic:"한중 연합",q:"1930년대 만주에서 전개된 한중 연합 작전의 특징은?",answer:"한국 독립군과 중국 항일 세력이 협력해 일본군에 맞섰다",wrong:["일본군과 독립군이 연합했다","국내 학생만 참여했다","1948년 총선거를 준비했다","독립군이 무장을 모두 포기했다"],why:"중국 내 항일 세력과의 협력은 무장 독립전쟁의 중요한 전략이었다."},
+{topic:"의열단",q:"조선 혁명 선언과 관련된 인물은?",answer:"신채호",wrong:["여운형","지청천","양세봉","이승만"],why:"신채호는 의열단의 요청으로 조선 혁명 선언을 작성했다."},
+{topic:"해방 전후",q:"조선건국동맹과 조선건국준비위원회를 구별하는 기준은?",answer:"광복 이전의 비밀결사와 광복 직후의 조직이라는 시기 차이",wrong:["둘 다 1910년대의 해외 조직이라는 점","둘 다 만주 3부라는 점","둘 다 일본 정부의 행정 기관이라는 점","둘 다 1920년대의 학생 운동이라는 점"],why:"조선건국동맹은 1944년, 조선건국준비위원회는 1945년 광복 직후에 조직되었다."},
+{topic:"식민 통치 정책",q:"조선 태형령을 통해 파악할 수 있는 것은?",answer:"1910년대 무단 통치의 강압적 성격",wrong:["문화 통치의 완전한 자유 보장","대한민국 임시정부의 수립","좌우 합작 운동의 성과","남북한 정부 수립"],why:"태형령은 식민지 주민에 대한 억압적 처벌 제도의 사례다."},
+{topic:"전시 동원",q:"민족 말살 정책이 강화된 배경과 관련이 깊은 것은?",answer:"중일 전쟁 이후 전시 동원 체제의 강화",wrong:["3·1 운동 이전의 대한제국 개혁","광복 이후의 미소 공동 위원회","1912년 조선 태형령 폐지","신간회 결성"],why:"전쟁이 확대되면서 인적·물적 자원 동원과 황국 신민화가 강화되었다."}
+];
+
+/* ------------------------------
+   4. 페이지 이동 및 학습 현황
+------------------------------ */
+document.querySelectorAll("nav button").forEach(btn=>{
+  btn.addEventListener("click",()=>showPage(btn.dataset.page));
+});
+function showPage(id){
+  document.querySelectorAll("section.page").forEach(p=>p.classList.toggle("active",p.id===id));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+  if(id==="home")renderHome();
+  if(id==="deep")renderDeep();
+  if(id==="records")renderRecords();
+  if(id==="review")renderReviewChoices();
+  if(id==="cards")renderCards();
+  if(id==="quiz")renderGeneratedSets();
+}
+function renderHome(){
+  const allQ=db.records.reduce((n,r)=>n+(r.questions?.length||0),0);
+  const allC=db.records.reduce((n,r)=>n+(r.questions||[]).filter(q=>q.selected===q.answer).length,0);
+  document.getElementById("statRecords").textContent=db.records.length;
+  document.getElementById("statQuestions").textContent=allQ;
+  document.getElementById("statCorrect").textContent=allC;
+  document.getElementById("statSets").textContent=db.generatedSets.length;
+  const recent=[...db.records].reverse().slice(0,5);
+  document.getElementById("recentRecords").innerHTML=recent.length?recent.map(r=>
+    `<div class="record-question"><strong>${esc(r.title||r.mode||"학습 기록")}</strong><p class="small muted">${dateText(r.date)} · ${r.score??0}/${r.questions?.length||0} 정답</p>
+    <button class="btn secondary" onclick="openRecord('${esc(r.id)}')">문제와 해설 보기</button></div>`
+  ).join(""):'<div class="empty">아직 풀이 기록이 없습니다.</div>';
+}
+
+/* ------------------------------
+   5. 심화 학습 렌더링
+------------------------------ */
+function renderDeep(){
+  const era=document.getElementById("deepEra").value;
+  const region=document.getElementById("deepRegion").value;
+  const search=document.getElementById("deepSearch").value.trim().toLowerCase();
+  const filtered=deepData.filter(d=>
+    (era==="all"||d.era===era) &&
+    (region==="all"||d.region===region) &&
+    (!search||[d.title,d.summary,d.people,d.keyword,d.region,d.type].join(" ").toLowerCase().includes(search))
+  );
+  document.getElementById("deepList").innerHTML=filtered.length?filtered.map((d,i)=>`
+    <details class="deep-card">
+      <summary><span class="pill">${esc(d.date)}</span> ${esc(d.title)} <span class="pill">${esc(d.region)}</span></summary>
+      <dl>
+        <dt>분류</dt><dd>${esc(d.type)}</dd>
+        <dt>관련 인물</dt><dd>${esc(d.people)}</dd>
+        <dt>핵심 내용</dt><dd>${esc(d.summary)}</dd>
+        <dt>역사적 의의</dt><dd>${esc(d.meaning)}</dd>
+        <dt>암기 키워드</dt><dd>${esc(d.keyword)}</dd>
+      </dl>
+      <button class="btn secondary" onclick="makeQuestionFromDeep(${deepData.indexOf(d)})">이 내용으로 문제 만들기</button>
+    </details>`).join(""):'<div class="empty">검색 결과가 없습니다.</div>';
+}
+["deepEra","deepRegion","deepSearch"].forEach(id=>document.getElementById(id).addEventListener(id==="deepSearch"?"input":"change",renderDeep));
+
+/* ------------------------------
+   6. 문제 데이터 정규화
+------------------------------ */
+function normalizeQuestion(q){
+  const opts=Array.isArray(q.o)?q.o:Array.isArray(q.options)?q.options:[];
+  let ans=Number.isInteger(q.a)?q.a:Number.isInteger(q.answer)?q.answer:0;
+  const options=opts.slice(0,5).map(String);
+  if(options.length<2)return null;
+  if(ans<0||ans>=options.length)ans=0;
+  return {id:q.id||uid(),q:String(q.q||q.question||""),o:options,a:ans,e:String(q.e||q.explanation||"해설이 등록되지 않았습니다."),tag:String(q.tag||q.topic||"기본")};
+}
+function questionPool(mode){
+  const basic=basicQuestions.map(q=>({...q,source:"basic"}));
+  const deep=deepQuestions.map(q=>({...q,source:"deep"}));
+  if(mode==="deep")return deep;
+  if(mode==="mixed")return [...basic,...deep];
+  return basic;
+}
+function selectQuestions(mode,count){
+  const pool=questionPool(mode);
+  return shuffle(pool).slice(0,Math.min(count,pool.length)).map(q=>normalizeQuestion(q));
+}
+
+/* ------------------------------
+   7. 일반 문제 풀이
+------------------------------ */
+let activeQuiz=null;
+function startQuiz(questions,mode="basic",title="일반 문제 풀이"){
+  if(!questions||!questions.length){
+    alert("풀 수 있는 문제가 없습니다.");
+    return;
+  }
+  activeQuiz={
+    id:uid(),mode,title,questions:questions.map(normalizeQuestion).filter(Boolean),
+    index:0,answers:[],started:Date.now(),isReview:mode==="review"
+  };
+  if(!activeQuiz.questions.length){alert("문제 데이터가 올바르지 않습니다.");return;}
+  renderQuizQuestion("quizArea");
+  showPage(mode==="review"?"review":"quiz");
+}
+function renderQuizQuestion(targetId){
+  const area=document.getElementById(targetId);
+  if(!activeQuiz){area.innerHTML="";return;}
+  const q=activeQuiz.questions[activeQuiz.index];
+  if(!q){finishQuiz();return;}
+  const selected=activeQuiz.answers[activeQuiz.index];
+  const progress=Math.round(activeQuiz.index/activeQuiz.questions.length*100);
+  area.innerHTML=`
+    <div class="card">
+      <div class="muted small">${esc(activeQuiz.title)} · ${activeQuiz.index+1}/${activeQuiz.questions.length}</div>
+      <div class="progress"><div style="width:${progress}%"></div></div>
+      <div class="question">${esc(q.q)}</div>
+      ${q.o.map((o,i)=>`<label class="choice">
+        <input type="radio" name="answerNow" value="${i}" ${selected===i?"checked":""}>
+        <span>${"ABCDE"[i]}. ${esc(o)}</span>
+      </label>`).join("")}
+      <div class="btnrow">
+        <button class="btn secondary" id="prevQ" ${activeQuiz.index===0?"disabled":""}>이전 문제</button>
+        <button class="btn" id="nextQ">${activeQuiz.index===activeQuiz.questions.length-1?"채점 및 저장":"다음 문제"}</button>
+        <button class="btn secondary" id="exitQ">풀이 종료</button>
+      </div>
+    </div>`;
+  area.querySelectorAll('input[name="answerNow"]').forEach(r=>r.addEventListener("change",()=>{
+    activeQuiz.answers[activeQuiz.index]=Number(r.value);
+  }));
+  document.getElementById("prevQ").onclick=()=>{
+    activeQuiz.index--;renderQuizQuestion(targetId);
+  };
+  document.getElementById("nextQ").onclick=()=>{
+    const picked=area.querySelector('input[name="answerNow"]:checked');
+    if(picked)activeQuiz.answers[activeQuiz.index]=Number(picked.value);
+    if(activeQuiz.index<activeQuiz.questions.length-1){
+      activeQuiz.index++;renderQuizQuestion(targetId);
+    }else finishQuiz();
+  };
+  document.getElementById("exitQ").onclick=()=>{
+    if(confirm("현재 풀이를 종료할까요? 답안이 저장되지 않을 수 있습니다.")){
+      activeQuiz=null;area.innerHTML="";showPage(targetId==="reviewArea"?"review":"quiz");
+    }
+  };
+}
+function finishQuiz(){
+  if(!activeQuiz)return;
+  const quiz=activeQuiz;
+  const savedQuestions=quiz.questions.map((q,i)=>({
+    id:q.id,q:q.q,o:[...q.o],answer:q.a,selected:Number.isInteger(quiz.answers[i])?quiz.answers[i]:null,
+    explanation:q.e,tag:q.tag
+  }));
+  const score=savedQuestions.filter(q=>q.selected===q.answer).length;
+  const record={
+    id:uid(),date:new Date().toISOString(),title:quiz.title,mode:quiz.mode,
+    score,questions:savedQuestions,sourceQuizId:quiz.id
+  };
+  // 항상 새 기록으로 추가. 기존 기록은 덮어쓰지 않습니다.
+  db.records.push(record);saveDB();
+  const target=quiz.isReview?"reviewArea":"quizArea";
+  activeQuiz=null;
+  document.getElementById(target).innerHTML=`
+    <div class="card">
+      <h3>풀이 완료</h3>
+      <div class="stat">${score} / ${savedQuestions.length}</div>
+      <p>정답률 ${Math.round(score/savedQuestions.length*100)}%</p>
+      <p class="muted">이번 결과는 새 기록으로 저장했습니다. 원래 기록은 변경되지 않았습니다.</p>
+      <div class="btnrow">
+        <button class="btn" onclick="openRecord('${record.id}')">이번 문제와 해설 확인</button>
+        <button class="btn secondary" onclick="showPage('${quiz.isReview?"review":"quiz"}')">다른 문제 풀기</button>
+      </div>
+    </div>`;
+  renderHome();renderRecords();renderReviewChoices();renderGeneratedSets();
+}
+document.getElementById("startLocal").onclick=()=>{
+  const mode=document.getElementById("quizMode").value;
+  const count=Number(document.getElementById("quizCount").value);
+  const questions=selectQuestions(mode,count);
+  startQuiz(questions,mode,mode==="deep"?"심화 문제":mode==="mixed"?"기본+심화 혼합":"기본 문제");
+};
+
+/* ------------------------------
+   8. 반복해서 새 문제 묶음 생성
+   - 새 묶음은 추가 저장
+   - 기존 기록은 삭제/덮어쓰기하지 않음
+------------------------------ */
+function buildGeneratedSet(count){
+  const shuffledFacts=shuffle(generatedFacts);
+  const questions=[];
+  for(let i=0;i<count;i++){
+    const fact=shuffledFacts[i%shuffledFacts.length];
+    const wrong=shuffle(fact.wrong).slice(0,4);
+    const options=shuffle([fact.answer,...wrong]);
+    questions.push({
+      id:uid(),q:fact.q,o:options,a:options.indexOf(fact.answer),
+      e:fact.why,tag:fact.topic,source:"generated"
+    });
+  }
+  const set={
+    id:uid(),date:new Date().toISOString(),
+    title:"새 문제 묶음 "+(db.generatedSets.length+1),
+    questions:questions.map(q=>({...q,o:[...q.o]}))
+  };
+  db.generatedSets.push(set); // 이전 묶음을 보존하고 새 묶음 추가
+  saveDB();
+  renderGeneratedSets();renderHome();
+  return set;
+}
+document.getElementById("generateSet").onclick=()=>{
+  const count=Number(document.getElementById("quizCount").value);
+  const set=buildGeneratedSet(count);
+  alert(`새 문제 묶음이 생성되었습니다. (${set.questions.length}문제)\n기존 문제 묶음과 학습 기록은 유지됩니다.`);
+};
+function renderGeneratedSets(){
+  const el=document.getElementById("generatedSets");
+  const sets=[...db.generatedSets].reverse();
+  el.innerHTML=sets.length?`<hr><h3>생성된 문제 묶음 (${sets.length})</h3>`+
+    sets.map(s=>`<div class="record-question">
+      <strong>${esc(s.title)}</strong>
+      <p class="small muted">${dateText(s.date)} · ${s.questions?.length||0}문제</p>
+      <div class="btnrow">
+        <button class="btn" onclick="playGeneratedSet('${s.id}')">이 묶음 풀기</button>
+        <button class="btn secondary" onclick="showGeneratedSet('${s.id}')">문제 미리 보기</button>
+      </div>
+    </div>`).join(""):'<p class="muted">아직 생성한 문제 묶음이 없습니다. 버튼을 눌러 여러 번 생성할 수 있습니다.</p>';
+}
+function playGeneratedSet(id){
+  const set=db.generatedSets.find(s=>s.id===id);
+  if(!set)return alert("문제 묶음을 찾을 수 없습니다.");
+  startQuiz(set.questions,"generated",set.title);
+}
+function showGeneratedSet(id){
+  const set=db.generatedSets.find(s=>s.id===id);
+  if(!set)return;
+  const area=document.getElementById("quizArea");
+  area.innerHTML=`<div class="card"><h3>${esc(set.title)}</h3>`+
+    set.questions.map((q,i)=>`<div class="record-question"><strong>${i+1}. ${esc(q.q)}</strong>
+      <ol type="A">${q.o.map(o=>`<li>${esc(o)}</li>`).join("")}</ol>
+      <p><strong>정답:</strong> ${esc(q.o[q.a])}</p>
+      <p class="muted">${esc(q.e)}</p></div>`).join("")+
+    `<button class="btn" onclick="playGeneratedSet('${set.id}')">이 문제 묶음 풀기</button></div>`;
+}
+function makeQuestionFromDeep(index){
+  const d=deepData[index];
+  if(!d)return;
+  const fact={
+    topic:d.title,
+    q:`다음 설명과 가장 관련이 깊은 항목은?\n${d.summary}`,
+    answer:d.title,
+    wrong:shuffle(deepData.filter(x=>x.title!==d.title).map(x=>x.title)).slice(0,4),
+    why:d.meaning
+  };
+  const opts=shuffle([fact.answer,...fact.wrong]);
+  const set={id:uid(),date:new Date().toISOString(),title:`심화 자료: ${d.title}`,questions:[{
+    id:uid(),q:fact.q,o:opts,a:opts.indexOf(fact.answer),e:fact.why,tag:d.title,source:"generated"
+  }]};
+  db.generatedSets.push(set);saveDB();renderGeneratedSets();renderHome();
+  alert("이 심화 자료를 바탕으로 한 문제를 새 문제 묶음에 추가했습니다.");
+  showPage("quiz");
+  showGeneratedSet(set.id);
+}
+
+/* ------------------------------
+   9. 복습 전용 공간
+------------------------------ */
+function renderReviewChoices(){
+  const select=document.getElementById("reviewRecord");
+  const previous=select.value;
+  const records=[...db.records].reverse();
+  select.innerHTML=records.length?records.map(r=>
+    `<option value="${esc(r.id)}">${esc(r.title||r.mode||"풀이")} · ${dateText(r.date)} · ${r.score??0}/${r.questions?.length||0}</option>`
+  ).join(""):'<option value="">저장된 기록 없음</option>';
+  if(records.some(r=>r.id===previous))select.value=previous;
+}
+document.getElementById("startReview").onclick=()=>{
+  const id=document.getElementById("reviewRecord").value;
+  const record=db.records.find(r=>r.id===id);
+  if(!record)return alert("복습할 기록이 없습니다.");
+  const mode=document.getElementById("reviewMode").value;
+  let qs=record.questions||[];
+  if(mode==="wrong")qs=qs.filter(q=>q.selected!==q.answer);
+  if(!qs.length)return alert(mode==="wrong"?"이 기록에는 오답이 없습니다. 전체 문제를 복습하려면 '해당 기록의 모든 문제'를 선택하세요.":"문제가 없습니다.");
+  const converted=qs.map(q=>({id:uid(),q:q.q,o:q.o,a:q.answer,e:q.explanation,tag:q.tag}));
+  startQuiz(converted,"review",`복습: ${record.title||"저장 기록"}`);
+};
+document.getElementById("reviewAllWrong").onclick=()=>{
+  const wrong=[];
+  db.records.forEach(r=>(r.questions||[]).forEach(q=>{
+    if(q.selected!==q.answer)wrong.push({q:{...q},record:r});
+  }));
+  if(!wrong.length)return alert("저장된 기록에 오답이 없습니다.");
+  const qs=shuffle(wrong).map(x=>({
+    id:uid(),q:x.q.q,o:x.q.o,a:x.q.answer,e:x.q.explanation,tag:x.q.tag
+  }));
+  startQuiz(qs,"review","전체 기록 오답 복습");
+};
+
+/* ------------------------------
+   10. 학습 기록 및 상세 해설
+------------------------------ */
+function renderRecords(){
+  const filter=document.getElementById("recordFilter").value;
+  const records=[...db.records].reverse().filter(r=>{
+    if(filter==="all")return true;
+    if(filter==="generated")return r.mode==="generated";
+    if(filter==="review")return r.mode==="review";
+    if(filter==="deep")return r.mode==="deep";
+    return r.mode==="basic"||r.mode==="mixed";
+  });
+  const el=document.getElementById("recordList");
+  el.innerHTML=records.length?records.map(r=>{
+    const total=r.questions?.length||0;
+    const wrong=(r.questions||[]).filter(q=>q.selected!==q.answer).length;
+    return `<details>
+      <summary>${esc(r.title||r.mode||"풀이 기록")} — ${r.score??0}/${total} 정답</summary>
+      <p class="small muted">${dateText(r.date)} · 오답 ${wrong}개</p>
+      <div class="btnrow">
+        <button class="btn" onclick="openRecord('${esc(r.id)}')">문제·해설 보기</button>
+        <button class="btn secondary" onclick="reviewSpecific('${esc(r.id)}','wrong')">오답만 복습</button>
+        <button class="btn secondary" onclick="reviewSpecific('${esc(r.id)}','all')">전체 복습</button>
+      </div>
+    </details>`;
+  }).join(""):'<div class="empty">조건에 맞는 학습 기록이 없습니다.</div>';
+}
+document.getElementById("recordFilter").onchange=renderRecords;
+function openRecord(id){
+  const r=db.records.find(x=>x.id===id);
+  if(!r)return alert("기록을 찾을 수 없습니다.");
+  const content=`<div class="card"><h2>${esc(r.title||"학습 기록")}</h2>
+    <p class="muted">${dateText(r.date)} · ${r.score??0}/${r.questions?.length||0} 정답</p>
+    ${(r.questions||[]).map((q,i)=>`
+      <div class="record-question">
+        <strong>${i+1}. ${esc(q.q)}</strong>
+        <ol type="A">${(q.o||[]).map((o,j)=>`<li class="${j===q.answer?"good":j===q.selected&&j!==q.answer?"bad":""}">${esc(o)} ${j===q.answer?"← 정답":j===q.selected?"← 내 답":""}</li>`).join("")}</ol>
+        <p class="${q.selected===q.answer?"good":"bad"}">내 답: ${q.selected===null||q.selected===undefined?"미응답":esc(q.o?.[q.selected]||"미응답")} / 정답: ${esc(q.o?.[q.answer]||"")}</p>
+        <div class="explanation"><strong>해설</strong><p>${esc(q.explanation||"해설 없음")}</p></div>
+      </div>`).join("")}
+    <div class="btnrow">
+      <button class="btn secondary" onclick="showPage('records')">기록 목록으로</button>
+      <button class="btn" onclick="reviewSpecific('${esc(r.id)}','wrong')">오답 복습</button>
+    </div></div>`;
+  // 상세 기록은 기록 메뉴 내부에 표시
+  showPage("records");
+  document.getElementById("recordList").innerHTML=content;
+}
+function reviewSpecific(id,mode){
+  const r=db.records.find(x=>x.id===id);
+  if(!r)return;
+  let qs=r.questions||[];
+  if(mode==="wrong")qs=qs.filter(q=>q.selected!==q.answer);
+  if(!qs.length)return alert("복습할 문제가 없습니다.");
+  startQuiz(qs.map(q=>({id:uid(),q:q.q,o:q.o,a:q.answer,e:q.explanation,tag:q.tag})),
+    "review",`복습: ${r.title||"기록"}`);
+}
+
+/* ------------------------------
+   11. 암기 카드
+------------------------------ */
+const cards=[
+["인물","안창호","흥사단 조직과 미주 독립운동, 민족 역량 양성에 힘썼다."],
+["인물","박상진","대한광복회에서 활동했다."],
+["인물","홍범도","봉오동 전투 등 독립군 무장 투쟁과 관련된다."],
+["인물","김좌진","북로군정서와 청산리 대첩으로 잘 알려져 있다."],
+["인물","신채호","조선 혁명 선언을 작성했다."],
+["인물","김원봉","의열단과 조선의용대 활동에 관련된다."],
+["인물","지청천","한국독립군 활동과 관련된다."],
+["인물","양세봉","조선혁명군 활동과 관련된다."],
+["인물","김구","대한민국 임시정부와 한인애국단 활동에 관련된다."],
+["인물","여운형","조선건국동맹과 조선건국준비위원회 활동에 관련된다."],
+["단체","권업회","1911년 연해주에서 조직된 한인 사회 단체."],
+["단체","대한인국민회","미주 한인 사회의 독립운동 기반."],
+["단체","신흥무관학교","서간도에서 독립군 간부를 양성한 학교."],
+["단체","대한광복회","1910년대 국내 비밀결사."],
+["단체","참의부","3부 중 하나. 압록강 연안 지역과 연결된다."],
+["단체","정의부","3부 중 하나. 남만주 지역과 연결된다."],
+["단체","신민부","3부 중 하나. 북만주 지역과 연결된다."],
+["단체","신간회","1927년 결성된 민족 협동 전선 단체."],
+["단체","한인애국단","이봉창·윤봉길 의거와 관련된다."],
+["단체","한국광복군","1940년 대한민국 임시정부가 창설한 군대."],
+["단체","조선건국동맹","1944년 광복을 앞두고 국내에서 조직되었다."],
+["사건","2·8 독립 선언","1919년 도쿄 유학생들이 발표했다."],
+["사건","봉오동 전투","1920년 독립군이 일본군에 맞서 거둔 주요 승리."],
+["사건","청산리 대첩","1920년 독립군의 대표적 무장 투쟁."],
+["사건","자유시 참변","1921년 국외 독립군의 시련과 재편을 보여 준다."],
+["사건","6·10 만세 운동","1926년 순종 인산일을 계기로 일어난 항일 운동."],
+["사건","광주 학생 항일 운동","1929년 광주에서 시작해 전국으로 확산했다."],
+["사건","제주 4·3 사건","해방 이후 갈등과 국가 폭력, 민간인 피해를 이해하는 주요 사건."],
+["정책","조선 태형령","1912년 시행된 억압적 처벌 제도."],
+["정책","산미 증식 계획","일본으로의 쌀 공급 확대와 조선 농민의 부담 문제를 함께 살펴야 한다."],
+["정책","민족 말살 정책","전시 체제에서 황국 신민화와 창씨개명 강요 등이 강화되었다."]
+];
+function renderCards(){
+  const cat=document.getElementById("cardCategory").value;
+  const search=document.getElementById("cardSearch").value.trim().toLowerCase();
+  const list=cards.filter(c=>(cat==="all"||c[0]===cat)&&(!search||c.join(" ").toLowerCase().includes(search)));
+  document.getElementById("cardList").innerHTML=list.map((c)=>{
+    const id=c[0]+":"+c[1];
+    const mastered=db.masteredCards.includes(id);
+    return `<details>
+      <summary>${esc(c[1])} ${mastered?'<span class="pill">암기 완료</span>':""}</summary>
+      <p>${esc(c[2])}</p>
+      <button class="btn secondary" onclick="toggleMastered('${esc(id)}')">${mastered?"암기 완료 취소":"암기 완료 표시"}</button>
+    </details>`;
+  }).join("")||'<div class="empty">검색 결과가 없습니다.</div>';
+}
+document.getElementById("cardCategory").onchange=renderCards;
+document.getElementById("cardSearch").oninput=renderCards;
+function toggleMastered(id){
+  if(db.masteredCards.includes(id))db.masteredCards=db.masteredCards.filter(x=>x!==id);
+  else db.masteredCards.push(id);
+  saveDB();renderCards();
+}
+
+/* ------------------------------
+   12. 백업 및 복원
+------------------------------ */
+document.getElementById("exportData").onclick=()=>{
+  const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="한국사_학습데이터_백업_"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+};
+document.getElementById("importButton").onclick=()=>document.getElementById("importFile").click();
+document.getElementById("importFile").onchange=async e=>{
+  const file=e.target.files?.[0];
+  if(!file)return;
+  try{
+    const imported=JSON.parse(await file.text());
+    if(!imported||typeof imported!=="object")throw new Error("잘못된 형식");
+    const incomingRecords=Array.isArray(imported.records)?imported.records:[];
+    const incomingSets=Array.isArray(imported.generatedSets)?imported.generatedSets:[];
+    // 중복 ID를 제외하고 추가하므로 현재 기록을 덮어쓰지 않습니다.
+    const recordIds=new Set(db.records.map(x=>x.id));
+    const setIds=new Set(db.generatedSets.map(x=>x.id));
+    let addedRecords=0,addedSets=0;
+    incomingRecords.forEach(r=>{
+      if(r&&r.id&&!recordIds.has(r.id)){db.records.push(r);recordIds.add(r.id);addedRecords++;}
+    });
+    incomingSets.forEach(s=>{
+      if(s&&s.id&&!setIds.has(s.id)){db.generatedSets.push(s);setIds.add(s.id);addedSets++;}
+    });
+    db.masteredCards=[...new Set([...db.masteredCards,...(Array.isArray(imported.masteredCards)?imported.masteredCards:[])])];
+    saveDB();renderHome();renderRecords();renderReviewChoices();renderGeneratedSets();renderCards();
+    alert(`복원 완료\n새로 추가한 기록: ${addedRecords}개\n새로 추가한 문제 묶음: ${addedSets}개\n기존 데이터는 유지했습니다.`);
+  }catch(err){alert("백업 파일을 읽지 못했습니다. 올바른 JSON 백업 파일인지 확인해 주세요.");}
+  e.target.value="";
+};
+document.getElementById("clearData").onclick=()=>{
+  if(!confirm("저장된 풀이 기록, 생성 문제 묶음, 암기 표시를 모두 삭제할까요? 이 작업은 되돌리기 어렵습니다."))return;
+  if(!confirm("마지막 확인: 정말 모든 저장 데이터를 삭제할까요? 먼저 백업했는지 확인하세요."))return;
+  db=emptyDB();saveDB();
+  renderHome();renderRecords();renderReviewChoices();renderGeneratedSets();renderCards();
+  document.getElementById("quizArea").innerHTML="";
+  document.getElementById("reviewArea").innerHTML="";
+  alert("저장 데이터를 삭제했습니다.");
+};
+
+/* ------------------------------
+   13. 초기화
+------------------------------ */
+loadDB();
+renderHome();
+renderDeep();
+renderRecords();
+renderReviewChoices();
+renderGeneratedSets();
+renderCards();
+</script>
+</body>
+</html>
